@@ -24,7 +24,7 @@ jobs:
         pylint $(git ls-files '*.py') --fail-under 5
     - name: Formatting checks isort
       run: |
-        python -m isort --profile black --check src
+        python -m isort --profile black --check $(git ls-files '*.py')
     - name: Formatting checks black
       run: |
-        python -m black --check src
+        python -m black --check $(git ls-files '*.py')
