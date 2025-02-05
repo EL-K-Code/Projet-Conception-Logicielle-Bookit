@@ -22,6 +22,9 @@ jobs:
     - name: Linting with pylint
       run: |
         pylint $(git ls-files '*.py') --fail-under 5
+    - name: Fortmatting
+      run: |
+        python -m black src
     - name: Formatting checks isort
       run: |
         python -m isort --profile black --check src
