@@ -1,0 +1,43 @@
+@startuml
+class Utilisateur {
+    +id: int
+    +nom: str
+    +prenom: str
+    +email: str
+    +role: str
+}
+
+class Evenement {
+    +id: int
+    +nom: str
+    +description: str
+    +date_debut: datetime
+    +date_fin: datetime
+}
+
+class Reservation {
+    +id: int
+    +date_reservation: datetime
+    +statut: str
+}
+
+class CategorieRessource {
+    +id: int
+    +nom: str
+    '+description: str
+}
+
+class Ressource {
+    +id: int
+    +nom: str
+    +description: str
+    +est_disponible: bool
+}
+
+
+
+CategorieRessource "1" -- "*" Ressource
+Utilisateur "1" -- "*" Evenement 
+Evenement "1" -- "*" Reservation
+Ressource "1" -- "*" Reservation 
+@enduml
