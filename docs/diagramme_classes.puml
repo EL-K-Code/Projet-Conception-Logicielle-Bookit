@@ -1,43 +1,133 @@
-@startuml
-class Utilisateur {
+@startuml digramme de classes
+
+class Group {
     +id: int
-    +nom: str
-    +prenom: str
-    +email: str
-    +role: str
+    +name: str
 }
 
-class Evenement {
+class User {
     +id: int
-    +nom: str
+    +username: str
+    +first_name: str
+    +last_name: str
+    +email: str
+    +is_staff : bool
+    +is_active : bool
+    +date_joined : Date
+    +group : Group
+}
+
+class Bus {
+    +id: int
+    +name: str
+    +number_seats: int
+}
+
+class Room {
+    +id: int
+    +name: str
+}
+
+class Material {
+    +id: int
+    +name: str
+    +stock: int
+}
+
+class Event {
+    +id: int
     +description: str
-    +date_debut: datetime
-    +date_fin: datetime
+    +organizer: User
+    +statut: str
+}
+
+class EventBus {
+    +id: int
+    +description: str
+    +organizer: User
+    +statut: str
+    +resource : Bus
+    +available_seats : Integer
+    +departure : String
+    +destination : String
+    +departure_time : Date
+    +arrival_time : Date
+}
+
+class EventRoom {
+    +id: int
+    +description: str
+    +organizer: User
+    +statut: str
+    +resource : Room
+}
+
+class EventMaterial {
+    +id: int
+    +description: str
+    +organizer: User
+    +statut: str
+    +resource : Material
+    +available_stock: int
 }
 
 class Reservation {
     +id: int
-    +date_reservation: datetime
-    +statut: str
+    +consumer: User
 }
 
-class CategorieRessource {
+class ReservationBus {
     +id: int
-    +nom: str
-    '+description: str
+    +consumer: User
+    +Event: EventBus
 }
 
-class Ressource {
+class ReservationRoom {
     +id: int
-    +nom: str
-    +description: str
-    +est_disponible: bool
+    +consumer: User
+    +Event: EventRoom
+    +date: Date
+    +start_time: time
+    +end_time: time
 }
 
+class ReservationMaterial {
+    +id: int
+    +consumer: User
+    +Event: EventMaterial
+    +date: Date
+    +start_time: time
+    +end_time: time
+    +quantity: int
+}
+
+'Relations de dépendance
+User -right-> Group
+EventBus --> Bus
+EventRoom --> Room
+EventMaterial --> Material
+ReservationBus --> EventBus
+ReservationRoom -left-> EventRoom
+ReservationMaterial --> EventMaterial
+Event -up-> User
+Reservation --> User
+
+'Héritages évènements
+Event <|-- EventBus
+Event <|-up- EventRoom
+Event <|-- EventMaterial
+
+'Héritages Réservations
+Reservation <|-- ReservationMaterial
+Reservation <|-- ReservationBus
+Reservation <|-- ReservationRoom
+
+skinparam linetype polyline
 
 
-CategorieRessource "1" -- "*" Ressource
-Utilisateur "1" -- "*" Evenement 
-Evenement "1" -- "*" Reservation
-Ressource "1" -- "*" Reservation 
+
+
+'Utilisateur "1" -- "*" Evenement 
+
+
 @enduml
