@@ -1,4 +1,6 @@
-@startuml digramme de classes
+@startuml diagramme_de_classes
+
+skinparam linetype polyline
 
 class Group {
     +id: int
@@ -79,13 +81,13 @@ class Reservation {
 class ReservationBus {
     +id: int
     +consumer: User
-    +Event: EventBus
+    +event: EventBus
 }
 
 class ReservationRoom {
     +id: int
     +consumer: User
-    +Event: EventRoom
+    +event: EventRoom
     +date: Date
     +start_time: time
     +end_time: time
@@ -94,7 +96,7 @@ class ReservationRoom {
 class ReservationMaterial {
     +id: int
     +consumer: User
-    +Event: EventMaterial
+    +event: EventMaterial
     +date: Date
     +start_time: time
     +end_time: time
@@ -121,11 +123,6 @@ Event <|-- EventMaterial
 Reservation <|-- ReservationMaterial
 Reservation <|-- ReservationBus
 Reservation <|-- ReservationRoom
-
-skinparam linetype polyline
-
-
-
 
 'Utilisateur "1" -- "*" Evenement 
 
