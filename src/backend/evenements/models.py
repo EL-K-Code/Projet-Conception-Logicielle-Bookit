@@ -1,5 +1,5 @@
 from django.db import models
-from model_user import User
+from ..auth.models import User
 
 
 class Event(models.Model):
