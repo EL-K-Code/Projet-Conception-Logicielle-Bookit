@@ -1,5 +1,3 @@
-print("Hello")
-
 print("Ax")
 
 print("R14")
