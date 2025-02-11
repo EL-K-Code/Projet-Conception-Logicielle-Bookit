@@ -40,14 +40,14 @@ class Event {
     +id: int
     +description: str
     +organizer: User
-    +statut: str
+    +is_reserved: bool
 }
 
 class EventBus {
     +id: int
     +description: str
     +organizer: User
-    +statut: str
+    +is_reserved: bool
     +resource : Bus
     +available_seats : Integer
     +departure : String
@@ -60,7 +60,7 @@ class EventRoom {
     +id: int
     +description: str
     +organizer: User
-    +statut: str
+    +is_reserved: bool
     +resource : Room
 }
 
@@ -68,7 +68,7 @@ class EventMaterial {
     +id: int
     +description: str
     +organizer: User
-    +statut: str
+    +is_reserved: bool
     +resource : Material
     +available_stock: int
 }
