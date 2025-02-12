@@ -36,7 +36,8 @@ class Material {
     +stock: int
 }
 
-class Event {
+
+abstract Event {
     +id: int
     +description: str
     +organizer: User
