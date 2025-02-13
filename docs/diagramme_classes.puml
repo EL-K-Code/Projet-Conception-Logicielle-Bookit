@@ -125,7 +125,5 @@ Reservation <|-- ReservationMaterial
 Reservation <|-- ReservationBus
 Reservation <|-- ReservationRoom
 
-'Utilisateur "1" -- "*" Evenement 
-
 
 @enduml
