@@ -76,7 +76,7 @@ class ReservationMaterial(Reservation):
         Si la quantité demandée est disponible, elle réduit le stock et sauvegarde
         """
         if self.event.available_stock >= self.quantity:
-            self.event.available_stock -= 1
+            self.event.available_stock -= self.quantity
             self.event.save()
             super().save(*args, **kwargs)
         else:
