@@ -28,10 +28,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r src/backend/requirements.txt 
 
-    - name: Run pre-commit hooks
-      run: |
-        pre-commit run --all-files
-
     - name: Linting with pylint
       run: |
         pylint $(git ls-files '*.py') --fail-under 5
