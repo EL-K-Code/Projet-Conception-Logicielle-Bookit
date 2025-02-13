@@ -137,10 +137,8 @@ env.bak/
 venv.bak/
 .env.local
 bookit
-<<<<<<< HEAD
 venv
-toUseLater
-=======
+
 
 # Spyder project settings
 .spyderproject
@@ -175,4 +173,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
->>>>>>> 46488d5 (Création des modèles pour reservations, configurations de .vscode/settings.json et modification de .gitignore)
+
+
+toUseLater
