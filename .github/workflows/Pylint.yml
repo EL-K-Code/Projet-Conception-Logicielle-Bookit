@@ -1,6 +1,12 @@
 name: Lint
 
-on: [push]
+on: 
+  push:
+    branches:
+      - main  # Tu peux spécifier d'autres branches si nécessaire
+  pull_request:
+    branches:
+      - main  # Vérifier les PR vers la branche principale
 
 jobs:
   build:
@@ -9,28 +15,43 @@ jobs:
       matrix:
         python-version: ["3.10.12"]
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Pylint Black Flake8 Isort & dependencies
+    
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pylint black isort
+        pip install -r src/backend/requirements.txt  
+        pip install pre-commit 
+
+    - name: Run pre-commit hooks
+      run: |
+        pre-commit run --all-files
+
     - name: Linting with pylint
       run: |
         pylint $(git ls-files '*.py') --fail-under 5
-    - name: Fortmatting isort
+
+    - name: Formatting with isort
       run: |
         python -m isort --profile black src/backend
-    - name: Formatting checks isort
-      run: |
         python -m isort --profile black --check src/backend
-    - name: Fortmatting black
+
+    - name: Formatting with black
       run: |
         python -m black src/backend
-    - name: Formatting checks black
+        python -m black --check src/backend  # Vérifier que le code est bien formaté
+
+    - name: Commit changes if any
+      if: ${{ steps.formatting.outputs.changed == 'true' }}
       run: |
-        python -m black --check src/backend
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git commit -am "Format code with black and isort"
+        git push
+
