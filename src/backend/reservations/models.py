@@ -25,7 +25,7 @@ class ReservationBus(Reservation):
 
     def save(self, *args, **kwargs):
         """
-        vérifie si des places sont disponibles avant d'enregistrer la réservation.
+        vérifie si des places sont disponibles avant d'enregistrer la réservation
         Si des places sont disponibles, elle réduit le nombre de places et sauvegarde
         """
         if self.event.available_seats > 0:
