@@ -1,6 +1,6 @@
 - Modèles pour l'application Réservations
 
-### Richard
+### Yatoute
 - USERSPACE :
         signup(utiliser la function creat_user de django), signout(), login(fourni par django), logout(fourni par django)
         Développer une page d'inscription et de connexion avec React
@@ -17,7 +17,7 @@
         delete_event_room(), delete_event_bus(), delete_event_material(),
         get_all_room_events(), get_all_bus_vents(), get_all_material_vents()
 
-### Reservation
+### Richard
 - Reservations :
         make_room_reservation(), make_bus_reservation(), make_material_reservation()
         cancel_room_reservation(), cancel_bus_reservation(), cancel_material_reservation()
