@@ -24,13 +24,13 @@ jobs:
         pylint $(git ls-files '*.py') --fail-under 5
     - name: Fortmatting isort
       run: |
-        python -m isort --profile black src
+        python -m isort --profile black backend
     - name: Formatting checks isort
       run: |
-        python -m isort --profile black --check src
+        python -m isort --profile black --check backend
     - name: Fortmatting black
       run: |
-        python -m black src
+        python -m black backend
     - name: Formatting checks black
       run: |
-        python -m black --check src
+        python -m black --check backend
