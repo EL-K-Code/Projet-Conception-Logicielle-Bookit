@@ -125,5 +125,4 @@ Reservation <|-- ReservationMaterial
 Reservation <|-- ReservationBus
 Reservation <|-- ReservationRoom
 
-
 @enduml
