@@ -74,7 +74,7 @@ class EventMaterial {
     +available_stock: int
 }
 
-class Reservation {
+abstract Reservation {
     +id: int
     +consumer: User
 }
