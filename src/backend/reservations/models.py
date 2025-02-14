@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 from evenements.models import EventBus, EventMaterial, EventRoom
+from userspace.models import User
 
 
 class Reservation(models.Model):
@@ -14,6 +14,10 @@ class Reservation(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class ReservationBus(Reservation):

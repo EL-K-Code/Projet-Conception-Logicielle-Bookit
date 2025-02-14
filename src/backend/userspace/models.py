@@ -1,13 +1,20 @@
-# from django.contrib.auth.models import AbstractUser, Group
-# from django.db import models
-# import uuid
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import EmailValidator
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-# class User(AbstractUser):
-#     """
-#     """
-#     id = models.UUIDField(default=uuid.uuid4, primary_key=True, auto_created=True)
-#     group = models.ManyToManyField(Group)
 
-#     def __str__(self):
-        
-#         return self.username
+class User(AbstractUser):
+    """Modèle utilisateur"""
+
+    email = models.EmailField(
+        _("email address"),
+        unique=True,
+        blank=False,
+        null=False,
+        validators=[EmailValidator(message="The email address provided is invalid.")],
+    )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()  # Force la validation
+        super().save(*args, **kwargs)

@@ -1,53 +1,78 @@
-from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
+from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from userspace.models import User
 
 
 class Room(models.Model):
     """ """
 
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, blank=False, null=False)
     description = models.TextField(max_length=512)
 
     def __str__(self):
 
-        return str(self.id)
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Bus(models.Model):
     """ """
 
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64, unique=True)
-    number_seats = models.IntegerField(validators=[MinValueValidator(1)])
+    name = models.CharField(
+        max_length=64,
+        unique=True,
+        blank=False,
+        null=False,
+        validators=[MinLengthValidator(2)],
+    )
+    number_seats = models.IntegerField(
+        blank=False, null=False, validators=[MinValueValidator(1)]
+    )
 
     def __str__(self):
 
-        return str(self.id)
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Material(models.Model):
     """ """
 
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64, unique=True)
-    stock = models.IntegerField(validators=[MinValueValidator(0)])
+    name = models.CharField(
+        max_length=64, unique=True, null=False, validators=[MinLengthValidator(2)]
+    )
+    stock = models.IntegerField(
+        blank=False, null=False, validators=[MinValueValidator(0)]
+    )
 
     def __str__(self):
+        return self.name
 
-        return str(self.id)
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Event(models.Model):
     """ """
 
-    id = models.AutoField(primary_key=True)
     description = models.CharField(
-        max_length=512, help_text=_("Give some description to this even.")
+        max_length=512,
+        help_text=_("Give some description to this even."),
+        blank=False,
+        null=False,
+        validators=[MinLengthValidator(2)],
     )
-    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=False, null=False
+    )
     is_reserved = models.BooleanField(
         _("reserved"),
         default=True,
@@ -57,23 +82,41 @@ class Event(models.Model):
         abstract = True
 
     def __str__(self):
-        return str(self.id)
+        return self.description
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class EventRoom(Event):
     """ """
 
-    resource = models.ForeignKey(Room, on_delete=models.CASCADE)
+    resource = models.ForeignKey(
+        Room, on_delete=models.CASCADE, blank=False, null=False
+    )
 
 
 class EventBus(Event):
     """ """
 
-    resource = models.ForeignKey(Bus, on_delete=models.CASCADE)
-    available_seats = models.IntegerField(validators=[MinValueValidator(0)])
-    departure = models.CharField(max_length=64)
-    destination = models.CharField(max_length=64)
-    departure_time = models.DateTimeField()
+    resource = models.ForeignKey(Bus, on_delete=models.CASCADE, blank=False, null=False)
+    available_seats = models.IntegerField(
+        blank=False, null=False, validators=[MinValueValidator(0)]
+    )
+    departure = models.CharField(
+        max_length=64,
+        blank=False,
+        null=False,
+        validators=[MinLengthValidator(2)],
+    )
+    destination = models.CharField(
+        max_length=64,
+        blank=False,
+        null=False,
+        validators=[MinLengthValidator(2)],
+    )
+    departure_time = models.DateTimeField(blank=False, null=False)
     arrival_time = models.DateTimeField()
 
     def save(self, *args, **kwargs):
@@ -89,8 +132,12 @@ class EventBus(Event):
 class EventMaterial(Event):
     """ """
 
-    resource = models.ForeignKey(Material, on_delete=models.CASCADE)
-    available_stock = models.IntegerField(validators=[MinValueValidator(0)])
+    resource = models.ForeignKey(
+        Material, on_delete=models.CASCADE, null=False, blank=False
+    )
+    available_stock = models.IntegerField(
+        null=False, blank=False, validators=[MinValueValidator(0)]
+    )
 
     def save(self, *args, **kwargs):
         """
