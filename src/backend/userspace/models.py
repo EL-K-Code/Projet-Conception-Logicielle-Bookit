@@ -11,7 +11,6 @@ class User(AbstractUser):
         Group,
         verbose_name=_("groups"),
         blank=False,
-        null=False,
         help_text=_(
             "The groups this user belongs to. A user will get all permissions "
             "granted to each of their groups."

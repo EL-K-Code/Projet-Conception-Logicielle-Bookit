@@ -10,9 +10,9 @@ logger = logging.getLogger("django")
 
 
 @receiver(post_migrate)
-def create_default_groups(sender, **kwargs):
+def create_default_groups_and_superuser(sender, **kwargs):
     """Créer les groupes d’utilisateurs après la migration."""
-    if sender.name == "userspacue":
+    if sender.name == "userspace":
         groups = ["admin", "event_admin", "consumer"]
         for group_name in groups:
             Group.objects.get_or_create(name=group_name)
