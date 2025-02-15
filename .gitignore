@@ -140,6 +140,7 @@ venv.bak/
 .env.local
 bookit
 venv
+devTools
 
 
 # Spyder project settings
