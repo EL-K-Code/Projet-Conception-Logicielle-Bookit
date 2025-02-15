@@ -9,13 +9,17 @@ class Reservation(models.Model):
     Classe mère pour toutes les réservations
     """
 
-    id = models.AutoField(primary_key=True)
-    consumer = models.ForeignKey(User, on_delete=models.CASCADE)
+    consumer = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=False, null=False
+    )
 
     class Meta:
         abstract = True
 
     def save(self, *args, **kwargs):
+        """
+        validele modèle avant sauvegarde
+        """
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -25,7 +29,9 @@ class ReservationBus(Reservation):
     Réservation d'un bus (plusieurs utilisateurs peuvent réserver le même bus)
     """
 
-    event = models.ForeignKey(EventBus, on_delete=models.CASCADE)
+    event = models.ForeignKey(
+        EventBus, on_delete=models.CASCADE, blank=False, null=False
+    )
 
     def save(self, *args, **kwargs):
         """
@@ -45,10 +51,12 @@ class ReservationRoom(Reservation):
     Réservation d'une salle(une seule réservation possible par créneau)
     """
 
-    event = models.ForeignKey(EventRoom, on_delete=models.CASCADE)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    event = models.ForeignKey(
+        EventRoom, on_delete=models.CASCADE, blank=False, null=False
+    )
+    date = models.DateField(blank=False, null=False)
+    start_time = models.TimeField(blank=False, null=False)
+    end_time = models.TimeField(blank=False, null=False)
 
     class Meta:
         """
@@ -68,11 +76,15 @@ class ReservationMaterial(Reservation):
     Réservation de matériel
     """
 
-    event = models.ForeignKey(EventMaterial, on_delete=models.CASCADE)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    quantity = models.IntegerField(validators=[MinValueValidator(1)])
+    event = models.ForeignKey(
+        EventMaterial, on_delete=models.CASCADE, blank=False, null=False
+    )
+    date = models.DateField(blank=False, null=False)
+    start_time = models.TimeField(blank=False, null=False)
+    end_time = models.TimeField(blank=False, null=False)
+    quantity = models.IntegerField(
+        blank=False, null=False, validators=[MinValueValidator(1)]
+    )
 
     def save(self, *args, **kwargs):
         """
