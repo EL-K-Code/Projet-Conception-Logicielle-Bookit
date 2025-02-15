@@ -1,21 +1,34 @@
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework import permissions
-# from .models import Event
-# from .serializers import EventSerializer
-# from .permissions import IsEventAdmin
+from django.contrib.auth import logout
+from rest_framework import generics
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-# class CreateEventView(APIView):
-#     """
-#     Vue pour créer un événement. Seuls les utilisateurs du groupe 'event_admin'
-#     peuvent accéder à cette vue.
-#     """
-#     permission_classes = [IsEventAdmin]
+from .models import User
+from .serializers import UserSerializer
 
-#     def post(self, request, *args, **kwargs):
-#         # Crée un nouvel événement à partir des données envoyées
-#         serializer = EventSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=201)
-#         return Response(serializer.errors, status=400)
+
+class SignUpView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+
+class SignOutView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        """
+        Récupérer l'utilisateur connecté.
+        """
+        return self.request.user
+
+
+class LogOutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+        return Response({"message": "Déconnexion réussie"}, status=200)
