@@ -5,7 +5,9 @@ from userspace.models import User
 
 
 class Room(models.Model):
-    """ """
+    """
+    Modèle représentant une salle
+    """
 
     name = models.CharField(max_length=64, unique=True, blank=False, null=False)
     description = models.TextField(max_length=512)
@@ -20,7 +22,9 @@ class Room(models.Model):
 
 
 class Bus(models.Model):
-    """ """
+    """
+    Modèle représentant une salle
+    """
 
     name = models.CharField(
         max_length=64,
@@ -43,7 +47,9 @@ class Bus(models.Model):
 
 
 class Material(models.Model):
-    """ """
+    """
+    Modèle représentant un matériel
+    """
 
     name = models.CharField(
         max_length=64, unique=True, null=False, validators=[MinLengthValidator(2)]
@@ -61,7 +67,9 @@ class Material(models.Model):
 
 
 class Event(models.Model):
-    """ """
+    """
+    Modèle abstait pour un évènement générique
+    """
 
     description = models.CharField(
         max_length=512,
@@ -90,7 +98,9 @@ class Event(models.Model):
 
 
 class EventRoom(Event):
-    """ """
+    """
+    Modèle pour un évènement de salle
+    """
 
     resource = models.ForeignKey(
         Room, on_delete=models.CASCADE, blank=False, null=False
@@ -98,7 +108,9 @@ class EventRoom(Event):
 
 
 class EventBus(Event):
-    """ """
+    """
+    Modèle pour un évènement de bus
+    """
 
     resource = models.ForeignKey(Bus, on_delete=models.CASCADE, blank=False, null=False)
     available_seats = models.IntegerField(
@@ -130,7 +142,9 @@ class EventBus(Event):
 
 
 class EventMaterial(Event):
-    """ """
+    """
+    Modèle pour un évènement de matériel
+    """
 
     resource = models.ForeignKey(
         Material, on_delete=models.CASCADE, null=False, blank=False
