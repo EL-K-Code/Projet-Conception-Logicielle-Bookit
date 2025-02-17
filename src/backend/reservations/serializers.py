@@ -11,6 +11,7 @@ class ReservationBusSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReservationBus
         fields = "__all__"
+        read_only_fields = ["consumer"]
 
 
 class ReservationRoomSerializer(serializers.ModelSerializer):
@@ -21,6 +22,7 @@ class ReservationRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReservationRoom
         fields = "__all__"
+        read_only_fields = ["consumer"]
 
 
 class ReservationMaterialSerializer(serializers.ModelSerializer):
@@ -31,3 +33,4 @@ class ReservationMaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReservationMaterial
         fields = "__all__"
+        read_only_fields = ["consumer"]

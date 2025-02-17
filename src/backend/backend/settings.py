@@ -39,7 +39,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
 
 # JWT settings
 SIMPLE_JWT = {
@@ -60,7 +66,9 @@ INSTALLED_APPS = [
     "evenements",
     "reservations",
     "userspace",
+    "drf_spectacular",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
