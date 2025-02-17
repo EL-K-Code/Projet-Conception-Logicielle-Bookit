@@ -18,6 +18,10 @@ class MakeBusReservationView(generics.CreateAPIView):
     serializer_class = ReservationBusSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    # Assigner l'utilisateur connecté comme étant le consommateur de cet event
+    def perform_create(self, serializer):
+        serializer.save(consumer=self.request.user)
+
 
 class MakeRoomReservationView(generics.CreateAPIView):
     """
