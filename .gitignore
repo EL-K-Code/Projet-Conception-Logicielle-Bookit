@@ -140,6 +140,7 @@ venv.bak/
 .env.local
 bookit
 venv
+devTools
 
 
 # Spyder project settings
@@ -178,4 +179,5 @@ cython_debug/
 
 pre-commit
 
+devTools
 #toUseLater

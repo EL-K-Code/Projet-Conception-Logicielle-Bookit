@@ -6,7 +6,7 @@ from userspace.models import User
 
 class Reservation(models.Model):
     """
-    Classe mère pour toutes les réservations
+    Modèle abstait pour une réservation générique
     """
 
     consumer = models.ForeignKey(
@@ -26,7 +26,7 @@ class Reservation(models.Model):
 
 class ReservationBus(Reservation):
     """
-    Réservation d'un bus (plusieurs utilisateurs peuvent réserver le même bus)
+    Modèle de réservation d'un bus (plusieurs utilisateurs peuvent réserver le même bus)
     """
 
     event = models.ForeignKey(
@@ -48,7 +48,7 @@ class ReservationBus(Reservation):
 
 class ReservationRoom(Reservation):
     """
-    Réservation d'une salle(une seule réservation possible par créneau)
+    Modèle de réservation d'une salle(une seule réservation possible par créneau)
     """
 
     event = models.ForeignKey(
@@ -73,7 +73,7 @@ class ReservationRoom(Reservation):
 
 class ReservationMaterial(Reservation):
     """
-    Réservation de matériel
+    Modèle de réservation de matériel
     """
 
     event = models.ForeignKey(
