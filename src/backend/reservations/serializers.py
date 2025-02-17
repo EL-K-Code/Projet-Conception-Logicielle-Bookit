@@ -19,7 +19,7 @@ class ReservationRoomSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model: ReservationRoom
+        model = ReservationRoom
         fields = "__all__"
 
 
@@ -29,5 +29,5 @@ class ReservationMaterialSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model: ReservationMaterial
+        model = ReservationMaterial
         fields = "__all__"
