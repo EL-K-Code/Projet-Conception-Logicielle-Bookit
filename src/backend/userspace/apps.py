@@ -15,4 +15,4 @@ class UserspaceConfig(AppConfig):
 
     def ready(self):
         """Importe les signaux lors du démarrage de l'application."""
-        import userspace.signals  # noqa: F401
+        import userspace.signals  # noqa: F401 # pylint: disable=C0415,W0611

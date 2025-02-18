@@ -42,5 +42,6 @@
     "python.testing.unittestEnabled": false,
     "editor.codeActionsOnSave": {
         "source.organizeImports": "always"
-    }
+    },
+    "files.trimTrailingWhitespace": true
 }
