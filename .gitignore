@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 **/__pycache__/
 
+
 # C extensions
 *.so
 
@@ -181,3 +182,8 @@ pre-commit
 
 devTools
 #toUseLater
+
+# Tous les fichiers .py dans les dossiers migrations sauf __init__.py
+**/migrations/*.py
+!**/migrations/__init__.py
+
