@@ -22,11 +22,6 @@ from .serializers import (
 class EventListView(generics.ListAPIView):
     """
     Vue permettant de récupérer la liste complète des événements.
-
-    Cette vue renvoie un dictionnaire contenant les événements de trois catégories :
-    - event_rooms : événements liés aux salles.
-    - event_buses : événements liés aux bus.
-    - event_materials : événements liés aux matériels.
     """
 
     def get(self, request, *args, **kwargs):

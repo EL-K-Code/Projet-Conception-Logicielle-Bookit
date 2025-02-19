@@ -1,7 +1,7 @@
 """
 Définition des routes pour l'application des événements.
 
-Ce fichier contient les différentes URL permettant de lister, créer, mettre à jour
+Ce module contient les différentes URL permettant de lister, créer, mettre à jour
 et supprimer des événements liés aux salles, aux bus et aux matériels.
 """
 
@@ -10,9 +10,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Liste des événements
     path("list-event/", views.EventListView.as_view(), name="list-event"),
-    # Récupération de tous les événements par catégorie
     path("getall/bus/", views.GetAllBusEventView.as_view(), name="getall-bus-event"),
     path("getall/room/", views.GetAllRoomEventView.as_view(), name="getall-room-event"),
     path(
@@ -20,7 +18,6 @@ urlpatterns = [
         views.GetAllMaterialEventView.as_view(),
         name="getall-material-event",
     ),
-    # Création d'un événement
     path(
         "create-event/bus/", views.CreateEventBusView.as_view(), name="create-bus-event"
     ),
@@ -34,7 +31,6 @@ urlpatterns = [
         views.CreateEventMaterialView.as_view(),
         name="create-material-event",
     ),
-    # Suppression d'un événement
     path(
         "delete-event/room/<int:id>",
         views.DeleteEventRoomView.as_view(),
@@ -50,7 +46,6 @@ urlpatterns = [
         views.DeleteEventMaterialView.as_view(),
         name="delete-material-event",
     ),
-    # Mise à jour d'un événement
     path(
         "update-event/room/<int:id>",
         views.UpdateEventRoomView.as_view(),
