@@ -97,7 +97,7 @@ class Event(models.Model):
 
     description = models.CharField(
         max_length=512,
-        help_text=_("Give some description to this even."),
+        help_text=_("Give some description to this event."),
         blank=False,
         null=False,
         validators=[MinLengthValidator(2)],
@@ -168,8 +168,7 @@ class EventBus(Event):
 
     def save(self, *args, **kwargs):
         """
-        Initialization of the number of available seats at the creation
-        and first save of the event.
+        Initialize the available seats at the creation of the event, if not provided.
         """
         if self.pk is None and self.available_seats is None:
             self.available_seats = self.resource.number_seats
@@ -194,8 +193,7 @@ class EventMaterial(Event):
 
     def save(self, *args, **kwargs):
         """
-        Initialization of the available stock at the creation
-        and first save of the event.
+        Initialize the available stock at the creation of the event, if not provided.
         """
         if self.pk is None and self.available_stock is None:
             self.available_stock = self.resource.stock
