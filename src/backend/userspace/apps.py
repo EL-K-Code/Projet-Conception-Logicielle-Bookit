@@ -12,6 +12,7 @@ class UserspaceConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "userspace"
+    verbose_name = "👤userspace"
 
     def ready(self):
         """Importe les signaux lors du démarrage de l'application."""

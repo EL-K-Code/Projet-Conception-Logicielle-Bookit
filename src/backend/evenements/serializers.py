@@ -26,7 +26,7 @@ class EventBusSerializer(serializers.ModelSerializer):
 
         model = EventBus
         fields = "__all__"
-        read_only_fields = ["organizer"]
+        read_only_fields = ["organizer", "is_reserved"]
 
 
 class EventRoomSerializer(serializers.ModelSerializer):
@@ -44,7 +44,7 @@ class EventRoomSerializer(serializers.ModelSerializer):
 
         model = EventRoom
         fields = "__all__"
-        read_only_fields = ["organizer"]
+        read_only_fields = ["organizer", "is_reserved"]
 
 
 class EventMaterialSerializer(serializers.ModelSerializer):
@@ -62,4 +62,4 @@ class EventMaterialSerializer(serializers.ModelSerializer):
 
         model = EventMaterial
         fields = "__all__"
-        read_only_fields = ["organizer"]
+        read_only_fields = ["organizer", "is_reserved"]

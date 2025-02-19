@@ -17,3 +17,4 @@ class ReservationsConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "evenements"
+    verbose_name = "📦 Ressources"

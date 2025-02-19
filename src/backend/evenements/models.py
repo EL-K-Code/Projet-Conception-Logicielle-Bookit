@@ -107,7 +107,7 @@ class Event(models.Model):
     )
     is_reserved = models.BooleanField(
         _("reserved"),
-        default=True,
+        default=False,
     )
 
     class Meta:
@@ -148,9 +148,7 @@ class EventBus(Event):
     """
 
     resource = models.ForeignKey(Bus, on_delete=models.CASCADE, blank=False, null=False)
-    available_seats = models.IntegerField(
-        blank=False, null=False, validators=[MinValueValidator(0)]
-    )
+    available_seats = models.IntegerField(null=False, validators=[MinValueValidator(0)])
     departure = models.CharField(
         max_length=64,
         blank=False,
@@ -187,9 +185,7 @@ class EventMaterial(Event):
     resource = models.ForeignKey(
         Material, on_delete=models.CASCADE, null=False, blank=False
     )
-    available_stock = models.IntegerField(
-        null=False, blank=False, validators=[MinValueValidator(0)]
-    )
+    available_stock = models.IntegerField(null=False, validators=[MinValueValidator(0)])
 
     def save(self, *args, **kwargs):
         """

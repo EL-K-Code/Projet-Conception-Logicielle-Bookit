@@ -6,10 +6,27 @@ le modèle utilisateur par défaut de Django. Il ajoute des contraintes sur l'em
 et redéfinit l'association aux groupes.
 """
 
-from django.contrib.auth.models import AbstractUser, Group
+from django.contrib.auth.models import AbstractUser, GroupManager
 from django.core.validators import EmailValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+
+class Group(models.Model):
+    """
+    Modèle Group pour la gestion des groupes d'utilisateurs
+    """
+
+    name = models.CharField(_("name"), max_length=150, unique=True)
+
+    objects = GroupManager()
+
+    class Meta:
+        verbose_name = _("group")
+        verbose_name_plural = _("groups")
+
+    def __str__(self):
+        return str(self.name)
 
 
 class User(AbstractUser):

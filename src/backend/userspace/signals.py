@@ -8,10 +8,9 @@ actions après les migrations et la création d'un utilisateur.
 import logging
 import os
 
-from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
-from userspace.models import User
+from userspace.models import Group, User
 
 logger = logging.getLogger("django")
 
