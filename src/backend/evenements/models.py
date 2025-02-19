@@ -117,7 +117,7 @@ class Event(models.Model):
 
     def __str__(self):
         """Retourne la description de l'évènement."""
-        return self.description
+        return str(self.description)
 
     def save(self, *args, **kwargs):
         """Force la validation avant de sauvegarder l'objet."""
