@@ -1,3 +1,7 @@
+"""
+Configuration personnalisé pour l'interface administrateur
+"""
+
 from django.contrib import admin
 
 admin.site.index_title = " "

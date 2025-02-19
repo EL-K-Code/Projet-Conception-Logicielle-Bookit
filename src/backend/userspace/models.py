@@ -22,6 +22,8 @@ class Group(models.Model):
     objects = GroupManager()
 
     class Meta:
+        """Classe meta"""
+
         verbose_name = _("group")
         verbose_name_plural = _("groups")
 
