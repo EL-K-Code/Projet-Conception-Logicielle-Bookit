@@ -1,3 +1,7 @@
+"""
+Module contenant les vues pour la gestion des réservations dans Bookit.
+"""
+
 from rest_framework import generics, permissions
 
 from .models import ReservationBus, ReservationMaterial, ReservationRoom

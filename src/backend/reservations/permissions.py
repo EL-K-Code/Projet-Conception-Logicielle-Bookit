@@ -1,3 +1,7 @@
+"""
+Module contenant des permissions personnalisées pour les réservations.
+"""
+
 from rest_framework.permissions import BasePermission
 
 
@@ -18,8 +22,5 @@ class IsConsumerAndOwner(IsConsumer):
     réservation à accéder à la vue.
     """
 
-    def has_object_permission(self, request, view, reservation):
-        return (
-            super().has_permission(request, view)
-            and reservation.consumer == request.user
-        )
+    def has_object_permission(self, request, view, obj):
+        return super().has_permission(request, view) and obj.consumer == request.user

@@ -1,3 +1,7 @@
+"""
+Module contenant les routes pour la gestion des réservations.
+"""
+
 from django.urls import path
 
 from . import views
