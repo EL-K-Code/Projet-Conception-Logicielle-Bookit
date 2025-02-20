@@ -164,6 +164,22 @@ class EventBus(Event):
     departure_time = models.DateTimeField(blank=False, null=False)
     arrival_time = models.DateTimeField()
 
+    class Meta:
+        """
+        Contrainte d'unicité.
+        """
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["resource", "departure_time", "destination"],
+                name="unique_event_bus",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(departure_time__lt=models.F("arrival_time")),
+                name="check_departure_before_arrival",
+            ),
+        ]
+
     def save(self, *args, **kwargs):
         """
         Initialize the available seats at the creation of the event, if not provided.
