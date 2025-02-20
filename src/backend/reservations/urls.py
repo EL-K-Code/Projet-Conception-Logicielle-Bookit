@@ -8,30 +8,32 @@ from . import views
 
 urlpatterns = [
     path(
-        "make/bus/", views.MakeBusReservationView.as_view(), name="make-bus-reservation"
+        "make-reservation/bus/",
+        views.MakeBusReservationView.as_view(),
+        name="make-bus-reservation",
     ),
     path(
-        "make/room/",
+        "make-reservation/room/",
         views.MakeRoomReservationView.as_view(),
         name="make-room-reservation",
     ),
     path(
-        "make/material/",
+        "make-reservation/material/",
         views.MakeMaterialReservationView.as_view(),
         name="make-material-reservation",
     ),
     path(
-        "cancel/bus/<int:id>",
+        "cancel-reservation-bus/<int:id>",
         views.CancelBusReservation.as_view(),
         name="cancel-bus-reservation",
     ),
     path(
-        "cancel/room/<int:id>",
+        "cancel-reservation-room/<int:id>",
         views.CancelRoomReservation.as_view(),
         name="cancel-room-reservation",
     ),
     path(
-        "cancel/material/<int:id>",
+        "cancel-reservation-material/<int:id>",
         views.CancelMaterialReservation.as_view(),
         name="cancel-material-reservation",
     ),
