@@ -18,3 +18,7 @@ class ReservationsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "evenements"
     verbose_name = "📦 Ressources"
+
+    def ready(self):
+        """Importe les signaux lors du démarrage de l'application."""
+        import evenements.signals  # noqa: F401 # pylint: disable=C0415,W0611
