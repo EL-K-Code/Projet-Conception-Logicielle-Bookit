@@ -201,7 +201,7 @@ class EventMaterial(Event):
     resource = models.ForeignKey(
         Material, on_delete=models.CASCADE, null=False, blank=False
     )
-    available_stock = models.IntegerField(null=False, validators=[MinValueValidator(0)])
+    available_stock = models.IntegerField(blank=True, validators=[MinValueValidator(0)])
 
     def save(self, *args, **kwargs):
         """

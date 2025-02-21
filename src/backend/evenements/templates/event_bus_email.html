@@ -1,0 +1,31 @@
+{% extends "base_email.html" %}
+
+{% block content %}
+<h2>🚍 {{event_description}}</h2>
+    <p>📢 Nous vous informons que le bus <span class="highlight">{{bus_name}}</span>
+    a été mis à votre disposition pour le transport.</p>
+
+    <div class="details">
+        <div>🪑 <strong>Disponibilité des places :</strong>
+        <span class="highlight">{{available_seats}} places</span></div>
+        <div>📍 <strong>Lieu de départ :</strong>
+        <span class="highlight">{{departure}}</span></div>
+        <div>📍 <strong>Destination :</strong>
+        <span class="highlight">{{destination}}</span></div>
+        <div>🕒 <strong>Heure de départ :</strong>
+        <span class="highlight">{{departure_time}}</span></div>
+        <div>🕒 <strong>Heure d'arrivée :</strong>
+        <span class="highlight">{{arrival_time}}</span></div>
+   </div>
+
+    <p>Les places étant limitées, nous vous encourageons à vous inscrire rapidement
+    afin de garantir votre place dans le bus. Il s'agit d'un premier arrivé, premier servi !</p>
+
+    <a href="https://reservation.example.com" class="btn">🔗 Réserver ma place</a>
+
+    <p>Pour toute question ou si vous avez besoin de plus d'informations, n'hésitez
+    pas à nous contacter.</p>
+
+    <p>Cordialement,</p>
+    <p><strong>{{organizer_first_name}} {{organizer_last_name}}</strong></p>
+{% endblock %}
