@@ -1,6 +1,8 @@
+import Form from "../components/Form"
+
 function  Login (){
 
-    return <div>LOgin</div>
+    return <Form route = "login/" method = "login"/>
 }
 
 export default Login
