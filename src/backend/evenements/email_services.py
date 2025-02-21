@@ -32,7 +32,7 @@ class SendEventNotification(EmailMessage, ABC):
         self.instance = instance
         super().__init__(
             subject=self.instance.description,
-            to=[
+            bcc=[
                 consumer.email
                 for consumer in Group.objects.get(name="consumer").user_set.all()
             ],
