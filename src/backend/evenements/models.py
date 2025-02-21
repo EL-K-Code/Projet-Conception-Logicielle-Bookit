@@ -148,7 +148,9 @@ class EventBus(Event):
     """
 
     resource = models.ForeignKey(Bus, on_delete=models.CASCADE, blank=False, null=False)
-    available_seats = models.IntegerField(null=False, validators=[MinValueValidator(0)])
+    available_seats = models.IntegerField(
+        blank=True, null=False, validators=[MinValueValidator(0)]
+    )
     departure = models.CharField(
         max_length=64,
         blank=False,

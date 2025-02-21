@@ -81,7 +81,11 @@ class ReservationRoom(Reservation):
             models.UniqueConstraint(
                 fields=["event", "date", "start_time", "end_time"],
                 name="unique_reservation_room",
-            )
+            ),
+            models.CheckConstraint(
+                condition=models.Q(start_time__lt=models.F("end_time")),
+                name="check_start_time_before_end_time",
+            ),
         ]
 
     def __str__(self):
