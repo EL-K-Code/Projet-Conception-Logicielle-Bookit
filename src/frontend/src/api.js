@@ -1,7 +1,7 @@
-import axios from "axios"
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constants"
+import axios from "axios";
+import { ACCESS_TOKEN } from "./constants";
 
-// Créer une instance de Axios 
+// Créer une instance de Axios
 // pour rediriger les requêtes vers notre serveur django REST framework.
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -18,9 +18,9 @@ api.interceptors.request.use(
         return config;
     },
     (error) => {
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 );
 
-// 
+//
 export default api;
