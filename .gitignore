@@ -189,6 +189,7 @@ devTools
 !**/migrations/__init__.py
 
 # Documentation
-doc-docker-kubernetes
-doc-react
-doc-rest_framework
+doc-docker-kubernetes/
+doc-react/
+doc-rest_framework/
+
