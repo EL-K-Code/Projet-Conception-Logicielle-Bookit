@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-# import os
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -24,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ecr)cf@52dv#pr&cz49q_*+nre95t9te#5d*yt+$x635%)7dm-"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 # REST framework settings
 REST_FRAMEWORK = {
@@ -158,18 +158,16 @@ AUTH_USER_MODEL = "userspace.User"
 
 AUTH_GROUP_MODEL = "userspace.Group"
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
 SESSION_COOKIE_SECURE = True
 
+CORS_ALLOWED_ORIGINS = os.getenv("FRONTEND_APP_API_URL", "").split(",")
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = "no.reply.bookit.ensai@gmail.com"
-EMAIL_HOST_PASSWORD = "jlsp zqwv xvyw ihjo "
+EMAIL_HOST = os.getenv("EMAIL_HOST", "")
+EMAIL_PORT = os.getenv("EMAIL_PORT", "")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "")
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
