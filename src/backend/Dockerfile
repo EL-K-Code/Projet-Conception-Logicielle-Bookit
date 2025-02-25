@@ -5,7 +5,7 @@ FROM ubuntu:22.04
 WORKDIR /src/backend
 
 # Installer Python et pip, et ajouter un alias pour python
-RUN apt-get update && apt-get install -y python3-pip && ln -s /usr/bin/python3 /usr/bin/python
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip tzdata && ln -s /usr/bin/python3 /usr/bin/python
 
 # Copier les fichiers de notre projet dans l'environnement
 COPY . .
@@ -17,4 +17,4 @@ RUN python3 -m pip install -r requirements.txt
 EXPOSE 8000
 
 # Lancer l'application Django
-ENTRYPOINT ["sh", "-c", "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver"]
+ENTRYPOINT ["sh", "-c", "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"]
