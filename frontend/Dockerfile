@@ -2,7 +2,7 @@
 FROM node:18-alpine AS build
 
 # Définition du répertoire de travail
-WORKDIR /src/frontend
+WORKDIR /frontend
 
 # Copie des fichiers de dépendances pour optimiser le cache Docker
 COPY package.json package-lock.json ./
@@ -31,7 +31,7 @@ WORKDIR /src/frontend
 RUN npm install -g serve
 
 # Copie des fichiers générés après le build
-COPY --from=build /src/frontend/dist /src/frontend/dist
+COPY --from=build /frontend/dist /frontend/dist
 
 # Exposition du port 5173
 EXPOSE 5173

@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 # Définir le répertoire de travail
-WORKDIR /src/backend
+WORKDIR /backend
 
 # Installer Python et pip, et ajouter un alias pour python
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip tzdata && ln -s /usr/bin/python3 /usr/bin/python

@@ -14,7 +14,7 @@ services:
     depends_on:
       - frontend
     volumes:
-      - ./backend:/src/backend
+      - ./backend:/backend
     env_file:
       - ./backend/.env
 
@@ -28,7 +28,7 @@ services:
     environment:
       - VITE_API_URL=http://127.0.0.1:8000  # URL de l'API pour le frontend
     volumes:
-      - ./frontend:/src/frontend
+      - ./frontend:/frontend
 
 networks:
   bookit-network:
