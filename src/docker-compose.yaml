@@ -1,0 +1,35 @@
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    networks:
+      - bookit-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      retries: 3
+    depends_on:
+      - frontend
+    volumes:
+      - ./backend:/src/backend
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - bookit-network
+    environment:
+      - VITE_API_URL=http://127.0.0.1:8000  # URL de l'API pour le frontend
+    volumes:
+      - ./frontend:/src/frontend
+
+networks:
+  bookit-network:
+    driver: bridge

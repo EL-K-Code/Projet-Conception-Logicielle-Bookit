@@ -16,7 +16,7 @@ function Form({ route, method }) {
     e.preventDefault();
 
     try {
-      const res = await api.post(route, { username, password, ...(method === "register" && { email }) });
+      const res = await api.post(route, { username, password, ...(method === "signup" && { email }) });
 
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
@@ -54,7 +54,7 @@ function Form({ route, method }) {
         placeholder="Password"
       />
 
-      {method === "register" && (
+      {method === "signup" && (
         <input
           className="form-input"
           type="email"

@@ -33,8 +33,8 @@ RUN npm install -g serve
 # Copie des fichiers générés après le build
 COPY --from=build /src/frontend/dist /src/frontend/dist
 
-# Exposition du port 3000
-EXPOSE 3000
+# Exposition du port 5173
+EXPOSE 5173
 
 # Commande de démarrage
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
