@@ -48,7 +48,7 @@ class ReservationManager(models.Manager):
             end_time=end_time,
         )
 
-    def reserve_materiel(self, consumer, event_material, **kwargs):
+    def reserve_material(self, consumer, event_material, **kwargs):
         """
         Vérifie le stock disponible et crée une réservation de matériel.
         """
