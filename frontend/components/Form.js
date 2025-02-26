@@ -15,6 +15,10 @@ export default function Form({ route, method }) {
     e.preventDefault();
     setLoading(true);
 
+    if (method === "signup"){
+      localStorage.clear();
+    }
+
     try {
       const res = await api.post(route, { username, password, ...(method === "signup" && { email }) });
 

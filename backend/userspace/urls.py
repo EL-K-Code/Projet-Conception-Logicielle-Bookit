@@ -15,5 +15,4 @@ urlpatterns = [
     path("signout/", views.SignOutView.as_view(), name="signout"),
     path("login/", TokenObtainPairView.as_view(), name="login"),
     path("login/refresh/", TokenRefreshView.as_view(), name="loginrefresh"),
-    path("logout/", views.LogOutView.as_view(), name="logout"),
 ]
