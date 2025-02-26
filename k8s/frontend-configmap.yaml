@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: frontend-config
 data:
-  VITE_API_URL: "https://bookit-ensai.kub.sspcloud.fr"
+  NEXT_PUBLIC_API_URL: "https://bookit-ensai.kub.sspcloud.fr"
 

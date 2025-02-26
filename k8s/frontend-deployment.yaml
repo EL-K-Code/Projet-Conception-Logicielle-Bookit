@@ -23,4 +23,4 @@ spec:
             - configMapRef:
                 name: frontend-config
           ports:
-            - containerPort: 5173
+            - containerPort: 3000
