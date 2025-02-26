@@ -28,3 +28,6 @@ dist-ssr
 
 # Environement virtuel
 .env
+
+# Package
+package-lock.json
