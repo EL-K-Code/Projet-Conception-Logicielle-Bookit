@@ -31,7 +31,7 @@ class ReservationManager(models.Manager):
         start_time = kwargs.get("start_time")
         end_time = kwargs.get("end_time")
         exists = (
-            self.filter(event_bus=event_room, date=date)
+            self.filter(event_room=event_room, date=date)
             .filter(
                 models.Q(start_time__lt=end_time) & models.Q(end_time__gt=start_time)
             )
