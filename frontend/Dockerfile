@@ -13,28 +13,19 @@ RUN npm install --frozen-lockfile
 # Copie du reste du projet
 COPY . .
 
-# Définition des variables d’environnement
-ENV VITE_API_URL=""
-
-# ARG VITE_ENVIRONNEMENT=local
-# ENV VITE_ENVIRONNEMENT=${VITE_ENVIRONNEMENT}
-
-# Construction de l’application frontend
+# Construction de l’application frontend (Next.js)
 RUN npm run build
 
-# Utilisation d'un serveur léger pour servir les fichiers statiques
+# Utilisation d'un serveur léger pour servir l'application Next.js
 FROM node:18-alpine AS production
 
-WORKDIR /src/frontend
-
-# Installation d'un serveur HTTP léger pour les fichiers statiques
-RUN npm install -g serve
+WORKDIR /frontend
 
 # Copie des fichiers générés après le build
-COPY --from=build /frontend/dist /frontend/dist
+COPY --from=build /frontend ./
 
-# Exposition du port 5173
-EXPOSE 5173
+# Exposition du port sur lequel Next.js va tourner
+EXPOSE 3000
 
-# Commande de démarrage
-CMD ["serve", "-s", "dist", "-l", "5173"]
+# Commande de démarrage pour Next.js (démarrage en mode production)
+CMD ["npm", "run", "start"]

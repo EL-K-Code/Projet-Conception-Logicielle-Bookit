@@ -20,6 +20,7 @@ env = environ.Env()
 # Lire le fichier .env
 env.read_env()
 
+
 # from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
