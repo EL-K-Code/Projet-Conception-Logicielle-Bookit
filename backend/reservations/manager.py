@@ -31,7 +31,7 @@ class ReservationManager(models.Manager):
         start_time = kwargs.get("start_time")
         end_time = kwargs.get("end_time")
         exists = (
-            self.filter(event_bus=event_room, date=date)
+            self.filter(event_room=event_room, date=date)
             .filter(
                 models.Q(start_time__lt=end_time) & models.Q(end_time__gt=start_time)
             )
@@ -48,7 +48,7 @@ class ReservationManager(models.Manager):
             end_time=end_time,
         )
 
-    def reserve_materiel(self, consumer, event_material, **kwargs):
+    def reserve_material(self, consumer, event_material, **kwargs):
         """
         Vérifie le stock disponible et crée une réservation de matériel.
         """
