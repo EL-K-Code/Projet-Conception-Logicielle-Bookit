@@ -5,6 +5,7 @@ Module contenant les modèles pour la gestion des réservations dans Bookit.
 from django.core.validators import MinValueValidator
 from django.db import models
 from evenements.models import EventBus, EventMaterial, EventRoom
+from reservations.manager import ReservationManager
 from userspace.models import User
 
 
@@ -40,24 +41,14 @@ class ReservationBus(Reservation):
     Modèle de réservation d'un bus (plusieurs utilisateurs peuvent réserver le même bus)
     """
 
-    event = models.ForeignKey(
+    event_bus = models.ForeignKey(
         EventBus, on_delete=models.CASCADE, blank=False, null=False
     )
 
-    def save(self, *args, **kwargs):
-        """
-        Vérifie si des places sont disponibles avant d'enregistrer la réservation.
-        Si des places sont disponibles, elle réduit le nombre de places et sauvegarde.
-        """
-        if self.event.available_seats > 0:
-            self.event.available_seats -= 1
-            self.event.save()
-            super().save(*args, **kwargs)
-        else:
-            raise ValueError("Plus de places disponibles")
+    objects = ReservationManager()
 
     def __str__(self):
-        return f"Réservation de {self.consumer} pour {self.event}"
+        return f"Réservation de {self.consumer} pour {self.event_bus}"
 
 
 class ReservationRoom(Reservation):
@@ -65,12 +56,14 @@ class ReservationRoom(Reservation):
     Modèle de réservation d'une salle (une seule réservation possible par créneau)
     """
 
-    event = models.ForeignKey(
+    event_room = models.ForeignKey(
         EventRoom, on_delete=models.CASCADE, blank=False, null=False
     )
     date = models.DateField(blank=False, null=False)
     start_time = models.TimeField(blank=False, null=False)
     end_time = models.TimeField(blank=False, null=False)
+
+    objects = ReservationManager()
 
     class Meta:
         """
@@ -79,7 +72,7 @@ class ReservationRoom(Reservation):
 
         constraints = [
             models.UniqueConstraint(
-                fields=["event", "date", "start_time", "end_time"],
+                fields=["event_room", "date", "start_time", "end_time"],
                 name="unique_reservation_room",
             ),
             models.CheckConstraint(
@@ -89,7 +82,7 @@ class ReservationRoom(Reservation):
         ]
 
     def __str__(self):
-        return f"Réservation de {self.consumer} pour {self.event}"
+        return f"Réservation de {self.consumer} pour {self.event_room}"
 
 
 class ReservationMaterial(Reservation):
@@ -97,7 +90,7 @@ class ReservationMaterial(Reservation):
     Modèle de réservation de matériel
     """
 
-    event = models.ForeignKey(
+    event_material = models.ForeignKey(
         EventMaterial, on_delete=models.CASCADE, blank=False, null=False
     )
     date = models.DateField(blank=False, null=False)
@@ -107,19 +100,7 @@ class ReservationMaterial(Reservation):
         blank=False, null=False, validators=[MinValueValidator(1)]
     )
 
-    def save(self, *args, **kwargs):
-        """
-        Vérifie si le stock disponible est suffisant avant d'enregistrer la réservation.
-        Si la quantité demandée est disponible, elle réduit le stock et sauvegarde.
-        """
-        if self.event.available_stock >= self.quantity:  # pylint: disable=no-member
-            self.event.available_stock -= self.quantity  # pylint: disable=no-member
-            self.event.save()  # pylint: disable=no-member
-            super().save(*args, **kwargs)
-        else:
-            raise ValueError("Stock insuffisant pour cette réservation")
+    objects = ReservationManager()
 
     def __str__(self):
-        return (
-            f"Réservation de {self.consumer} pour {self.event} ({self.quantity} unités)"
-        )
+        return f"Réservation de {self.consumer} pour {self.event_material} ({self.quantity} unités)"
