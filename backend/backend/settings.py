@@ -10,17 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
-import environ
+from dotenv import load_dotenv
 
-# Initialise environ
-env = environ.Env()
-# Lire le fichier .env
-env.read_env()
-
-# from dotenv import load_dotenv
+# Charger les variables d'environnement depuis le fichier .os.getenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,12 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("DJANGO_SECRET_KEY", default="")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DJANGO_DEBUG", default=False)
+DEBUG = os.getenv("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS", default="").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
 
 # REST framework settings
 REST_FRAMEWORK = {
@@ -167,13 +165,13 @@ AUTH_GROUP_MODEL = "userspace.Group"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = True
 
-CORS_ALLOWED_ORIGINS = env("FRONTEND_APP_API_URL", default="").split(",")
+CORS_ALLOWED_ORIGINS = os.getenv("FRONTEND_APP_API_URL", default="").split(",")
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env("EMAIL_HOST", default="")
-EMAIL_PORT = env("EMAIL_PORT", default="")
-EMAIL_USE_TLS = env("EMAIL_USE_TLS", default="")
-EMAIL_USE_SSL = env("EMAIL_USE_SSL", default="")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+EMAIL_HOST = os.getenv("EMAIL_HOST", default="")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", default=""))
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "False").lower() == "true"
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False").lower() == "true"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
