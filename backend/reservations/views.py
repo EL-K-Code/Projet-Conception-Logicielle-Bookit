@@ -72,6 +72,7 @@ class CancelBusReservation(generics.DestroyAPIView):
     queryset = ReservationBus.objects.all()
     serializer_class = ReservationBusSerializer
     permission_classes = [IsConsumerAndOwner]
+    lookup_field = "id"
 
     def perform_destroy(self, instance):
         ReservationBus.objects.cancel_bus_reservation(instance)
@@ -85,6 +86,7 @@ class CancelRoomReservation(generics.DestroyAPIView):
     queryset = ReservationRoom.objects.all()
     serializer_class = ReservationRoomSerializer
     permission_classes = [IsConsumerAndOwner]
+    lookup_field = "id"
 
 
 class CancelMaterialReservation(generics.DestroyAPIView):
@@ -95,6 +97,7 @@ class CancelMaterialReservation(generics.DestroyAPIView):
     queryset = ReservationMaterial.objects.all()
     serializer_class = ReservationMaterialSerializer
     permission_classes = [IsConsumerAndOwner]
+    lookup_field = "id"
 
     def perform_destroy(self, instance):
-        ReservationMaterial.objects.cancel_reservation_material(instance)
+        ReservationMaterial.objects.cancel_material_reservation(instance)
