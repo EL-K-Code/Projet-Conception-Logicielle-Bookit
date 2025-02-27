@@ -115,7 +115,7 @@ class ReservationManager(models.Manager):
         event_bus.save()
         reservation_bus.delete()
 
-    def cancerl_material_reservation(self, reservation_material):
+    def cancel_material_reservation(self, reservation_material):
         """
         Annule une réservation de matériel et remet le stock à jour
 
@@ -127,11 +127,3 @@ class ReservationManager(models.Manager):
         event_material.available_stock += reservation_material.quantity
         event_material.save()
         reservation_material.delete()
-
-    def ro(self, consumer, event_bus):
-        """_summary_
-
-        Args:
-            consumer (_type_): _description_
-            event_bus (_type_): _description_
-        """
