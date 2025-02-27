@@ -15,16 +15,19 @@ from .serializers import (
 
 class MakeBusReservationView(generics.CreateAPIView):
     """
-    Vue permettant de faire une réservation de bus
+    Vue permettant de faire une réservation de salle
     """
 
-    queryset = ReservationBus.objects.all()
     serializer_class = ReservationBusSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # Assigner l'utilisateur connecté comme étant le consommateur de cet event
     def perform_create(self, serializer):
-        serializer.save(consumer=self.request.user)
+        event_bus = serializer.validated_data["event_bus"]
+        consumer = self.request.user
+        reservation_bus = ReservationBus.objects.reserve_bus(consumer, event_bus)
+        serializer.instance = (
+            reservation_bus  # On associe la réservation créée au serializer
+        )
 
 
 class MakeRoomReservationView(generics.CreateAPIView):
@@ -32,9 +35,16 @@ class MakeRoomReservationView(generics.CreateAPIView):
     Vue permettant de faire une réservation de salle
     """
 
-    queryset = ReservationRoom.objects.all()
     serializer_class = ReservationRoomSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        validated_data = serializer.validated_data
+        consumer = self.request.user
+        reservation_room = ReservationRoom.objects.reserve_room(
+            consumer, **validated_data
+        )
+        serializer.instance = reservation_room
 
 
 class MakeMaterialReservationView(generics.CreateAPIView):
@@ -42,9 +52,16 @@ class MakeMaterialReservationView(generics.CreateAPIView):
     Vue permettant de faire une réservation de matériel
     """
 
-    queryset = ReservationMaterial.objects.all()
     serializer_class = ReservationMaterialSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        validated_data = serializer.validated_data
+        consumer = self.request.user
+        reservation_material = ReservationMaterial.objects.reserve_material(
+            consumer, **validated_data
+        )
+        serializer.instance = reservation_material
 
 
 class CancelBusReservation(generics.DestroyAPIView):
@@ -55,6 +72,9 @@ class CancelBusReservation(generics.DestroyAPIView):
     queryset = ReservationBus.objects.all()
     serializer_class = ReservationBusSerializer
     permission_classes = [IsConsumerAndOwner]
+
+    def perform_destroy(self, instance):
+        ReservationBus.objects.cancel_bus_reservation(instance)
 
 
 class CancelRoomReservation(generics.DestroyAPIView):
@@ -75,3 +95,6 @@ class CancelMaterialReservation(generics.DestroyAPIView):
     queryset = ReservationMaterial.objects.all()
     serializer_class = ReservationMaterialSerializer
     permission_classes = [IsConsumerAndOwner]
+
+    def perform_destroy(self, instance):
+        ReservationMaterial.objects.cancel_reservation_material(instance)
