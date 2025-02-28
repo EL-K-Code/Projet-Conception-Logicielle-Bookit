@@ -15,6 +15,13 @@ class ReservationManager(models.Manager):
     def reserve_bus(self, consumer, event_bus):
         """
         vérifie la disponibilité du bus et crée une réservation
+
+        Args:
+            consumer (User): L'utilisateur qui effectue la réservation.
+            event_bus (EventBus): L'objet représentant un evenement de bus
+
+        Returns:
+            ReservationBus: L'objet de réservation créé si des places sont diponibles
         """
         if event_bus.available_seats > 0:
             event_bus.available_seats -= 1
@@ -26,6 +33,18 @@ class ReservationManager(models.Manager):
     def reserve_room(self, consumer, event_room, **kwargs):
         """
         vérifie la disponibilité d'une salle et crée une réservation
+
+        Args:
+        consumer (User): L'utilisateur effectuant la réservation.
+        event_room (EventRoom): L'objet représentant un evenement de salle
+        **kwargs:
+            date (datetime.date): La date de la réservation.
+            start_time (datetime.time): L'heure de début de la réservation.
+            end_time (datetime.time): L'heure de fin de la réservation.
+
+        Returns:
+        ReservationMaterial: L'objet de réservation créé si le stock est suffisant.
+
         """
         date = kwargs.get("date")
         start_time = kwargs.get("start_time")
@@ -51,6 +70,18 @@ class ReservationManager(models.Manager):
     def reserve_material(self, consumer, event_material, **kwargs):
         """
         Vérifie le stock disponible et crée une réservation de matériel.
+
+        Args:
+        consumer (User): L'utilisateur effectuant la réservation.
+        event_material (EventMaterial): L'objet matériel concerné par la réservation.
+        **kwargs:
+            date (datetime.date): La date de la réservation.
+            start_time (datetime.time): L'heure de début de la réservation.
+            end_time (datetime.time): L'heure de fin de la réservation.
+            quantity (int): La quantité de matériel à réserver.
+
+        Returns:
+        ReservationMaterial: L'objet de réservation créé si le stock est suffisant.
         """
         date = kwargs.get("date")
         start_time = kwargs.get("start_time")
@@ -70,3 +101,29 @@ class ReservationManager(models.Manager):
             )
 
         raise ValidationError("Stock insuffisant pour cette réservation")
+
+    def cancel_bus_reservation(self, reservation_bus):
+        """
+        Annule une réservation de bus et libère une place
+
+        Args:
+            reservation_bus(ReservationBus): L'objet de réservation de bus à annuler.
+        """
+
+        event_bus = reservation_bus.event_bus
+        event_bus.available_seats += 1
+        event_bus.save()
+        reservation_bus.delete()
+
+    def cancel_material_reservation(self, reservation_material):
+        """
+        Annule une réservation de matériel et remet le stock à jour
+
+        Args:
+            reservation_material(ReservationMaterial): L'objet de réservation de matériel à annuler.
+        """
+
+        event_material = reservation_material.event_material
+        event_material.available_stock += reservation_material.quantity
+        event_material.save()
+        reservation_material.delete()
