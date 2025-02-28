@@ -4,10 +4,11 @@ metadata:
   name: backend-config
 data:
   DJANGO_DEBUG: "False"
-  DJANGO_ALLOWED_HOSTS: "bookit-ensai.kub.sspcloud.frv,www.bookit-ensai.kub.sspcloud.fr"
-  FRONTEND_APP_API_URL: "https://bookit-ensai.kub.sspcloud.fr,https://www.bookit-ensai.kub.sspcloud.fr"
+  DJANGO_ALLOWED_HOSTS: "backend-ensai.kub.sspcloud.fr,bookit-ensai.kub.sspcloud.fr,localhost,127.0.0.1"
+  FRONTEND_APP_API_URL: "https://bookit-ensai.kub.sspcloud.fr"
   EMAIL_HOST: "smtp.gmail.com"
   EMAIL_PORT: "587"
   EMAIL_USE_TLS: "True"
   EMAIL_USE_SSL: "False"
   EMAIL_HOST_USER: "no.reply.bookit.ensai@gmail.com"
+

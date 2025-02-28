@@ -15,10 +15,14 @@ spec:
       containers:
         - name: backend
           image: yatoute/bookit-backend:latest
+          imagePullPolicy: Always
           resources:
+            requests:
+              cpu: 300m
+              memory: 300Mi  # Augmente légèrement
             limits:
-              memory: "200Mi"
-              cpu: "300m"
+              cpu: 300m
+              memory: 500Mi  # Augmente la limite mémoire
           envFrom:
             - configMapRef:
                 name: backend-config

@@ -3,8 +3,10 @@ import { ACCESS_TOKEN } from "./constants";
 
 // Créer une instance de Axios
 // pour rediriger les requêtes vers notre serveur django REST framework.
+// process.env.NEXT_PUBLIC_API_URL
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+
+    baseURL: "https://backend-ensai.kub.sspcloud.fr",
 })
 
 

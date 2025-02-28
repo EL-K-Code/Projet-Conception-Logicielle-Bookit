@@ -19,6 +19,9 @@ spec:
             limits:
               memory: "200Mi"
               cpu: "300m"
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://backend.user-yatoute.svc.cluster.local:8000"
           envFrom:
             - configMapRef:
                 name: frontend-config

@@ -2,5 +2,5 @@
 import Form from "../components/Form";
 
 export default function SignUp() {
-    return <Form route="/api/signup/" method="signup" />;
+    return <Form route="/api/auth/signup/" method="signup" />;
 }

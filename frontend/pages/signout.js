@@ -10,7 +10,7 @@ export default function SignOut() {
     useEffect(() => {
         const signOut = async () => {
             try {
-                const res = await api.delete("/api/signout/");
+                const res = await api.delete("/api/auth/signout/");
                 localStorage.clear();
                 setSignedOut(true);
             } catch (error) {

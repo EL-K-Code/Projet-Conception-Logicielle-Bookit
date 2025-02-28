@@ -1,7 +1,12 @@
 apiVersion: v1
-kind: ConfigMap
+kind: Service
 metadata:
-  name: frontend-config
-data:
-  NEXT_PUBLIC_API_URL: "https://bookit-ensai.kub.sspcloud.fr"
-
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP

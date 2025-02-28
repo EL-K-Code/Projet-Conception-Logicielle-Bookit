@@ -3,14 +3,14 @@ kind: Ingress
 metadata:
   name: bookit-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - bookit-ensai.kub.sspcloud.fr
+        - backend-ensai.kub.sspcloud.fr  # Ajout du backend en HTTPS
       secretName: bookit-tls
   rules:
     - host: bookit-ensai.kub.sspcloud.fr
@@ -23,7 +23,10 @@ spec:
                 name: frontend-service
                 port:
                   number: 80
-          - path: /api/
+    - host: backend-ensai.kub.sspcloud.fr
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
