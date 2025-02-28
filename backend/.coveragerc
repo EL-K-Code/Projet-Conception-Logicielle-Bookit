@@ -1,0 +1,17 @@
+# Fichiers pour les couverture des tests
+
+[run]
+include =
+    # Les fichiers inclus
+    evenements/*
+    reservations/*
+    userspace/*
+omit =
+    # Ces fichiers sont exlues
+    */__init__.py
+    */migrations/*
+    */tests.py
+
+[html]
+# Répertoire de sortie pour le rapport HTML
+    directory = coverage_report
