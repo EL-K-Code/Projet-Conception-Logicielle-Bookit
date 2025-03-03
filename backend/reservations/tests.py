@@ -203,7 +203,7 @@ class ReservationManagerTests(ReservationTestSetup):
 
 class ReservationViewsTests(ReservationTestSetup, APITestCase):
     """
-    classe contenat les méthodes pour tester les vues liées aux réservations
+    classe contenant les méthodes pour tester les vues liées aux réservations
 
     Args:
         ReservationTestSetup (class):Classe de configutation avec les données de test
@@ -228,3 +228,115 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ReservationBus.objects.count(), 1)
         self.assertEqual(ReservationBus.objects.first().consumer, self.user)
+
+    def test_make_room_reservation(self):
+        """
+        teste la vue 'MakeRoomReservation'
+        """
+        url = "/api/reservations/make-reservation/room/"
+        data = {
+            "event_room": self.event_room.id,
+            "date": date(2025, 3, 3),
+            "start_time": time(16, 0),
+            "end_time": time(18, 0),
+        }
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ReservationRoom.objects.count(), 1)
+        self.assertEqual(ReservationRoom.objects.first().consumer, self.user)
+
+    def test_make_material_reservation(self):
+        """
+        teste la vue 'MakeMaterialReservation'
+        """
+        url = "/api/reservations/make-reservation/material/"
+        data = {
+            "event_material": self.event_material.id,
+            "date": date(2025, 3, 3),
+            "start_time": time(16, 0),
+            "end_time": time(18, 0),
+            "quantity": 1,
+        }
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ReservationMaterial.objects.count(), 1)
+        self.assertEqual(ReservationMaterial.objects.first().consumer, self.user)
+
+    def test_cancel_bus_reservation(self):
+        """
+        teste la vue 'CancelBusReservationView'
+        """
+        reservation_bus = ReservationBus.objects.reserve_bus(
+            consumer=self.user, event_bus=self.event_bus
+        )
+        url = f"/api/reservations/cancel-reservation-bus/{reservation_bus.id}"
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(ReservationBus.objects.count(), 0)
+
+    def test_cancel_room_reservation(self):
+        """
+        teste la vue 'CancelRoomReservationView'
+        """
+        reservation_room = ReservationRoom.objects.reserve_room(
+            consumer=self.user,
+            event_room=self.event_room,
+            date=date(2025, 3, 3),
+            start_time=time(16, 0),
+            end_time=time(18, 0),
+        )
+        url = f"/api/reservations/cancel-reservation-room/{reservation_room.id}"
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(ReservationRoom.objects.count(), 0)
+
+    def test_cancel_material_reservation(self):
+        """
+        teste la vue 'CancelMaterialReservationView'
+        """
+        reservation_material = ReservationMaterial.objects.reserve_material(
+            consumer=self.user,
+            event_material=self.event_material,
+            date=date(2025, 3, 3),
+            start_time=time(17, 0),
+            end_time=time(19, 0),
+            quantity=2,
+        )
+        url = f"/api/reservations/cancel-reservation-material/{reservation_material.id}"
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(ReservationMaterial.objects.count(), 0)
+
+    def test_permission_required_for_reservation(self):
+        """
+        teste que l'utilisateur non authentifié reçoit une erreur 401 pour
+        une tentative de réservation
+        """
+        self.client.force_authenticate(user=None)  # Déconnecte l'utilisateur
+        url = "/api/reservations/make-reservation/bus/"
+        data = {"event_bus": self.event_bus.id}
+        response = self.client.post(url, data)
+
+        self.assertEqual(
+            response.status_code, status.HTTP_401_UNAUTHORIZED
+        )  # L'utilisateur n'est pas authentifié
+
+    def test_permission_required_for_cancellation(self):
+        """
+        teste que l'utilisateur reçoit une erreur 403 pour annuler une réservation
+        dont il n'est pas propriétaire
+        """
+        reservation_bus = ReservationBus.objects.reserve_bus(
+            consumer=self.other_user, event_bus=self.event_bus
+        )
+        url = f"/api/reservations/cancel-reservation-bus/{reservation_bus.id}"
+        response = self.client.delete(url)
+
+        self.assertEqual(
+            response.status_code, status.HTTP_403_FORBIDDEN
+        )  # L'utilisateur n'est pas propriétaire
