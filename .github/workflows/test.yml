@@ -8,23 +8,16 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10.12"]
-
-    env:
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}  
-      DEBUG: "True"
-      DATABASE_URL: "sqlite://:memory:"
       
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Vérifier la variable SECRET_KEY
+    - name: Setup environment variables
       run: |
-        if [ -z "$SECRET_KEY" ]; then
-          echo "La variable SECRET_KEY n'est pas définie"
-        else
-          echo "La variable SECRET_KEY est définie"
-        fi
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+        echo "DEBUG=True" >> $GITHUB_ENV
+        echo "DATABASE_URL=sqlite://:memory:" >> $GITHUB_ENV
         
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
