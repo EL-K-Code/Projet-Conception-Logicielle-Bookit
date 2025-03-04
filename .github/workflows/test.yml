@@ -22,6 +22,13 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r backend/requirements.txt
 
+    - name: Generate and apply migrations
+      run: |
+        export PYTHONPATH=$(pwd)/backend
+        python manage.py makemigrations
+        python manage.py migrate
+      working-directory: backend
+
     - name: Run tests with coverage
       run: |
         export PYTHONPATH=$(pwd)/backend
