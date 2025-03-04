@@ -79,16 +79,25 @@ class ReservationManagerTests(ReservationTestSetup):
             consumer=self.user, event_bus=self.event_bus
         )
         self.assertEqual(self.event_bus.available_seats, 49)
+        self.assertEqual(self.event_bus.is_reserved, False)
         self.assertEqual(ReservationBus.objects.count(), 1)
         self.assertEqual(reservation_bus.consumer, self.user)
         self.assertEqual(reservation_bus.event_bus, self.event_bus)
+        self.assertEqual(
+            str(reservation_bus),
+            "Réservation de testuser pour Sortie gala de fin d'année",
+        )
 
     def test_reserve_bus_no_seats(self):
         """
         Test pour vérifier la réservation d'un bus sans places disponibles
         """
-        self.event_bus.available_seats = 0
+        self.event_bus.available_seats = 1
         self.event_bus.save()
+        ReservationBus.objects.reserve_bus(consumer=self.user, event_bus=self.event_bus)
+
+        # On vérifie si is_reserved==True après réservation de la dernière place du bus
+        self.assertEqual(self.event_bus.is_reserved, True)
 
         with self.assertRaises(ValidationError, msg="Plus de places disponibles"):
             ReservationBus.objects.reserve_bus(
@@ -106,13 +115,17 @@ class ReservationManagerTests(ReservationTestSetup):
             start_time=time(16, 0),
             end_time=time(18, 0),
         )
-
+        self.assertEqual(self.event_room.is_reserved, True)
         self.assertEqual(ReservationRoom.objects.count(), 1)
         self.assertEqual(reservation_room.consumer, self.user)
         self.assertEqual(reservation_room.event_room, self.event_room)
         self.assertEqual(reservation_room.date, date(2025, 3, 3))
         self.assertEqual(reservation_room.start_time, time(16, 0))
         self.assertEqual(reservation_room.end_time, time(18, 0))
+        self.assertEqual(
+            str(reservation_room),
+            "Réservation de testuser pour salle disponible sur réservation",
+        )
 
     def test_reserve_room_conflict(self):
         """
@@ -146,16 +159,21 @@ class ReservationManagerTests(ReservationTestSetup):
             date=date(2025, 3, 3),
             start_time=time(17, 0),
             end_time=time(19, 0),
-            quantity=2,
+            quantity=10,
         )
         self.assertEqual(ReservationMaterial.objects.count(), 1)
-        self.assertEqual(self.event_material.available_stock, 8)
+        self.assertEqual(self.event_material.is_reserved, True)
+        self.assertEqual(self.event_material.available_stock, 0)
         self.assertEqual(reservation_material.consumer, self.user)
         self.assertEqual(reservation_material.event_material, self.event_material)
         self.assertEqual(reservation_material.date, date(2025, 3, 3))
         self.assertEqual(reservation_material.start_time, time(17, 0))
         self.assertEqual(reservation_material.end_time, time(19, 0))
-        self.assertEqual(reservation_material.quantity, 2)
+        self.assertEqual(reservation_material.quantity, 10)
+        self.assertEqual(
+            str(reservation_material),
+            "Réservation de testuser pour Adaptateurs disponibles sur réservation (10 unités)",
+        )
 
     def test_reserve_material_insufficient_stock(self):
         """
@@ -183,6 +201,22 @@ class ReservationManagerTests(ReservationTestSetup):
         ReservationBus.objects.cancel_bus_reservation(reservation_bus)
         self.assertEqual(self.event_bus.available_seats, 50)
         self.assertEqual(ReservationBus.objects.count(), 0)
+        self.assertEqual(self.event_bus.is_reserved, False)
+
+    def test_cancel_room_reservation(self):
+        """
+        Test pour vérifier l'annulation d'une réservation de salle
+        """
+        reservation_room = ReservationRoom.objects.reserve_room(
+            consumer=self.user,
+            event_room=self.event_room,
+            date=date(2025, 3, 3),
+            start_time=time(16, 0),
+            end_time=time(18, 0),
+        )
+        ReservationRoom.objects.cancel_room_reservation(reservation_room)
+        self.assertEqual(ReservationRoom.objects.count(), 0)
+        self.assertEqual(self.event_room.is_reserved, False)
 
     def test_cancel_material_reservation(self):
         """
@@ -194,11 +228,12 @@ class ReservationManagerTests(ReservationTestSetup):
             date=date(2025, 3, 3),
             start_time=time(17, 0),
             end_time=time(19, 0),
-            quantity=2,
+            quantity=10,
         )
         ReservationMaterial.objects.cancel_material_reservation(reservation_material)
         self.assertEqual(self.event_material.available_stock, 10)
         self.assertEqual(ReservationMaterial.objects.count(), 0)
+        self.assertEqual(self.event_material.is_reserved, False)
 
 
 class ReservationViewsTests(ReservationTestSetup, APITestCase):
