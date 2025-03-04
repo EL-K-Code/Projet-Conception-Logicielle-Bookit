@@ -19,7 +19,12 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Vérifier la variable SECRET_KEY
-      run: echo $SECRET_KEY
+      run: |
+        if [ -z "$SECRET_KEY" ]; then
+          echo "La variable SECRET_KEY n'est pas définie"
+        else
+          echo "La variable SECRET_KEY est définie"
+        fi
         
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
