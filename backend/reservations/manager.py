@@ -25,6 +25,8 @@ class ReservationManager(models.Manager):
         """
         if event_bus.available_seats > 0:
             event_bus.available_seats -= 1
+            if event_bus.available_seats == 0:
+                event_bus.is_reserved = True
             event_bus.save()
             return self.create(consumer=consumer, event_bus=event_bus)
 
@@ -49,16 +51,16 @@ class ReservationManager(models.Manager):
         date = kwargs.get("date")
         start_time = kwargs.get("start_time")
         end_time = kwargs.get("end_time")
-        exists = (
-            self.filter(event_room=event_room, date=date)
-            .filter(
-                models.Q(start_time__lt=end_time) & models.Q(end_time__gt=start_time)
-            )
-            .exists()
-        )
+        exists = self.filter(
+            event_room=event_room,
+            date=date,
+            start_time__lt=end_time,
+            end_time__gt=start_time,
+        ).exists()
         if exists:
             raise ValidationError("Cette salle existe déjà pour ce créneau")
 
+        event_room.is_reserved = True
         return self.create(
             consumer=consumer,
             date=date,
@@ -90,6 +92,8 @@ class ReservationManager(models.Manager):
 
         if event_material.available_stock >= quantity:
             event_material.available_stock -= quantity
+            if event_material.available_stock == 0:
+                event_material.is_reserved = True
             event_material.save()
             return self.create(
                 consumer=consumer,
@@ -112,8 +116,21 @@ class ReservationManager(models.Manager):
 
         event_bus = reservation_bus.event_bus
         event_bus.available_seats += 1
+        event_bus.is_reserved = False
         event_bus.save()
         reservation_bus.delete()
+
+    def cancel_room_reservation(self, reservation_room):
+        """
+        Annule une réservation de salle
+
+        Args:
+            reservation_room(ReservationRoom): L'objet de réservation de salle à annuler.
+        """
+        event_room = reservation_room.event_room
+        event_room.is_reserved = False
+        event_room.save()
+        reservation_room.delete()
 
     def cancel_material_reservation(self, reservation_material):
         """
@@ -125,5 +142,6 @@ class ReservationManager(models.Manager):
 
         event_material = reservation_material.event_material
         event_material.available_stock += reservation_material.quantity
+        event_material.is_reserved = False
         event_material.save()
         reservation_material.delete()
