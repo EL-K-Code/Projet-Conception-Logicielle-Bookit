@@ -26,6 +26,6 @@ jobs:
       run: |
         export PYTHONPATH=$(pwd)/backend
         coverage run manage.py test
-        working-directory: backend
+      working-directory: backend
         
     
