@@ -8,26 +8,31 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10.12"]
-
-    env:
+        
+    env: # Définition des variables d'environnement nécessaires à Django
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       DEBUG: "True"
       DATABASE_URL: "sqlite://:memory:"
       
     steps:
+    
+    # Récupération du code source du dépôt
     - name: Checkout code
       uses: actions/checkout@v3
-        
+
+    # Configuration de Python  
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
 
+    # Installation des dépendances
     - name: Install Deps
       run: |
         python -m pip install --upgrade pip
         python -m pip install -r backend/requirements.txt
 
+    # Génération et application des migrations
     - name: Generate and apply migrations
       run: |
         export PYTHONPATH=$(pwd)/backend
@@ -35,11 +40,10 @@ jobs:
         python manage.py migrate
       working-directory: backend
 
+    # Exécution des tests avec coverage 
     - name: Run tests with coverage
       run: |
         export PYTHONPATH=$(pwd)/backend
         coverage run manage.py test
         coverage report
       working-directory: backend
-        
-    
