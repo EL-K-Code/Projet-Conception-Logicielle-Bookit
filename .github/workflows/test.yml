@@ -40,7 +40,6 @@ jobs:
         export PYTHONPATH=$(pwd)/backend
         coverage run manage.py test
         coverage report
-        coverage html
       working-directory: backend
         
     
