@@ -35,7 +35,7 @@ jobs:
     # Linting Python
     - name: Linting with pylint
       run: |
-        pylint $(git ls-files '*.py') --disable=E1101,R0903,W0718 --fail-under 5
+        pylint $(git ls-files '*.py') --disable=E1101,R0903,W0718 --fail-under 7
 
     # Formatage avec isort puis vérification
     - name: Formatting with isort
@@ -47,7 +47,7 @@ jobs:
     - name: Formatting with black
       run: |
         python -m black backend
-        python -m black --check backend  # Vérifier que le code est bien formaté
+        python -m black --check backend
 
     # Commit des changements si des modifications ont été détectées
     - name: Commit changes if any
