@@ -43,10 +43,12 @@ jobs:
         python -m black --check backend  # Vérifier que le code est bien formaté
 
     - name: Commit changes if any
-      if: ${{ steps.formatting.outputs.changed == 'true' }}
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git commit -am "Format code with black and isort"
-        git push
-
+        if [[ `git status --porcelain` ]]; then
+          git commit -am "Format code with black and isort"
+          git push
+        else
+        echo "No changes to commit"
+        fi
