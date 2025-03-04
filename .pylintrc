@@ -1,0 +1,20 @@
+[MASTER]
+init-hook='import sys; sys.path.append(".")'
+[MESSAGES CONTROL]
+# Désactivation de certains types de messages
+disable =
+    E1101, # Ignore 'no-member' pour les attributs dynamiques de Django (ForeignKey)
+    R0903, # avertissement sur les classes ayant trop peu de méthodes publiques
+    W0718 # avertissement sur les exceptions générales, utilisé intentionnellement dans certains cas
+
+[DESIGN]
+# Configuration pour les lignes longues
+max-line-length = 100
+
+[FORMAT]
+# Configuration de formatage
+good-names = i,j,k,e,x,run
+
+[REPORTS]
+# Format de sortie pour les résultats de Pylint
+output-format = text
