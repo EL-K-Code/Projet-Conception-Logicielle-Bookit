@@ -6,6 +6,7 @@ from datetime import date, datetime, time
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
 from evenements.models import Bus, EventBus, EventMaterial, EventRoom, Material, Room
 from reservations.models import ReservationBus, ReservationMaterial, ReservationRoom
@@ -252,11 +253,11 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         """
         self.client.force_authenticate(user=self.user)
 
-    def test_make_bus_reservation(self):
+    def test_make_bus_reservation_view(self):
         """
         teste la vue 'MakeBusReservationView"
         """
-        url = "/api/reservations/make-reservation/bus/"
+        url = reverse("make-bus-reservation")
         data = {"event_bus": self.event_bus.id}
         response = self.client.post(url, data)
 
@@ -264,11 +265,11 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         self.assertEqual(ReservationBus.objects.count(), 1)
         self.assertEqual(ReservationBus.objects.first().consumer, self.user)
 
-    def test_make_room_reservation(self):
+    def test_make_room_reservation_view(self):
         """
         teste la vue 'MakeRoomReservation'
         """
-        url = "/api/reservations/make-reservation/room/"
+        url = reverse("make-room-reservation")
         data = {
             "event_room": self.event_room.id,
             "date": date(2025, 3, 3),
@@ -281,11 +282,11 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         self.assertEqual(ReservationRoom.objects.count(), 1)
         self.assertEqual(ReservationRoom.objects.first().consumer, self.user)
 
-    def test_make_material_reservation(self):
+    def test_make_material_reservation_view(self):
         """
         teste la vue 'MakeMaterialReservation'
         """
-        url = "/api/reservations/make-reservation/material/"
+        url = reverse("make-material-reservation")
         data = {
             "event_material": self.event_material.id,
             "date": date(2025, 3, 3),
@@ -299,20 +300,20 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         self.assertEqual(ReservationMaterial.objects.count(), 1)
         self.assertEqual(ReservationMaterial.objects.first().consumer, self.user)
 
-    def test_cancel_bus_reservation(self):
+    def test_cancel_bus_reservation_view(self):
         """
         teste la vue 'CancelBusReservationView'
         """
         reservation_bus = ReservationBus.objects.reserve_bus(
             consumer=self.user, event_bus=self.event_bus
         )
-        url = f"/api/reservations/cancel-reservation-bus/{reservation_bus.id}"
+        url = reverse("cancel-bus-reservation", args=[reservation_bus.id])
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(ReservationBus.objects.count(), 0)
 
-    def test_cancel_room_reservation(self):
+    def test_cancel_room_reservation_view(self):
         """
         teste la vue 'CancelRoomReservationView'
         """
@@ -323,13 +324,13 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
             start_time=time(16, 0),
             end_time=time(18, 0),
         )
-        url = f"/api/reservations/cancel-reservation-room/{reservation_room.id}"
+        url = reverse("cancel-room-reservation", args=[reservation_room.id])
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(ReservationRoom.objects.count(), 0)
 
-    def test_cancel_material_reservation(self):
+    def test_cancel_material_reservation_view(self):
         """
         teste la vue 'CancelMaterialReservationView'
         """
@@ -341,7 +342,7 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
             end_time=time(19, 0),
             quantity=2,
         )
-        url = f"/api/reservations/cancel-reservation-material/{reservation_material.id}"
+        url = reverse("cancel-material-reservation", args=[reservation_material.id])
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -352,8 +353,8 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         teste que l'utilisateur non authentifié reçoit une erreur 401 pour
         une tentative de réservation
         """
-        self.client.force_authenticate(user=None)  # Déconnecte l'utilisateur
-        url = "/api/reservations/make-reservation/bus/"
+        self.client.force_authenticate(user=None)  # déconnecte l'utilisateur
+        url = reverse("make-room-reservation")
         data = {"event_bus": self.event_bus.id}
         response = self.client.post(url, data)
 
@@ -369,7 +370,7 @@ class ReservationViewsTests(ReservationTestSetup, APITestCase):
         reservation_bus = ReservationBus.objects.reserve_bus(
             consumer=self.other_user, event_bus=self.event_bus
         )
-        url = f"/api/reservations/cancel-reservation-bus/{reservation_bus.id}"
+        url = reverse("cancel-bus-reservation", args=[reservation_bus.id])
         response = self.client.delete(url)
 
         self.assertEqual(
