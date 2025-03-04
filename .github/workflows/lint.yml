@@ -50,5 +50,5 @@ jobs:
           git commit -am "Format code with black and isort"
           git push
         else
-        echo "No changes to commit"
+          echo "No changes to commit"
         fi
