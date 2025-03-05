@@ -12,12 +12,15 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import EventBus, EventMaterial, EventRoom
+from .models import Bus, EventBus, EventMaterial, EventRoom, Material, Room
 from .permissions import IsEventAdmin, IsEventAdminAndOwner
 from .serializers import (
+    BusSerializer,
     EventBusSerializer,
     EventMaterialSerializer,
     EventRoomSerializer,
+    MaterialSerializer,
+    RoomSerializer,
 )
 
 
@@ -166,3 +169,33 @@ class UpdateEventMaterialView(generics.UpdateAPIView):
     serializer_class = EventMaterialSerializer
     permission_classes = [IsAuthenticated, IsEventAdminAndOwner]
     lookup_field = "id"
+
+
+class ListAllBusView(generics.ListAPIView):
+    """
+    Vue permettant de lister tous les Bus
+    """
+
+    queryset = Bus.objects.all()
+    serializer_class = BusSerializer
+    permission_classes = [IsEventAdmin]
+
+
+class ListAllRoomView(generics.ListAPIView):
+    """
+    Vue permettant de lister toutes les salles
+    """
+
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    permission_classes = [IsEventAdmin]
+
+
+class ListAllMaterialView(generics.ListAPIView):
+    """
+    Vue permettant de lister tous les matériaux
+    """
+
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    permission_classes = [IsEventAdmin]
