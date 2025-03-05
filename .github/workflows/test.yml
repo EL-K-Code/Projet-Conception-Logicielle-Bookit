@@ -11,6 +11,7 @@ jobs:
         
     env: # Définition des variables d'environnement nécessaires à Django
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      FRONTEND_APP_API_URL: ${{ secrets.FRONTEND_APP_API_URL }}
       DEBUG: "True"
       DATABASE_URL: "sqlite://:memory:"
       
