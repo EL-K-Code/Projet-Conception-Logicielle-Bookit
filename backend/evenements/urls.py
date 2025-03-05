@@ -75,12 +75,12 @@ urlpatterns = [
         name="list-all-bus-resource",
     ),
     path(
-        "list-all-room-resource",
+        "list-all-room-resource/",
         views.ListAllRoomView.as_view(),
         name="list-all-room-resource",
     ),
     path(
-        "list-all-material-resource",
+        "list-all-material-resource/",
         views.ListAllMaterialView.as_view(),
         name="list-all-material-resource",
     ),
