@@ -69,4 +69,15 @@ urlpatterns = [
         views.UpdateEventMaterialView.as_view(),
         name="update-material-event",
     ),
+    path(
+        "list-all-bus-resource/", views.ListAllBusView(), name="list-all-bus-resource"
+    ),
+    path(
+        "list-all-room-resource", views.ListAllRoomView(), name="list-all-room-resource"
+    ),
+    path(
+        "list-all-material-resource",
+        views.ListAllMaterialView(),
+        name="list-all-material-resource",
+    ),
 ]
