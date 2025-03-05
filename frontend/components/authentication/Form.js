@@ -1,10 +1,15 @@
 "use client";
+
 import api from "@/api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/store/constants";
+import { Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Form({ route, method }) {
+  const theme = useTheme();
+  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +47,14 @@ export default function Form({ route, method }) {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      <h1>{method === "login" ? "Login" : "Sign Up"}</h1>
+
+    <Typography
+        color={theme.palette.secondary.main}
+        gutterBottom
+        variant={matchDownSM ? 'h3' : 'h2'}
+    >
+        {method === "login" ? "Login" : "Sign Up"}
+    </Typography>
 
       <input
         className="form-input"

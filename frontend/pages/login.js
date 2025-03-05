@@ -1,8 +1,13 @@
 "use client";
 
-import Form from "@/components/Form";
+import Auth from "@/components/authentication/Auth";
+
+
+// ================================|| LOGIN ||================================ //
 
 export default function Login() {
 
-    return <Form route="/api/auth/login/" method="login" />;
-}
+    return (
+        <Auth route="/api/auth/login/" method="login" />
+    );
+};

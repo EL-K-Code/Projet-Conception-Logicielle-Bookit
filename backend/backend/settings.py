@@ -32,28 +32,28 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", default=False)
 
-# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
-ALLOWED_HOSTS = [
-    "backend-ensai.kub.sspcloud.fr",
-    "bookit-ensai.kub.sspcloud.fr",
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
+# ALLOWED_HOSTS = [
+#     "backend-ensai.kub.sspcloud.fr",
+#     "bookit-ensai.kub.sspcloud.fr",
+#     "localhost",
+#     "127.0.0.1",
+# ]
 
 # CSRF_TRUSTED_ORIGINS = [
 #     "https://backend-ensai.kub.sspcloud.fr",
 #     "http://backend-ensai.kub.sspcloud.fr",
 #     "http://127.0.0.1:8000",
 # ]
-CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = True
-CSRF_USE_SESSIONS = True
+# CORS_ALLOW_CREDENTIALS = True
+# CSRF_COOKIE_SECURE = True
+# CSRF_USE_SESSIONS = True
 # CSRF_TRUSTED_ORIGINS = ["https://backend-ensai.kub.sspcloud.fr"]
 # CSRF_ALLOWED_ORIGINS = ["https://backend-ensai.kub.sspcloud.fr"]
 # CORS_ORIGINS_WHITELIST = ["https://backend-ensai.kub.sspcloud.fr"]
-CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = False
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 # REST framework settings
 REST_FRAMEWORK = {
@@ -97,7 +97,8 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
+    "backend.middle.DisableCSRFMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -184,11 +185,7 @@ AUTH_GROUP_MODEL = "userspace.Group"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = True
 
-# CORS_ALLOWED_ORIGINS = os.getenv("FRONTEND_APP_API_URL", default="").split(",")
-CORS_ALLOWED_ORIGINS = [
-    "https://backend-ensai.kub.sspcloud.fr",
-    "https://bookit-ensai.kub.sspcloud.fr",
-]
+CORS_ALLOWED_ORIGINS = os.getenv("FRONTEND_APP_API_URL", default="").split(",")
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST", default="")
