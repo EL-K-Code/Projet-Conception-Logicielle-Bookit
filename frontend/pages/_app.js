@@ -28,7 +28,7 @@ export default function MyApp({ Component, pageProps }) {
   const mainLayoutRoutes = ["/", "/home", "/dashboard"];
 
   // Définir les routes protégées
-  const protectedRoutes = ["/home", "/dashboard", "/logout", "/signout"];
+  const protectedRoutes = ["/home", "/logout", "/signout"];
 
   // Déterminer le type de layout et si la page est protégée
   const useMainLayout = mainLayoutRoutes.includes(router.pathname);
