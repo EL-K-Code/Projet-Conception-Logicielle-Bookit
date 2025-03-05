@@ -20,6 +20,10 @@ export default function Form({ route, method }) {
     e.preventDefault();
     setLoading(true);
 
+    console.log("Données envoyées :", {
+      username,
+      password});
+
     if (method === "signup"){
       localStorage.clear();
     }

@@ -1,180 +1,198 @@
-"use client";
-
-import { Typography, useMediaQuery } from '@mui/material';
+import api from "@/api";
+import { FormControl, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function EventForm({ eventType }) {
+export default function EventForm({ event_type, route, api_url }) {
   const theme = useTheme();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const [description, setDescription] = useState("");
-  const [organizer, setOrganizer] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [additionalFields, setAdditionalFields] = useState({
-    busType: "",
-    availableSeats: "",
-    departureTime: "",
-    arrivalTime: "",
-    departureLocation: "",
-    arrivalLocation: "",
-    roomName: "",
-    materialName: "",
-    stockAvailable: ""
-  });
-
+  const match_down_sm = useMediaQuery(theme.breakpoints.down('md'));
+  const [description, set_description] = useState("");
+  const [resource, set_resource] = useState(""); // Champs ressource
+  const [available_seats, set_available_seats] = useState("");
+  const [departure_time, set_departure_time] = useState("");
+  const [arrival_time, set_arrival_time] = useState("");
+  const [departure, set_departure] = useState("");
+  const [destination, set_destination] = useState("");
+  const [available_stock, set_available_stock] = useState("");
+  const [loading, set_loading] = useState(false);
+  const [resources, set_resources] = useState([]);  // Pour stocker les ressources récupérées
   const router = useRouter();
 
-  const handleAdditionalFieldsChange = (event) => {
-    const { name, value } = event.target;
-    setAdditionalFields((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+  // Fonction pour charger les ressources depuis l'API
+  const fetchResources = async () => {
+    try {
+      const response = await api.get(api_url);  // Utilise l'URL de l'API passé en argument
+      set_resources(response.data);  // Supposons que l'API renvoie un tableau de ressources
+    } catch (error) {
+      console.error("Erreur lors du chargement des ressources:", error);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  // Charger les ressources lorsque le composant est monté
+  useEffect(() => {
+    fetchResources();
+  }, [api_url]);
+
+  // Soumission du formulaire
+  const handle_submit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    set_loading(true);
+
+    console.log("Données envoyées :", {
+      description,
+      resource, // Envoie uniquement l'ID de la ressource
+      ...(event_type === "eventbus" && {
+        available_seats,
+        departure_time,
+        arrival_time,
+        departure,
+        destination
+      }),
+      ...(event_type === "eventmaterial" && {
+        available_stock
+      })
+    });
 
     try {
-      // Remplacer cette partie par l'appel API adapté
-      const res = await api.post("/create-event", {
+      // Envoi des données selon le type d'événement
+      const res = await api.post(route, {
         description,
-        organizer,
-        eventType,
-        additionalFields
+        resource, // L'ID est envoyé ici
+        ...(event_type === "eventbus" && {
+          available_seats,
+          departure_time,
+          arrival_time,
+          departure,
+          destination
+        }),
+        ...(event_type === "eventmaterial" && {
+          available_stock
+        })
       });
 
-      // Redirect or success handling
-      router.push("/events");
+      router.push("/home"); // Redirection après la soumission
     } catch (error) {
-      alert("Erreur: " + (error.response?.data?.detail || error.message));
+      alert("Erreur: " + (error.response?.data?.detail || error.message)); // Affichage d'une erreur
     } finally {
-      setLoading(false);
+      set_loading(false); // Fin de chargement
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
-      <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-        Créer un Événement {eventType === "eventbus" && "Bus"} {eventType === "eventroom" && "Room"} {eventType === "eventmaterial" && "Material"}
+    <form onSubmit={handle_submit} className="form-container">
+      <Typography color={theme.palette.secondary.main} gutterBottom variant={match_down_sm ? 'h3' : 'h2'}>
+        Créer un Événement {event_type === "eventbus" && "Bus"} {event_type === "eventroom" && "Salle"} {event_type === "eventmaterial" && "Matériel"}
       </Typography>
 
-      <input
+      {/* Champ description commun */}
+      <TextField
         className="form-input"
         type="text"
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={(e) => set_description(e.target.value)}
         placeholder="Description"
+        label="Description"
         required
+        fullWidth
       />
 
-      <input
-        className="form-input"
-        type="text"
-        value={organizer}
-        onChange={(e) => setOrganizer(e.target.value)}
-        placeholder="Organisateur"
-        required
-      />
+      {/* Sélection des ressources */}
+      <FormControl fullWidth required>
+        <InputLabel>Ressource</InputLabel>
+        <Select
+          className="form-input"
+          value={resource}
+          onChange={(e) => set_resource(e.target.value)} // L'ID est sélectionné ici
+          label="Ressource"
+        >
+          {resources.length > 0 ? (
+            resources.map((res) => (
+              <MenuItem key={res.id} value={res.id}>
+                {res.name} {/* Affichage du nom, mais envoie l'ID */}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem disabled>Aucune ressource disponible</MenuItem>
+          )}
+        </Select>
+      </FormControl>
 
-      {eventType === "eventbus" && (
+      {/* Champs spécifiques pour le type 'eventbus' */}
+      {event_type === "eventbus" && (
         <>
-          <input
-            className="form-input"
-            type="text"
-            name="busType"
-            value={additionalFields.busType}
-            onChange={handleAdditionalFieldsChange}
-            placeholder="Type de Bus"
-            required
-          />
-          <input
+          <TextField
             className="form-input"
             type="number"
-            name="availableSeats"
-            value={additionalFields.availableSeats}
-            onChange={handleAdditionalFieldsChange}
+            value={available_seats}
+            onChange={(e) => set_available_seats(e.target.value)}
             placeholder="Nombre de Places Disponibles"
+            label="Nombre de Places Disponibles"
             required
+            fullWidth
           />
-          <input
+          <TextField
             className="form-input"
-            type="time"
-            name="departureTime"
-            value={additionalFields.departureTime}
-            onChange={handleAdditionalFieldsChange}
+            type="datetime-local"
+            value={departure_time}
+            onChange={(e) => set_departure_time(e.target.value)}
             placeholder="Heure de Départ"
+            label="Heure de Départ"
             required
+            fullWidth
+            InputLabelProps={{ shrink: true }}
           />
-          <input
+          <TextField
             className="form-input"
-            type="time"
-            name="arrivalTime"
-            value={additionalFields.arrivalTime}
-            onChange={handleAdditionalFieldsChange}
+            type="datetime-local"
+            value={arrival_time}
+            onChange={(e) => set_arrival_time(e.target.value)}
             placeholder="Heure d'Arrivée"
+            label="Heure d'Arrivée"
             required
+            fullWidth
+            InputLabelProps={{ shrink: true }}
           />
-          <input
+          <TextField
             className="form-input"
             type="text"
-            name="departureLocation"
-            value={additionalFields.departureLocation}
-            onChange={handleAdditionalFieldsChange}
+            value={departure}
+            onChange={(e) => set_departure(e.target.value)}
             placeholder="Lieu de Départ"
+            label="Lieu de Départ"
             required
+            fullWidth
           />
-          <input
+          <TextField
             className="form-input"
             type="text"
-            name="arrivalLocation"
-            value={additionalFields.arrivalLocation}
-            onChange={handleAdditionalFieldsChange}
+            value={destination}
+            onChange={(e) => set_destination(e.target.value)}
             placeholder="Lieu d'Arrivée"
+            label="Lieu d'Arrivée"
             required
+            fullWidth
           />
         </>
       )}
 
-      {eventType === "eventroom" && (
-        <input
+      {/* Champs spécifiques pour le type 'eventmaterial' */}
+      {event_type === "eventmaterial" && (
+        <TextField
           className="form-input"
-          type="text"
-          name="roomName"
-          value={additionalFields.roomName}
-          onChange={handleAdditionalFieldsChange}
-          placeholder="Nom de la Salle"
+          type="number"
+          value={available_stock}
+          onChange={(e) => set_available_stock(e.target.value)}
+          placeholder="Stock Disponible"
+          label="Stock Disponible"
           required
+          fullWidth
         />
       )}
 
-      {eventType === "eventmaterial" && (
-        <>
-          <input
-            className="form-input"
-            type="text"
-            name="materialName"
-            value={additionalFields.materialName}
-            onChange={handleAdditionalFieldsChange}
-            placeholder="Nom du Matériel"
-            required
-          />
-          <input
-            className="form-input"
-            type="number"
-            name="stockAvailable"
-            value={additionalFields.stockAvailable}
-            onChange={handleAdditionalFieldsChange}
-            placeholder="Stock Disponible"
-            required
-          />
-        </>
-      )}
-
+      {/* Bouton de soumission avec état de chargement */}
       <button className="form-button" type="submit" disabled={loading}>
-        {loading ? "Loading..." : "Créer l'Événement"}
+        {loading ? "Chargement..." : "Créer l'Événement"}
       </button>
     </form>
   );
