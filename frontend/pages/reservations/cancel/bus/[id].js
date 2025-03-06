@@ -15,7 +15,7 @@ export default function DeleteEvent() {
     }
 
     // Définition de l'URL de l'API pour l'événement
-    const api_url = `/api/cancel-reservation-bus/${id}`;
+    const api_url = `/api/reservations/cancel-reservation-bus/${id}`;
 
     const deleteEvent = async () => {
       try {
