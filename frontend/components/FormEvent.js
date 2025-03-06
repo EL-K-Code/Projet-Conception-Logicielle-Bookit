@@ -1,13 +1,11 @@
-"use client";
-
 import api from "@/api";
-import { Typography, useMediaQuery } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import PropTypes from 'prop-types';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const EventForm = ({ eventType }) => {
+const EventForm = ({ event_type, route, api_url }) => {
   const theme = useTheme();
   const match_down_sm = useMediaQuery(theme.breakpoints.down('md'));
   const [description, set_description] = useState("");
@@ -58,8 +56,8 @@ const EventForm = ({ eventType }) => {
     });
 
     try {
-      // Remplacer cette partie par l'appel API adapté
-        await api.post("/create-event", {
+      // Envoi des données selon le type d'événement
+      const res = await api.post(route, {
         description,
         resource, // L'ID est envoyé ici
         ...(event_type === "eventbus" && {
@@ -199,10 +197,12 @@ const EventForm = ({ eventType }) => {
       </button>
     </form>
   );
-};
+}
 
 EventForm.propTypes = {
   eventType: PropTypes.string.isRequired,
+  route : PropTypes.string.isRequired,
+  api_url : PropTypes.string.isRequired
 };
 
 export default EventForm ;
