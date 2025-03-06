@@ -7,7 +7,49 @@ Ce module contient les serializers pour les différents types d'événements
 
 from rest_framework import serializers
 
-from .models import EventBus, EventMaterial, EventRoom
+from .models import Bus, EventBus, EventMaterial, EventRoom, Material, Room
+
+
+class BusSerializer(serializers.ModelSerializer):
+    """
+    Serializer pour lister les ressources de bus
+    """
+
+    class Meta:
+        """
+        Définit le modèle, ses champs à inclure
+        """
+
+        model = Bus
+        fields = ["id", "name"]
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    """
+    Serializer pour lister les événements de salles
+    """
+
+    class Meta:
+        """
+        Définit le modèle, ses champs à inclure
+        """
+
+        model = Room
+        fields = ["id", "name"]
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+    """
+    Serializer pour lister les ressources de materiels
+    """
+
+    class Meta:
+        """
+        Définit le modèle, ses champs à inclure
+        """
+
+        model = Material
+        fields = ["id", "name"]
 
 
 class EventBusSerializer(serializers.ModelSerializer):
