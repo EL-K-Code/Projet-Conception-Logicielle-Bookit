@@ -27,10 +27,10 @@ const Bookit =({ Component, pageProps }) => {
   const router = useRouter();
 
   // Définir les routes nécessitant MainLayout ou MinimalLayout
-  const mainLayoutRoutes = ["/", "/home", "/dashboard", "/eventbus"];
+  const mainLayoutRoutes = ["/", "/dashboard", "/eventbus"];
 
   // Définir les routes protégées
-  const protectedRoutes = ["/home", "/logout", "/signout", "/eventbus"];
+  const protectedRoutes = ["/logout", "/signout", "/eventbus"];
 
   // Déterminer le type de layout et si la page est protégée
   const useMainLayout = mainLayoutRoutes.includes(router.pathname);

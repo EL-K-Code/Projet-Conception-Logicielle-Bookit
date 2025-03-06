@@ -110,6 +110,8 @@ class Event(models.Model):
         default=False,
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         """Définir ce modèle comme abstrait."""
 

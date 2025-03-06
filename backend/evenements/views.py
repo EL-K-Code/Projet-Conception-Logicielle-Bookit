@@ -84,13 +84,25 @@ class EventListView(APIView):
         bus_serializer = EventBusSerializer(event_buses, many=True)
         material_serializer = EventMaterialSerializer(event_materials, many=True)
 
-        return Response(
-            {
-                "event_rooms": room_serializer.data,
-                "event_buses": bus_serializer.data,
-                "event_materials": material_serializer.data,
-            }
-        )
+        # Ajouter un champ 'type_event' à chaque événement
+        event_rooms = [
+            {"type_event": "event_room", **event} for event in room_serializer.data
+        ]
+        event_buses = [
+            {"type_event": "event_bus", **event} for event in bus_serializer.data
+        ]
+        event_materials = [
+            {"type_event": "event_material", **event}
+            for event in material_serializer.data
+        ]
+
+        # Combiner tous les événements dans une seule liste
+        all_events = event_rooms + event_buses + event_materials
+
+        # Trier les événements par la date de création
+        sorted_events = sorted(all_events, key=lambda x: x["created_at"], reverse=True)
+
+        return Response(sorted_events)
 
 
 class GetAllRoomEventView(generics.ListAPIView):
@@ -102,7 +114,7 @@ class GetAllRoomEventView(generics.ListAPIView):
 
 
 class GetAllBusEventView(generics.ListAPIView):
-    """Vue permettant de lister tous les événements liés aux bus."""
+    """Vue permeettant de lister tous les événements liés aux bus."""
 
     permission_classes = [AllowAny]
     queryset = EventBus.objects.all()
