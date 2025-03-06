@@ -25,12 +25,12 @@ L'application est déployée et accessible à l'adresse suivante : [https://book
 
 L'application peut être lancée de plusieurs manières :
 
-1. **Lancer via Docker Hub (images préconstruites)**
-2. **Lancer localement**
+- [ ] **Lancer via Docker Hub (images préconstruites)**
+- [ ] **Lancer localement**
    - **Avec image Docker**
    - **sans image Docker**
 
-### 1. Lancer l'application via Docker Hub
+## :arrow_forward: Lancer l'application via Docker Hub
 Assurez-vous d'avoir installé Docker (ou Docker Desktop sous windows) sur votre machine.
 Vous pouvez lancer l'application en utilisant les images docker que nous avons publié sur Dockerhub
 
@@ -53,7 +53,7 @@ docker pull richard0209/bookit-frontend:latest
   Une fois les deux services lancés, le backend sera accessible à [http://127.0.0.1:8000/](http://127.0.0.1:8000/) et le frontend à [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
     
 
-### 2. Lancer l'application localement
+## :arrow_forward: Lancer l'application localement
 
 - Clonez ce dépôt:
 ```bash
@@ -76,7 +76,7 @@ L'aplication peut être lancée avec ou sans image Docker
    docker build -t backend .
    docker run -p 8000:8000 backend
    ```
-L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
+   L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
  - Frontend:
    
@@ -86,7 +86,7 @@ L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.
    docker build -t frontend .
    docker run -p 3000:3000 frontend
    ```
-L'application frontend sera accessible à http://127.0.0.1:3000
+   L'application frontend sera accessible à http://127.0.0.1:3000
 
 ### :arrow_forward: Lancer l'application sans image Docker
 
