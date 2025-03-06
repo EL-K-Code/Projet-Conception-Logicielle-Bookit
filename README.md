@@ -50,7 +50,7 @@ docker pull richard0209/bookit-frontend:latest
   ```bash
   docker run -p 8000:8000 richard0209/bookit-frontend:latest
   ```
-  Une fois les deux services lancés, le backend sera accessible à [http://localhost:8000](http://localhost:8000) et le frontend à [http://localhost:3000](http://localhost:3000)
+  Une fois les deux services lancés, le backend sera accessible à [http://127.0.0.1:8000/](http://127.0.0.1:8000/) et le frontend à [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
     
 
 ### 2. Lancer l'application localement
