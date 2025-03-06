@@ -37,18 +37,18 @@ Vous pouvez lancer l'application en utilisant les images docker que nous avons p
 - [ ] Pull des images depuis Docker Hub 
 
 ```bash
-docker pull <votre-username>/frontend:<version>
-docker pull <votre-username>/backend:<version>
+docker pull richard0209/bookit-backend:latest
+docker pull richard0209/bookit-frontend:latest
 ```
 
 - [ ] Exécuter l'application
   - backend
   ```bash
-  docker run -p 8000:8000 richard0209/bookit-backend:<version>
+  docker run -p 8000:8000 richard0209/bookit-backend:latest
   ```
   - frontend
   ```bash
-  docker run -p 8000:8000 richard0209/bookit-frontend:<version>
+  docker run -p 8000:8000 richard0209/bookit-frontend:latest
   ```
   Une fois les deux services lancés, le backend sera accessible à [http://localhost:8000](http://localhost:8000) et le frontend à [http://localhost:3000](http://localhost:3000)
     
