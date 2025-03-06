@@ -1,123 +1,114 @@
-import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
-import Image from 'next/image';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-// Icônes Material-UI
-import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
-import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
+const EarningCard = () => {
+    const [events, setEvents] = useState([]);
+    const [activeOption, setActiveOption] = useState(null);
 
-// Importation de l'image
-import EarningIcon from '@/assets/images/icons/earning.svg'; // Assure-toi que le chemin est correct
+    // URL de l'API pour récupérer les événements
+    const apiUrl = 'api/evenements/get-all-room-event/';  // Remplacer par l'URL de ton API
 
-const CardWrapper = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.dark,
-    color: '#fff',
-    overflow: 'hidden',
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(3),
-    boxShadow: theme.shadows[3],
-}));
+    // Récupérer les événements de l'API
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                setEvents(data);  // Mettre à jour l'état avec les événements récupérés
+            } catch (error) {
+                console.error('Erreur lors de la récupération des événements:', error);
+            }
+        };
 
-const EarningCard = ({ isLoading }) => {
-    const theme = useTheme();
-    const [anchorEl, setAnchorEl] = useState(null);
+        fetchEvents();
+    }, []);
 
-    const handleClick = (event) => setAnchorEl(event.currentTarget);
-    const handleClose = () => setAnchorEl(null);
+    const handleClick = (option) => {
+        setActiveOption(option);
+        alert(`Option ${option} clicked!`);
+    };
 
     return (
-        <CardWrapper>
-            <Grid container direction="column">
-                {/* En-tête */}
-                <Grid item>
-                    <Grid container justifyContent="space-between">
-                        <Grid item>
-                            <Avatar
-                                variant="rounded"
-                                sx={{
-                                    backgroundColor: theme.palette.secondary[800],
-                                    mt: 1,
-                                    width: 56,
-                                    height: 56,
-                                }}
+        <div>
+            {events.length === 0 ? (
+                <div>Loading events...</div>
+            ) : (
+                events.map((event) => (
+                    <div style={styles.card} key={event.id}>
+                        {/* Menu en haut avec les options */}
+                        <div style={styles.menu}>
+                            <div
+                                style={activeOption === 'reserve' ? styles.activeMenuItem : styles.menuItem}
+                                onClick={() => handleClick('reserve')}
                             >
-                                <Image src={EarningIcon} alt="Earnings" width={40} height={40} />
-                            </Avatar>
-                        </Grid>
-                        <Grid item>
-                            <Avatar
-                                variant="rounded"
-                                sx={{
-                                    backgroundColor: theme.palette.secondary.dark,
-                                    color: theme.palette.secondary[200],
-                                }}
-                                onClick={handleClick}
+                                Réserver
+                            </div>
+                            <div
+                                style={activeOption === 'event' ? styles.activeMenuItem : styles.menuItem}
+                                onClick={() => handleClick('event')}
                             >
-                                <MoreHorizIcon />
-                            </Avatar>
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                Événement
+                            </div>
+                            <div
+                                style={activeOption === 'modify' ? styles.activeMenuItem : styles.menuItem}
+                                onClick={() => handleClick('modify')}
                             >
-                                <MenuItem onClick={handleClose}>
-                                    <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Importer
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
-                                    <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copier
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
-                                    <PictureAsPdfTwoToneIcon sx={{ mr: 1.75 }} /> Exporter PDF
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
-                                    <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archiver
-                                </MenuItem>
-                            </Menu>
-                        </Grid>
-                    </Grid>
-                </Grid>
+                                Modifier Événement
+                            </div>
+                        </div>
 
-                {/* Valeur des revenus */}
-                <Grid item>
-                    <Grid container alignItems="center">
-                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                            $500.00
-                        </Typography>
-                        <Avatar
-                            sx={{
-                                backgroundColor: theme.palette.secondary[200],
-                                color: theme.palette.secondary.dark,
-                                width: 32,
-                                height: 32,
-                            }}
-                        >
-                            <ArrowUpwardIcon fontSize="small" />
-                        </Avatar>
-                    </Grid>
-                </Grid>
-
-                {/* Texte explicatif */}
-                <Grid item sx={{ mb: 1.25 }}>
-                    <Typography sx={{ fontSize: '1rem', fontWeight: 500, color: theme.palette.secondary[200] }}>
-                        Total des gains
-                    </Typography>
-                </Grid>
-            </Grid>
-        </CardWrapper>
+                        {/* Contenu de l'événement */}
+                        <div style={styles.amount}>{event.id}</div>
+                        <div style={styles.text}>{event.description}</div>
+                    </div>
+                ))
+            )}
+        </div>
     );
 };
 
-EarningCard.propTypes = {
-    isLoading: PropTypes.bool,
+const styles = {
+    card: {
+        backgroundColor: '#333',
+        padding: '20px',
+        borderRadius: '10px',
+        width: '300px',
+        color: 'white',
+        textAlign: 'center',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        border: '2px solid #444',
+        margin: '10px',
+    },
+    menu: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        marginBottom: '15px',
+    },
+    menuItem: {
+        fontSize: '14px',
+        cursor: 'pointer',
+        padding: '5px 10px',
+        borderRadius: '5px',
+        color: '#ccc',
+        transition: 'background-color 0.3s',
+    },
+    activeMenuItem: {
+        fontSize: '14px',
+        cursor: 'pointer',
+        padding: '5px 10px',
+        borderRadius: '5px',
+        color: 'white',
+        backgroundColor: '#555',
+        transition: 'background-color 0.3s',
+    },
+    amount: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        marginBottom: '10px',
+    },
+    text: {
+        fontSize: '14px',
+        color: '#ccc',
+    },
 };
 
 export default EarningCard;
