@@ -66,7 +66,7 @@ cd Projet-Conception-Logicielle-Bookit.git
 
 L'aplication peut être lancée avec ou sans image Docker
 
-- [ ] Lancer l'application via Docker
+### :arrow_forward: Lancer l'application via Docker
       
  - backend:
    
