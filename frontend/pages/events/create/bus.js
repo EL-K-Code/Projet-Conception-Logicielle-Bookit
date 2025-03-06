@@ -1,4 +1,4 @@
-import EventForm from "@/components/FormEvent";
+import EventForm from "@/components/events/FormEvent";
 
 export default function CreateEventBus() {
   return (
