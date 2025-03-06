@@ -94,6 +94,7 @@ L'aplication peut être lancée avec ou sans image Docker
   ```bash
   python -m venv venv
   ```
+  Ensuite, l'activer:
   - Sur Mac/Linux 
      ```bash
      source venv/bin/activate
