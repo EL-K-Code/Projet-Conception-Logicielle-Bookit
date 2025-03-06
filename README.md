@@ -57,17 +57,17 @@ docker pull richard0209/bookit-frontend:latest
 
 - Clonez ce dépôt:
 ```bash
-`git clone https://github.com/EL-K-Code/Projet-Conception-Logicielle-Bookit.git`
+git clone https://github.com/EL-K-Code/Projet-Conception-Logicielle-Bookit.git
 ```
 - Positionnez-vous dans le projet cloné
 ```bash
-`cd Projet-Conception-Logicielle-Bookit.git`
+cd Projet-Conception-Logicielle-Bookit.git
 ```
 
 L'aplication peut être lancée avec ou sans image Docker
 
 - [ ] Lancer l'application via Docker
- - backend:
+  - backend:
 Accédez au répertoire backend, construisez puis lancez l'image Docker:
 ```bash
 cd backend
@@ -76,7 +76,7 @@ docker run -p 8000:8000 backend
 ```
 L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-- Frontend
+  - Frontend
 Accédez au répertoire frontend, construisez puis lancez l'image Docker:
 ```bash
 cd frontend
@@ -87,15 +87,15 @@ L'application frontend sera accessible à http://127.0.0.1:3000
 
 - [ ] Lancer l'application sans image Docker
 
- - Créez un environnement virtuel :
+  - Créez un environnement virtuel :
   ```bash
   python -m venv venv
   ```
-  - Sur Mac/Linux 
+    - Sur Mac/Linux 
   ```bash
   source venv/bin/activate
   ```
-  - Sur windows
+    - Sur windows
   ```bash
   source venv/bin/activate
   ```
@@ -114,11 +114,11 @@ L'application frontend sera accessible à http://127.0.0.1:3000
  - Définir les variables d'environnements
   Pour configurer l'application, vous devez définir certaines variables d'environnement nécessaires au bon fonctionnement de l'application.
 
-  - Allez dans le dossier backend et créez un fichier `.env` en utilisant le modèle `.env.template` fourni.
-  - Allez dans le dossier frontend et créez un fichier `.env` en utilisant également le modèle `.env.template` fourni.
+   - Allez dans le dossier backend et créez un fichier `.env` en utilisant le modèle `.env.template` fourni.
+   - Allez dans le dossier frontend et créez un fichier `.env` en utilisant également le modèle `.env.template` fourni.
 Les fichiers .env.template contiennent la liste des variables d'environnement nécessaires, avec des commentaires pour vous aider à les configurer correctement.
 
-Lancer le backend :
+- Lancer le backend :
 ```bash
 cd ../backend
 python manage.py makemigrations
@@ -127,7 +127,7 @@ python manage.py runserver
 ```
 L'application backend sera accessible à http://127.0.0.1:8000
 
-Lancer le frontend :
+- Lancer le frontend :
 ```bash
 cd frontend
 npm run dev
