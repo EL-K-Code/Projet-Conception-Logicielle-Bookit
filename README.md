@@ -169,6 +169,19 @@ Ensuite vous pouvez ouvrir le fichier `coverage_report/index.html` dans votre na
 Le projet utilise GitHub Actions pour automatiser les tests, la vérification du code à chaque push et le dépoiement des images Docker vers DockerHub
 
 
+## 👥 Équipe du projet
+Le projet est réalisé par les élèves:
+- [ ] Richard GOZAN
+- [ ] Alex LABOU
+- [ ] Yatoute MINTOMA
+
+Sous la supervision de :
+- [ ] Antoine Brunetti: Analyste Développeur à l'INSEE
+- [ ] Oriane Foussard: Analyste Développeur à l'INSEE
+
+ 
+
+
 
 
 
