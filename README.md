@@ -60,7 +60,9 @@ docker pull richard0209/bookit-frontend:latest
 `git clone https://github.com/EL-K-Code/Projet-Conception-Logicielle-Bookit.git`
 ```
 - Positionnez-vous dans le projet cloné
+```bash
 `cd Projet-Conception-Logicielle-Bookit.git`
+```
 
 L'aplication peut être lancée avec ou sans image Docker
 
@@ -72,7 +74,7 @@ cd backend
 docker build -t backend .
 docker run -p 8000:8000 backend
 ```
-L'application backend sera accessible à [http://localhost:8000](http://localhost:8000)
+L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 - Frontend
 Accédez au répertoire frontend, construisez puis lancez l'image Docker:
@@ -81,7 +83,7 @@ cd frontend
 docker build -t frontend .
 docker run -p 3000:3000 frontend
 ```
-L'application frontend sera accessible à http://localhost:3000
+L'application frontend sera accessible à http://127.0.0.1:3000
 
 - [ ] Lancer l'application sans image Docker
 
@@ -123,14 +125,14 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
-L'application backend sera accessible à http://localhost:8000
+L'application backend sera accessible à http://127.0.0.1:8000
 
 Lancer le frontend :
 ```bash
 cd frontend
 npm run dev
 ```
-L'application frontend sera accessible à http://localhost:3000
+L'application frontend sera accessible à http://127.0.0.1:3000
 
 
 
