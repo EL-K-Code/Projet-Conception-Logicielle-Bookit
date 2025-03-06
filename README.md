@@ -44,11 +44,11 @@ docker pull <votre-username>/backend:<version>
 - [ ] Exécuter l'application
   - backend
   ```bash
-  docker run -p 8000:8000 <votre-username>/backend:<version>
+  docker run -p 8000:8000 richard0209/bookit-backend:<version>
   ```
   - frontend
   ```bash
-  docker run -p 8000:8000 <votre-username>/backend:<version>
+  docker run -p 8000:8000 richard0209/bookit-frontend:<version>
   ```
   Une fois les deux services lancés, le backend sera accessible à [http://localhost:8000](http://localhost:8000) et le frontend à [http://localhost:3000](http://localhost:3000)
     
