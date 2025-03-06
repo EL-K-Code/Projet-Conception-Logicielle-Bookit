@@ -13,7 +13,11 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 
 
 ### 💻 Technologies utilités
-...
+- [ ] Backend: Django
+- [ ] Frontend: React
+- [ ] Base de données: SQLite
+- [ ] Conteneurisation et déploiement : Docker, Kubernetes
+- [ ] CI/CD : GitHub Actions
 
 
 ## 🚀 Quickstart (Démarrage rapide)
@@ -122,13 +126,24 @@ L'aplication peut être lancée avec ou sans image Docker
    - Allez dans le dossier frontend et créez un fichier `.env` en utilisant également le modèle `.env.template` fourni.
 Les fichiers .env.template contiennent la liste des variables d'environnement nécessaires, avec des commentaires pour vous aider à les configurer correctement.
 
-- [ ] Lancer le backend :
+- [ ] Appliquer les migrations :
 ```bash
 cd ../backend
 python manage.py makemigrations
 python manage.py migrate
+```
+
+- [ ] Initialiser les données: 
+   Le script initialize_data.py permet d'initialiser les données de l'application (utilisateurs, ressources, événements, réservations) en exécutant la commande suivante
+    ```bash
+    python manage.py initialize_data
+
+- [ ] Lancer le backend :
+```bash
 python manage.py runserver
 ```
+
+
 L'application backend sera accessible à http://127.0.0.1:8000
 
 - [ ] Lancer le frontend :
@@ -137,6 +152,23 @@ cd frontend
 npm run dev
 ```
 L'application frontend sera accessible à http://127.0.0.1:3000
+
+## 📈 Tests unitaires
+Les tests unitaires sont automatisés à chaque push via GitHub Actions. 
+Pour lancer les tests manuellement, exécutez:
+```bash
+cd backend
+coverage run manage.py test
+coverage html
+```
+Ensuite vous pouvez ouvrir le fichier `coverage_report/index.html` dans votre navigateur pour consulter le rapport de couverture des test.
+
+
+## 🛠️ Automatisation
+
+Le projet utilise GitHub Actions pour automatiser les tests, la vérification du code à chaque push et le dépoiement des images Docker vers DockerHub
+
+
 
 
 
