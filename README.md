@@ -121,14 +121,16 @@ L'application frontend sera accessible à [http://localhost:3000](http://localho
 
    1. Copiez le fichier `.env.template` et renommez-le en `.env` :
 
-   Exécutez les commandes suivantes pour dupliquer le fichier modèle .env.template et créer le fichier .env qui sera utilisé par votre application :
+      Exécutez les commandes suivantes pour dupliquer le fichier modèle .env.template et créer le fichier .env qui sera utilisé par votre application :
 ```bash
 cp ../backend/.env.template ./backend/.env.template.env
 cp ../frontend/.env.template ./frontend/.env.template.env
 ```
 
    2. Complétez les variables d'environnement dans le fichier .env du backend :
+
       Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
+      
 Voici les variables à compléter :
 - **DJANGO_SUPERUSER_USERNAME** : Entrez un nom d'utilisateur pour l'administrateur Django.
 - **DJANGO_SUPERUSER_EMAIL** : Entrez l'email de l'administrateur Django.
