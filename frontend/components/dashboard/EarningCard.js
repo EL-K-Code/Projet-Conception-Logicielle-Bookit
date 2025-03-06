@@ -1,22 +1,16 @@
-import Image from "next/image";
 import { useState } from "react";
 
 // Material-UI
 import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
+import PropTypes from 'prop-types';
 
+import { CalendarPlus, Edit, XCircle } from 'lucide-react';
 // Project imports
 import MainCard from "@/ui-component/cards/MainCard";
-import SkeletonEarningCard from "@/ui-component/Skeleton/EarningCard";
+// import SkeletonEarningCard from "@/ui-component/Skeleton/EarningCard";
 
 // Assets
-import EarningIcon from "@/assets/images/icons/earning.svg";
-import ArchiveTwoToneIcon from "@mui/icons-material/ArchiveOutlined";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import FileCopyTwoToneIcon from "@mui/icons-material/FileCopyOutlined";
-import GetAppTwoToneIcon from "@mui/icons-material/GetAppOutlined";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfOutlined";
 
 // Styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -69,9 +63,9 @@ const EarningCard = ({ isLoading }) => {
 
   return (
     <>
-      {isLoading ? (
+      {/* {isLoading ? (
         <SkeletonEarningCard />
-      ) : (
+      ) : ( */}
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
@@ -87,7 +81,7 @@ const EarningCard = ({ isLoading }) => {
                         mt: 1,
                       }}
                     >
-                      <Image src={EarningIcon} alt="Earnings" width={40} height={40} />
+                      {/* <Image src={EarningIcon} alt="Earnings" width={40} height={40} /> */}
                     </Avatar>
                   </Grid>
                   <Grid item>
@@ -104,7 +98,7 @@ const EarningCard = ({ isLoading }) => {
                       aria-haspopup="true"
                       onClick={handleClick}
                     >
-                      <MoreHorizIcon fontSize="inherit" />
+                      {/* <MoreHorizIcon fontSize="inherit" /> */}
                     </Avatar>
                     <Menu
                       id="menu-earning-card"
@@ -121,18 +115,15 @@ const EarningCard = ({ isLoading }) => {
                         horizontal: "right",
                       }}
                     >
-                      <MenuItem onClick={handleClose}>
-                        <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Importer
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copier
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <PictureAsPdfTwoToneIcon sx={{ mr: 1.75 }} /> Exporter
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archiver
-                      </MenuItem>
+                     <MenuItem onClick={handleClose}>
+                      <Edit style={{ marginRight: '8px' }} /> Modifier l'événement
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <CalendarPlus style={{ marginRight: '8px' }} /> Faire une réservation
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <XCircle style={{ marginRight: '8px' }} /> Annuler la réservation
+                    </MenuItem>
                     </Menu>
                   </Grid>
                 </Grid>
@@ -153,7 +144,7 @@ const EarningCard = ({ isLoading }) => {
                         color: theme.palette.secondary.dark,
                       }}
                     >
-                      <ArrowUpwardIcon fontSize="inherit" sx={{ transform: "rotate3d(1, 1, 1, 45deg)" }} />
+                      {/* <ArrowUpwardIcon fontSize="inherit" sx={{ transform: "rotate3d(1, 1, 1, 45deg)" }} /> */}
                     </Avatar>
                   </Grid>
                 </Grid>
@@ -172,9 +163,13 @@ const EarningCard = ({ isLoading }) => {
             </Grid>
           </Box>
         </CardWrapper>
-      )}
+      {/* )} */}
     </>
   );
+};
+
+EarningCard.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default EarningCard;

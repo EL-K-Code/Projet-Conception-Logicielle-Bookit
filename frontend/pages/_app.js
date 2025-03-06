@@ -4,6 +4,8 @@ import "@/styles/Form.css";
 import "@/styles/Global.css";
 import "react-perfect-scrollbar/dist/css/styles.css";
 
+import PropTypes from 'prop-types';
+
 // Next.js & React
 import { useRouter } from "next/router";
 
@@ -21,14 +23,14 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import MainLayout from "@/layout";
 import NavigationScroll from "@/layout/NavigationScroll";
 
-export default function MyApp({ Component, pageProps }) {
+const Bookit =({ Component, pageProps }) => {
   const router = useRouter();
 
   // Définir les routes nécessitant MainLayout ou MinimalLayout
-  const mainLayoutRoutes = ["/", "/home", "/dashboard"];
+  const mainLayoutRoutes = ["/", "/home", "/dashboard", "/eventbus"];
 
   // Définir les routes protégées
-  const protectedRoutes = ["/home", "/logout", "/signout"];
+  const protectedRoutes = ["/home", "/logout", "/signout", "/eventbus"];
 
   // Déterminer le type de layout et si la page est protégée
   const useMainLayout = mainLayoutRoutes.includes(router.pathname);
@@ -59,4 +61,11 @@ export default function MyApp({ Component, pageProps }) {
       </StyledEngineProvider>
     </Provider>
   );
-}
+};
+
+Bookit.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object,
+};
+
+export default Bookit;

@@ -1,6 +1,7 @@
 "use client";
 
 import api from "@/api";
+import Link from 'next/link';
 import { useEffect, useState } from "react";
 
 export default function SignOut() {
@@ -10,7 +11,7 @@ export default function SignOut() {
     useEffect(() => {
         const signOut = async () => {
             try {
-                const res = await api.delete("/api/auth/signout/");
+                await api.delete("/api/auth/signout/");
                 localStorage.clear();
                 setSignedOut(true);
             } catch (error) {
@@ -30,7 +31,8 @@ export default function SignOut() {
                     </svg>
                     <h1 className="title">Votre compte a été supprimé avec succès.</h1>
                     <p className="message">Nous espérons vous revoir bientôt !</p>
-                    <a href="/" className="button">Retour à l'accueil</a>
+
+                    <Link href="/">Back to home</Link>
                 </div>
             </div>
         );

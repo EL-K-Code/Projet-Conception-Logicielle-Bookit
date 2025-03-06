@@ -4,9 +4,10 @@ import api from "@/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/store/constants";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/router";
+import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 
-export default function ProtectedRoute({ children }) {
+const ProtectedRoute = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(null);
   const router = useRouter();
 
@@ -56,9 +57,16 @@ export default function ProtectedRoute({ children }) {
   }
 
   if (!isAuthorized) {
+    console.log(localStorage.getItem("redirectAfterLogin"));
     router.push("/login");
     return null;
   }
 
   return children;
-}
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default ProtectedRoute ;

@@ -5,9 +5,10 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/store/constants";
 import { Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
+import PropTypes from 'prop-types';
 import { useState } from "react";
 
-export default function Form({ route, method }) {
+const Form = ({ route, method }) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const [username, setUsername] = useState("");
@@ -34,7 +35,8 @@ export default function Form({ route, method }) {
         // Récupère l'URL demandée avant connexion
         const redirectTo = localStorage.getItem("redirectAfterLogin") || "/";
         localStorage.removeItem("redirectAfterLogin"); // Nettoyage après redirection
-        router.replace(redirectTo);
+        console.log(redirectTo);
+        router.push(redirectTo);
       } else {
         router.push("/login");
       }
@@ -90,4 +92,11 @@ export default function Form({ route, method }) {
       </button>
     </form>
   );
-}
+};
+
+Form.propTypes = {
+  route: PropTypes.oneOf(['/login', '/signup']),
+  method: PropTypes.oneOf(['login', 'signup'])
+};
+
+export default Form ;

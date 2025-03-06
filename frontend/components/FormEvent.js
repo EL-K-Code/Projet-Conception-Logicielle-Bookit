@@ -1,11 +1,13 @@
 "use client";
 
+import api from "@/api";
 import { Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
+import PropTypes from 'prop-types';
 import { useState } from "react";
 
-export default function EventForm({ eventType }) {
+const EventForm = ({ eventType }) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const [description, setDescription] = useState("");
@@ -39,7 +41,7 @@ export default function EventForm({ eventType }) {
 
     try {
       // Remplacer cette partie par l'appel API adapté
-      const res = await api.post("/create-event", {
+        await api.post("/create-event", {
         description,
         organizer,
         eventType,
@@ -178,4 +180,10 @@ export default function EventForm({ eventType }) {
       </button>
     </form>
   );
-}
+};
+
+EventForm.propTypes = {
+  eventType: PropTypes.string.isRequired,
+};
+
+export default EventForm ;

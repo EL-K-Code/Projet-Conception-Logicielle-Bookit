@@ -1,10 +1,14 @@
 "use client";
 
+//next import
+import Link from "next/link";
+
 import Form from "./Form";
 
 // material-ui
 import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 
 // project imports
 import AuthCardWrapper from './AuthCardWrapper';
@@ -16,7 +20,7 @@ import AuthWrapper1 from './AuthWrapper1';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
-export default function Auth({ route, method }) {
+const Auth = ({ route, method }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -71,8 +75,8 @@ export default function Auth({ route, method }) {
                                     <Grid item xs={12}>
                                     <Grid item container direction="column" alignItems="center" xs={12}>
                                     {method === "login" ?
-                                        <a href="/signup" className="button">Don&apos;t have an account?</a> :
-                                        <a href="/login" className="button">Already registered?</a>
+                                        <Link href="/signup" className="button">Don&apos;t have an account?</Link>:
+                                        <Link href="/login" className="button">Already registered?</Link>
                                     }
                                     </Grid>
                                     </Grid>
@@ -86,3 +90,10 @@ export default function Auth({ route, method }) {
         </AuthWrapper1>
     );
 };
+
+Auth.propTypes = {
+    route: PropTypes.oneOf(['/login', '/signup']),
+    method: PropTypes.oneOf(['login', 'signup'])
+  };
+
+export default Auth;
