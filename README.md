@@ -88,22 +88,22 @@ L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.
    ```
 L'application frontend sera accessible à http://127.0.0.1:3000
 
-- [ ] Lancer l'application sans image Docker
+### :arrow_forward: Lancer l'application sans image Docker
 
- - Créez un environnement virtuel :
+- [ ] Créez un environnement virtuel :
   ```bash
   python -m venv venv
   ```
-   - Sur Mac/Linux 
+  - Sur Mac/Linux 
      ```bash
      source venv/bin/activate
      ```
-   - Sur windows
+  - Sur windows
      ```bash
      source venv/bin/activate
      ```
 
- - Installer les dépendances
+- [ ] Installer les dépendances
    - Backend 
   ```bash
   pip install -r backend/requirements.txt
@@ -114,14 +114,14 @@ L'application frontend sera accessible à http://127.0.0.1:3000
   npm install
   ```
 
- - Définir les variables d'environnements
+ - [ ] Définir les variables d'environnements
   Pour configurer l'application, vous devez définir certaines variables d'environnement nécessaires au bon fonctionnement de l'application.
 
    - Allez dans le dossier backend et créez un fichier `.env` en utilisant le modèle `.env.template` fourni.
    - Allez dans le dossier frontend et créez un fichier `.env` en utilisant également le modèle `.env.template` fourni.
 Les fichiers .env.template contiennent la liste des variables d'environnement nécessaires, avec des commentaires pour vous aider à les configurer correctement.
 
-- Lancer le backend :
+- [ ] Lancer le backend :
 ```bash
 cd ../backend
 python manage.py makemigrations
@@ -130,7 +130,7 @@ python manage.py runserver
 ```
 L'application backend sera accessible à http://127.0.0.1:8000
 
-- Lancer le frontend :
+- [ ] Lancer le frontend :
 ```bash
 cd frontend
 npm run dev
