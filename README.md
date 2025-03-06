@@ -67,35 +67,35 @@ cd Projet-Conception-Logicielle-Bookit.git
 L'aplication peut être lancée avec ou sans image Docker
 
 - [ ] Lancer l'application via Docker
-  - backend:
-Accédez au répertoire backend, construisez puis lancez l'image Docker:
-```bash
-cd backend
-docker build -t backend .
-docker run -p 8000:8000 backend
-```
+ - backend:
+   Accédez au répertoire backend, construisez puis lancez l'image Docker:
+   ```bash
+   cd backend
+   docker build -t backend .
+   docker run -p 8000:8000 backend
+   ```
 L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-  - Frontend
-Accédez au répertoire frontend, construisez puis lancez l'image Docker:
-```bash
-cd frontend
-docker build -t frontend .
-docker run -p 3000:3000 frontend
-```
+ - Frontend
+   Accédez au répertoire frontend, construisez puis lancez l'image Docker:
+   ```bash
+   cd frontend
+   docker build -t frontend .
+   docker run -p 3000:3000 frontend
+   ```
 L'application frontend sera accessible à http://127.0.0.1:3000
 
 - [ ] Lancer l'application sans image Docker
 
-  - Créez un environnement virtuel :
+ - Créez un environnement virtuel :
   ```bash
   python -m venv venv
   ```
-    - Sur Mac/Linux 
+   - Sur Mac/Linux 
   ```bash
   source venv/bin/activate
   ```
-    - Sur windows
+   - Sur windows
   ```bash
   source venv/bin/activate
   ```
