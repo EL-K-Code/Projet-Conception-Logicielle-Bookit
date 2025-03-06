@@ -131,7 +131,7 @@ cp ../frontend/.env.template ./frontend/.env.template.env
 
    Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
       
-Voici les variables à compléter :
+   Voici les variables à compléter :
 - **DJANGO_SUPERUSER_USERNAME** : Entrez un nom d'utilisateur pour l'administrateur Django.
 - **DJANGO_SUPERUSER_EMAIL** : Entrez l'email de l'administrateur Django.
 - **DJANGO_SUPERUSER_PASSWORD** : Entrez un mot de passe pour l'administrateur Django.
