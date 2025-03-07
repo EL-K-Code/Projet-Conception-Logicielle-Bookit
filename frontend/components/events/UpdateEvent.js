@@ -1,10 +1,14 @@
-import api from "@/api";
 import { FormControl, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 
+//Projet import
+import api from "@/api";
+import ErrorBox from '@/components/erro';
+
+// Mise à jour d'un événement
 const UpdateEventForm = ({ event_type, route, api_url, id }) => {
   const theme = useTheme();
   const match_down_sm = useMediaQuery(theme.breakpoints.down('md'));
@@ -19,6 +23,7 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
   const [loading, set_loading] = useState(false);
   const [resources, set_resources] = useState([]);
   const router = useRouter();
+  const [error, set_error] = useState(null);
 
   // Charger les ressources disponibles
   useEffect(() => {
@@ -69,15 +74,25 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
         })
       });
 
-      router.push("/home");
+      router.push("/");
+      set_error(null);
     } catch (error) {
-      alert("Erreur: " + (error.response?.data?.detail || error.message));
+      set_error({
+        statusCode: error.response?.status || 500,
+    });
     } finally {
       set_loading(false);
     }
   };
 
   return (
+    <>
+        {error && (
+        <ErrorBox
+          statusCode={error.statusCode}
+          defaultMessage={error.defaultMessage}
+        />
+      )}
     <form onSubmit={handle_submit} className="form-container">
       <Typography color={theme.palette.secondary.main} gutterBottom variant={match_down_sm ? 'h3' : 'h2'}>
         Modifier l'Événement {event_type === "eventbus" && "Bus"} {event_type === "eventroom" && "Salle"} {event_type === "eventmaterial" && "Matériel"}
@@ -130,6 +145,7 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
         {loading ? "Modification en cours..." : "Modifier l'Événement"}
       </button>
     </form>
+  </>
   );
 }
 
