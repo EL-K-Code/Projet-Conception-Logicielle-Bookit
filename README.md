@@ -55,11 +55,17 @@ docker pull richard0209/bookit-frontend:latest
 - [ ] Exécuter l'application
   - backend
   ```bash
-  docker run -p 8000:8000 richard0209/bookit-backend:latest
+  docker run --env-file .env -p 8000:8000 richard0209/bookit-backend:latest
   ```
+  📌 **Remarque** : Assurez-vous que le fichier .env est présent dans le dossier depuis lequel vous exécutez la commande.
+   Si ce n'est pas le cas, spécifiez son chemin complet :
+   ```bash
+   docker run --env-file /chemin/vers/.env -p 8000:8000 richard0209/bookit-backend:latest
+   ```
+
   - frontend
   ```bash
-  docker run -p 3000:3000 richard0209/bookit-frontend:latest
+  docker run -d -e NEXT_PUBLIC_API_URL=http://127.0.0.1:8000 -p 3000:3000 --name bookit-frontend richard0209/bookit-frontend:latest
   ```
   Une fois les deux services lancés, le backend sera accessible à l'adresse: [http://127.0.0.1:8000](http://127.0.0.1:8000) et le frontend à l'adresse: [http://localhost:3000](http://localhost:3000)
 
