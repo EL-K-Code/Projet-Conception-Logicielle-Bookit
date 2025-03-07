@@ -9,7 +9,8 @@ import api from '@/api';
 import EventBusCard from '@/components/dashboard/EventBusCard';
 import EventMaterialCard from '@/components/dashboard/EventMaterialCard';
 import EventRoomCard from '@/components/dashboard/EventRoomCard';
-import ReservedEventsCard from '@/components/dashboard/ReservedEventsCard';
+import UserReservedEventsCard from '@/components/dashboard/UserReservedEventsCard';
+import ErrorBox from '@/components/erro';
 import { gridSpacing } from '@/store/constants';
 import TitleCard from '@/ui-component/cards/TitleCard';
 
@@ -19,19 +20,21 @@ const Dashboard = () => {
 
     const [isLoading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, set_error] = useState(null);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await api.get('api/evenements/list-event/');  // Utilise l'URL de l'API
-                setEvents(response.data);  // Met à jour les événements avec les données reçues
+                const response = await api.get('api/evenements/list-event/', { auth_required: false });
+                setEvents(response.data);
                 setLoading(false);
-                console.log(response);
+                set_error(null);
+
             } catch (error) {
-                setError(error.message);  // Affiche l'erreur dans l'état
                 setLoading(false);
-                console.error("Erreur lors de la récupération des événements:", error);
+                set_error({
+                    statusCode: error.response?.status || 500,
+                  });
             }
         };
 
@@ -41,17 +44,24 @@ const Dashboard = () => {
     const renderEventCard = (event) => {
         switch (event.type_event) {
             case 'event_bus':
-                return <EventBusCard key={event.id} event={event} CardHeight={200} />;
+                return <EventBusCard event={event} CardHeight={200} />;
             case 'event_room':
-                return <EventRoomCard key={event.id} event={event} CardHeight={200} />;
+                return <EventRoomCard event={event} CardHeight={200} />;
             case 'event_material':
-                return <EventMaterialCard key={event.id} event={event} CardHeight={200} />;
+                return <EventMaterialCard event={event} CardHeight={200} />;
             default:
                 return null;
         }
     };
 
     return (
+        <>
+        {error && (
+            <ErrorBox
+            statusCode={error.statusCode}
+            defaultMessage={error.defaultMessage}
+            />
+        )}
         <Grid container spacing={gridSpacing}>
 
 {/* Première colonne */}
@@ -75,12 +85,13 @@ const Dashboard = () => {
                     </Grid>
                     {/* Ligne 2 */}
                     <Grid item lg={12}>
-                        <ReservedEventsCard/>
+                        <UserReservedEventsCard api_url={'api/reservations/user-reservations/'}/>
                     </Grid>
                 </Grid>
             </Grid>
 
         </Grid>
+    </>
     );
 };
 

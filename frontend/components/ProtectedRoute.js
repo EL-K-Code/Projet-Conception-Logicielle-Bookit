@@ -58,7 +58,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isAuthorized) {
     console.log(localStorage.getItem("redirectAfterLogin"));
-    router.push("/login");
+    router.push("/auth/login");
     return null;
   }
 

@@ -12,17 +12,35 @@ const api = axios.create({
 
 // Un interceptor pour ajouter l'authorization token à chaque requête
 api.interceptors.request.use(
-    async (config) => {
-        const accessToken = localStorage.getItem(ACCESS_TOKEN);
-        if (accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+  async (config) => {
+    // Définit auth_required à false par défaut si ce n'est pas spécifié
+    const requiresAuth = config.auth_required ?? true;
+
+    if (requiresAuth) {
+      const accessToken = localStorage.getItem(ACCESS_TOKEN);
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      } else {
+        console.warn("⚠️ Authentification requise mais aucun token trouvé !");
+      }
     }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
+
+
+// Intercepteur pour gérer les erreurs généré par le serveur
+api.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 //
 export default api;

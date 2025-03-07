@@ -37,4 +37,9 @@ urlpatterns = [
         views.CancelMaterialReservation.as_view(),
         name="cancel-material-reservation",
     ),
+    path(
+        "user-reservations/",
+        views.UserReservationsView.as_view(),
+        name="user-reservations",
+    ),
 ]

@@ -75,8 +75,8 @@ const Auth = ({ route, method }) => {
                                     <Grid item xs={12}>
                                     <Grid item container direction="column" alignItems="center" xs={12}>
                                     {method === "login" ?
-                                        <Link href="/signup" className="button">Don&apos;t have an account?</Link>:
-                                        <Link href="/login" className="button">Already registered?</Link>
+                                        <Link href="/auth/signup" className="button">Don&apos;t have an account?</Link>:
+                                        <Link href="/auth/login" className="button">Already registered?</Link>
                                     }
                                     </Grid>
                                     </Grid>
@@ -92,7 +92,7 @@ const Auth = ({ route, method }) => {
 };
 
 Auth.propTypes = {
-    route: PropTypes.oneOf(['/login', '/signup']),
+    route: PropTypes.oneOf(['/auth/login', '/auth/signup']),
     method: PropTypes.oneOf(['login', 'signup'])
   };
 

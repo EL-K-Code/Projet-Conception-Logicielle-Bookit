@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useState } from "react";
 
 // Material-UI
@@ -5,7 +6,7 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from 'prop-types';
 
-import { CalendarPlus, Edit, XCircle } from 'lucide-react';
+import { CalendarPlus, Edit, MoreVertical, Package, XCircle } from 'lucide-react';
 // Project imports
 import MainCard from "@/ui-component/cards/MainCard";
 // import SkeletonEarningCard from "@/ui-component/Skeleton/EarningCard";
@@ -53,9 +54,10 @@ const CardWrapper = styled(MainCard)(({ theme, CardHeight }) => ({
 }));
 
 
-const EventMaterialCard = ({ key, event, CardHeight }) => {
+const EventMaterialCard = ({event, CardHeight }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
+  const router = useRouter();
 
   const handleClick = (eventclicked) => {
     setAnchorEl(eventclicked.currentTarget);
@@ -64,6 +66,11 @@ const EventMaterialCard = ({ key, event, CardHeight }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleAction = (url) => {
+    handleClose(); // Fermer le menu
+    router.push(url); // Rediriger vers la page voulue
+};
 
   return (
     <>
@@ -93,7 +100,9 @@ const EventMaterialCard = ({ key, event, CardHeight }) => {
               backgroundColor: theme.palette.grey[800],
               mt: 1,
             }}
-          />
+          >
+            <Package size={30} />
+         </Avatar>
         </Grid>
         <Grid item>
           <Avatar
@@ -108,7 +117,10 @@ const EventMaterialCard = ({ key, event, CardHeight }) => {
             aria-controls="menu-earning-card"
             aria-haspopup="true"
             onClick={handleClick}
-          />
+          >
+            <MoreVertical size={20} />
+          </Avatar>
+
           <Menu
             id="menu-earning-card"
             anchorEl={anchorEl}
@@ -118,13 +130,15 @@ const EventMaterialCard = ({ key, event, CardHeight }) => {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            <MenuItem onClick={handleClose}>
-              <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => handleAction(`/reservations/make/material/${event.id}`)}>
               <CalendarPlus style={{ marginRight: "8px" }} /> Faire une réservation
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+
+            <MenuItem onClick={() => handleAction(`/events/update/material/${event.id}`)}>
+              <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
+            </MenuItem>
+
+            <MenuItem onClick={() => handleAction(`/events/delete/material/${event.id}`)}>
               <XCircle style={{ marginRight: "8px" }} /> Annuler la réservation
             </MenuItem>
           </Menu>
@@ -148,7 +162,7 @@ const EventMaterialCard = ({ key, event, CardHeight }) => {
               textOverflow: "ellipsis",
             }}
           >
-            {event.description}
+            {event.resource_name}
           </Typography>
         </Grid>
         <Grid item>
@@ -176,7 +190,7 @@ const EventMaterialCard = ({ key, event, CardHeight }) => {
           textOverflow: "ellipsis",
         }}
       >
-        {event.resource}
+        Stock : {event.available_stock}
       </Typography>
     </Grid>
   </Grid>

@@ -1,11 +1,11 @@
+import { useRouter } from 'next/router';
 import { useState } from "react";
-
 // Material-UI
 import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from 'prop-types';
 
-import { CalendarPlus, Edit, XCircle } from 'lucide-react';
+import { CalendarPlus, Edit, MoreVertical, School, XCircle } from 'lucide-react';
 // Project imports
 import MainCard from "@/ui-component/cards/MainCard";
 // import SkeletonEarningCard from "@/ui-component/Skeleton/EarningCard";
@@ -53,9 +53,10 @@ const CardWrapper = styled(MainCard)(({ theme, CardHeight }) => ({
 }));
 
 
-const EventRoomCard = ({ key, event, CardHeight }) => {
+const EventRoomCard = ({event, CardHeight }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
+  const router = useRouter();
 
   const handleClick = (eventclicked) => {
     setAnchorEl(eventclicked.currentTarget);
@@ -64,6 +65,11 @@ const EventRoomCard = ({ key, event, CardHeight }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleAction = (url) => {
+    handleClose(); // Fermer le menu
+    router.push(url); // Rediriger vers la page voulue
+};
 
   return (
     <>
@@ -93,10 +99,13 @@ const EventRoomCard = ({ key, event, CardHeight }) => {
               backgroundColor: theme.palette.secondary[800],
               mt: 1,
             }}
-          />
+          >
+            <School size={30} />
+         </Avatar>
+
         </Grid>
         <Grid item>
-          <Avatar
+        <Avatar
             variant="rounded"
             sx={{
               ...theme.typography.commonAvatar,
@@ -108,7 +117,9 @@ const EventRoomCard = ({ key, event, CardHeight }) => {
             aria-controls="menu-earning-card"
             aria-haspopup="true"
             onClick={handleClick}
-          />
+          >
+            <MoreVertical size={20} />
+          </Avatar>
           <Menu
             id="menu-earning-card"
             anchorEl={anchorEl}
@@ -118,15 +129,17 @@ const EventRoomCard = ({ key, event, CardHeight }) => {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            <MenuItem onClick={handleClose}>
-              <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <CalendarPlus style={{ marginRight: "8px" }} /> Faire une réservation
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <XCircle style={{ marginRight: "8px" }} /> Annuler la réservation
-            </MenuItem>
+            <MenuItem onClick={() => handleAction(`/reservations/make/room/${event.id}`)}>
+                <CalendarPlus style={{ marginRight: "8px" }} /> Faire une réservation
+              </MenuItem>
+
+              <MenuItem onClick={() => handleAction(`/events/update/room/${event.id}`)}>
+                <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
+              </MenuItem>
+
+              <MenuItem onClick={() => handleAction(`/events/delete/room/${event.id}`)}>
+                <XCircle style={{ marginRight: "8px" }} /> Annuler la réservation
+              </MenuItem>
           </Menu>
         </Grid>
       </Grid>
@@ -148,7 +161,7 @@ const EventRoomCard = ({ key, event, CardHeight }) => {
               textOverflow: "ellipsis",
             }}
           >
-            {event.description}
+            {event.resource_name}
           </Typography>
         </Grid>
         <Grid item>

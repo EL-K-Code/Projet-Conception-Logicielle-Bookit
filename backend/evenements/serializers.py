@@ -57,6 +57,10 @@ class EventBusSerializer(serializers.ModelSerializer):
     Serializer pour le modèle EventBus.
     """
 
+    resource_name = serializers.SlugRelatedField(
+        source="resource", read_only=True, slug_field="name"
+    )
+
     class Meta:
         """
         Classe Meta pour le serializer EventBus.
@@ -79,6 +83,10 @@ class EventRoomSerializer(serializers.ModelSerializer):
     à un événement de type salle.
     """
 
+    resource_name = serializers.SlugRelatedField(
+        source="resource", read_only=True, slug_field="name"
+    )
+
     class Meta:
         """
         Classe Meta pour le serializer EventRoom.
@@ -96,6 +104,11 @@ class EventMaterialSerializer(serializers.ModelSerializer):
     Ce serializer est utilisé pour valider et transformer les données liées
     à un événement de type matériel.
     """
+
+    # Utilisé pour la lecture (affichage du nom du bus)
+    resource_name = serializers.SlugRelatedField(
+        source="resource", read_only=True, slug_field="name"
+    )
 
     class Meta:
         """

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useState } from "react";
 
 // Material-UI
@@ -5,7 +6,7 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from 'prop-types';
 
-import { CalendarPlus, Edit, XCircle } from 'lucide-react';
+import { Bus, CalendarPlus, Edit, MoreVertical, XCircle } from 'lucide-react';
 // Project imports
 import MainCard from "@/ui-component/cards/MainCard";
 
@@ -49,9 +50,10 @@ const CardWrapper = styled(MainCard)(({ theme, CardHeight }) => ({
   },
 }));
 
-const EventBusCard = ( {key, event,  CardHeight }) => {
+const EventBusCard = ( {event,  CardHeight }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
+  const router = useRouter();
 
   const handleClick = (eventclicked) => {
     setAnchorEl(eventclicked.currentTarget);
@@ -60,6 +62,10 @@ const EventBusCard = ( {key, event,  CardHeight }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleAction = (url) => {
+    handleClose(); // Fermer le menu
+    router.push(url); // Rediriger vers la page voulue
+};
 
   return (
     <>
@@ -89,7 +95,9 @@ const EventBusCard = ( {key, event,  CardHeight }) => {
                         backgroundColor: theme.palette.primary[800],
                         mt: 1,
                       }}
-                    />
+                    >
+                      <Bus size={20} />
+                  </Avatar>
                   </Grid>
                   <Grid item>
                     <Avatar
@@ -104,7 +112,10 @@ const EventBusCard = ( {key, event,  CardHeight }) => {
                       aria-controls="menu-earning-card"
                       aria-haspopup="true"
                       onClick={handleClick}
-                    />
+                    >
+                      <MoreVertical size={20} />
+                    </Avatar>
+
                     <Menu
                       id="menu-earning-card"
                       anchorEl={anchorEl}
@@ -114,13 +125,15 @@ const EventBusCard = ( {key, event,  CardHeight }) => {
                       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                       transformOrigin={{ vertical: "top", horizontal: "right" }}
                     >
-                      <MenuItem onClick={handleClose}>
-                        <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem onClick={() => handleAction(`/reservations/make/bus/${event.id}`)}>
                         <CalendarPlus style={{ marginRight: "8px" }} /> Faire une réservation
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+
+                      <MenuItem onClick={() => handleAction(`/events/update/bus/${event.id}`)}>
+                        <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
+                      </MenuItem>
+
+                      <MenuItem onClick={() => handleAction(`/events/delete/bus/${event.id}`)}>
                         <XCircle style={{ marginRight: "8px" }} /> Annuler la réservation
                       </MenuItem>
                     </Menu>

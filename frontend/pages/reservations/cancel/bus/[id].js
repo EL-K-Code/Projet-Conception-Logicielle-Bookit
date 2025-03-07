@@ -21,7 +21,7 @@ export default function DeleteEvent() {
       try {
         await api.delete(api_url);
         alert("Événement supprimé avec succès !");
-        router.push('/home'); // Redirection après suppression
+        router.push('/'); // Redirection après suppression
       } catch (error) {
         console.error("Erreur:", error);
         alert("Erreur lors de la suppression !");

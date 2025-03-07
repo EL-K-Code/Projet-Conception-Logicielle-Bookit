@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
+import ErrorBox from "../erro";
 
 const EventForm = ({ event_type, route, api_url }) => {
   const theme = useTheme();
@@ -18,15 +19,19 @@ const EventForm = ({ event_type, route, api_url }) => {
   const [available_stock, set_available_stock] = useState("");
   const [loading, set_loading] = useState(false);
   const [resources, set_resources] = useState([]);  // Pour stocker les ressources récupérées
+  const [error, set_error] = useState(null);
   const router = useRouter();
 
   // Fonction pour charger les ressources depuis l'API
   const fetchResources = async () => {
     try {
-      const response = await api.get(api_url);  // Utilise l'URL de l'API passé en argument
-      set_resources(response.data);  // Supposons que l'API renvoie un tableau de ressources
+      const response = await api.get(api_url);
+      set_resources(response.data);
+      set_error(null); // Réinitialiser l'erreur si la requête réussit
     } catch (error) {
-      console.error("Erreur lors du chargement des ressources:", error);
+      set_error({
+        statusCode: error.response?.status || 500,
+      });
     }
   };
 
@@ -57,7 +62,7 @@ const EventForm = ({ event_type, route, api_url }) => {
 
     try {
       // Envoi des données selon le type d'événement
-      const res = await api.post(route, {
+        await api.post(route, {
         description,
         resource, // L'ID est envoyé ici
         ...(event_type === "eventbus" && {
@@ -71,16 +76,26 @@ const EventForm = ({ event_type, route, api_url }) => {
           available_stock
         })
       });
-
-      router.push("/home"); // Redirection après la soumission
+      set_error(null);
+      router.push("/"); // Redirection après la soumission
     } catch (error) {
-      alert("Erreur: " + (error.response?.data?.detail || error.message)); // Affichage d'une erreur
+      set_error({
+        statusCode: error.response?.status || 500,
+      });
     } finally {
       set_loading(false); // Fin de chargement
     }
   };
 
   return (
+    <>
+    {error && (
+        <ErrorBox
+          statusCode={error.statusCode}
+          defaultMessage={error.defaultMessage}
+        />
+      )}
+
     <form onSubmit={handle_submit} className="form-container">
       <Typography color={theme.palette.secondary.main} gutterBottom variant={match_down_sm ? 'h3' : 'h2'}>
         Créer un Événement {event_type === "eventbus" && "Bus"} {event_type === "eventroom" && "Salle"} {event_type === "eventmaterial" && "Matériel"}
@@ -196,7 +211,8 @@ const EventForm = ({ event_type, route, api_url }) => {
         {loading ? "Chargement..." : "Créer l'Événement"}
       </button>
     </form>
-  );
+  </>);
+
 }
 
 EventForm.propTypes = {

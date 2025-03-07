@@ -27,22 +27,22 @@ const Bookit =({ Component, pageProps }) => {
   const router = useRouter();
 
   // Définir les routes nécessitant MainLayout ou MinimalLayout
-  const mainLayoutRoutes = ["/", "/dashboard", "/eventbus"];
+  const notMainLayoutRoutes = ["/auth/login", "/auth/logout", "/auth/signup", "/auth/signout"];
 
   // Définir les routes protégées
-  const protectedRoutes = ["/logout", "/signout", "/eventbus"];
+  const notProtectedRoutes = ["/auth/login", "/auth/signup", "/"];
 
   // Déterminer le type de layout et si la page est protégée
-  const useMainLayout = mainLayoutRoutes.includes(router.pathname);
-  const isProtected = protectedRoutes.includes(router.pathname);
+  const notUseMainLayout = notMainLayoutRoutes.includes(router.pathname);
+  const isNotProtected = notProtectedRoutes.includes(router.pathname);
 
   // Contenu de la page (protégé ou non)
-  const pageContent = isProtected ? (
+  const pageContent = isNotProtected ? (
+      <Component {...pageProps} />
+  ) : (
     <ProtectedRoute>
       <Component {...pageProps} />
     </ProtectedRoute>
-  ) : (
-    <Component {...pageProps} />
   );
 
   return (
@@ -51,10 +51,10 @@ const Bookit =({ Component, pageProps }) => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <NavigationScroll>
-            {useMainLayout ? (
-              <MainLayout>{pageContent}</MainLayout>
-            ): (
+            {notUseMainLayout ? (
               pageContent
+            ): (
+              <MainLayout>{pageContent}</MainLayout>
             )}
           </NavigationScroll>
         </ThemeProvider>

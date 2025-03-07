@@ -18,6 +18,8 @@ class Reservation(models.Model):
         User, on_delete=models.CASCADE, blank=False, null=False
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         """
         Définit que ce modèle est abstrait et ne sera pas utilisé pour créer une table

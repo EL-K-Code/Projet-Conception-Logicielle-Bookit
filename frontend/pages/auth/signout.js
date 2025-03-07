@@ -32,7 +32,7 @@ export default function SignOut() {
                     <h1 className="title">Votre compte a été supprimé avec succès.</h1>
                     <p className="message">Nous espérons vous revoir bientôt !</p>
 
-                    <Link href="/">Back to home</Link>
+                    <Link href="/" className="button">Back to home</Link>
                 </div>
             </div>
         );

@@ -30,7 +30,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from '@/ui-component/cards/MainCard';
 import Transitions from '@/ui-component/extended/Transitions';
-import NotificationList from './NotificationList';
+// import NotificationList from './NotificationList';
 
 // assets
 import { IconBell } from '@tabler/icons-react';
@@ -205,7 +205,7 @@ const NotificationSection = () => {
                                                         <Divider sx={{ my: 0 }} />
                                                     </Grid>
                                                 </Grid>
-                                                <NotificationList />
+                                                {/* <NotificationList /> */}
                                             </PerfectScrollbar>
                                         </Grid>
                                     </Grid>

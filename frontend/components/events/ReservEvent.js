@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorBox from '@/components/erro';
 import { Button, TextField, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -14,6 +15,7 @@ export default function ReservationForm({ event_type, api_url, id}) {
   const [end_time, set_end_time] = useState("");
   const [loading, set_loading] = useState(false);
   const router = useRouter();
+  const [error, set_error] = useState(null);
 
   const handle_submit = async (e) => {
     e.preventDefault();
@@ -27,26 +29,27 @@ export default function ReservationForm({ event_type, api_url, id}) {
 
       };
 
-      const res =  await api.post(api_url, reservationData );
-
-
-    //   const res = await fetch(api_url, {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(reservationData)
-    //   });
-
-      router.push('/home');
+      await api.post(api_url, reservationData );
+      router.push('/');
+      set_error(null);
 
     } catch (error) {
-      console.error('Erreur:', error);
-      alert('Erreur lors de la réservation');
+      set_error({
+        statusCode: error.response?.status || 500,
+      });
     } finally {
       set_loading(false);
     }
   };
 
   return (
+    <>
+    {error && (
+        <ErrorBox
+          statusCode={error.statusCode}
+          defaultMessage={error.defaultMessage}
+        />
+      )}
     <form onSubmit={handle_submit} className="form-container">
       <Typography variant="h4" gutterBottom>
         Réserver {event_type === 'eventbus' ? 'Bus' : event_type === 'eventroom' ? 'Salle' : 'Matériel'}
@@ -68,5 +71,6 @@ export default function ReservationForm({ event_type, api_url, id}) {
         {loading ? 'Réservation en cours...' : 'Réserver'}
       </Button>
     </form>
+  </>
   );
 }

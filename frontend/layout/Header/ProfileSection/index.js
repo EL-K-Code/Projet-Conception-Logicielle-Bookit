@@ -6,12 +6,9 @@ import { useSelector } from 'react-redux';
 import {
     Avatar,
     Box,
-    Card,
-    CardContent,
     Chip,
     ClickAwayListener,
     Divider,
-    Grid,
     InputAdornment,
     List,
     ListItemButton,
@@ -21,10 +18,12 @@ import {
     Paper,
     Popper,
     Stack,
-    Switch,
     Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+
+//lucide react import
+import { LogIn, LogOut, UserPlus, UserX } from 'lucide-react';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -32,10 +31,9 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from '@/ui-component/cards/MainCard';
 import Transitions from '@/ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
+import { IconSearch, IconSettings } from '@tabler/icons-react';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -44,9 +42,7 @@ const ProfileSection = () => {
     const customization = useSelector((state) => state.customization);
     const router = useRouter();
 
-    const [sdm, setSdm] = useState(true);
     const [value, setValue] = useState('');
-    const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     /**
@@ -84,6 +80,10 @@ const ProfileSection = () => {
 
         prevOpen.current = open;
     }, [open]);
+
+    const handleAction = (url) => {
+        router.push(url); // Rediriger vers la page voulue
+    };
 
     return (
         <>
@@ -187,51 +187,6 @@ const ProfileSection = () => {
                                         }}
                                     >
                                         <Box sx={{ p: 2 }}>
-                                            <UpgradePlanCard />
-                                            <Divider />
-                                            <Card
-                                                sx={{
-                                                    bgcolor: theme.palette.primary.light,
-                                                    my: 2
-                                                }}
-                                            >
-                                                <CardContent>
-                                                    <Grid container spacing={3} direction="column">
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Start DND Mode</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        color="primary"
-                                                                        checked={sdm}
-                                                                        onChange={(e) => setSdm(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Allow Notifications</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        checked={notification}
-                                                                        onChange={(e) => setNotification(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
-                                            <Divider />
                                             <List
                                                 component="nav"
                                                 sx={{
@@ -248,6 +203,7 @@ const ProfileSection = () => {
                                                     }
                                                 }}
                                             >
+                                                {/* Account setting */}
                                                 <ListItemButton
                                                     sx={{
                                                         borderRadius: `${customization.borderRadius}px`
@@ -260,48 +216,55 @@ const ProfileSection = () => {
                                                     </ListItemIcon>
                                                     <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
                                                 </ListItemButton>
+
+                                                {/* Login */}
                                                 <ListItemButton
-                                                    sx={{
-                                                        borderRadius: `${customization.borderRadius}px`
-                                                    }}
-                                                    selected={selectedIndex === 1}
-                                                    onClick={(event) => handleListItemClick(event, 1, '#')}
+                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                    selected={selectedIndex === 0}
+                                                    onClick={(event) => handleListItemClick(event, 0, '/auth/login')}
                                                 >
                                                     <ListItemIcon>
-                                                        <IconUser stroke={1.5} size="1.3rem" />
+                                                        <LogIn size="1.3rem" />
                                                     </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={
-                                                            <Grid container spacing={1} justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="body2">Social Profile</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Chip
-                                                                        label="02"
-                                                                        size="small"
-                                                                        sx={{
-                                                                            bgcolor: theme.palette.warning.dark,
-                                                                            color: theme.palette.background.default
-                                                                        }}
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        }
-                                                    />
+                                                    <ListItemText primary={<Typography variant="body2">Login</Typography>} />
                                                 </ListItemButton>
+
+                                                {/* Logout */}
                                                 <ListItemButton
-                                                    sx={{
-                                                        borderRadius: `${customization.borderRadius}px`
-                                                    }}
-                                                    selected={selectedIndex === 4}
-                                                    onClick={handleLogout}
+                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                    selected={selectedIndex === 0}
+                                                    onClick={(event) => handleListItemClick(event, 0, '/auth/logout')}
                                                 >
                                                     <ListItemIcon>
-                                                        <IconLogout stroke={1.5} size="1.3rem" />
+                                                        <LogOut size="1.3rem" />
                                                     </ListItemIcon>
                                                     <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
                                                 </ListItemButton>
+
+                                                {/* Signin */}
+                                                <ListItemButton
+                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                    selected={selectedIndex === 0}
+                                                    onClick={(event) => handleListItemClick(event, 0, '/auth/signup')}
+                                                >
+                                                    <ListItemIcon>
+                                                        <UserPlus size="1.3rem" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={<Typography variant="body2">Signup</Typography>} />
+                                                </ListItemButton>
+
+                                                {/* Signout */}
+                                                <ListItemButton
+                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                    selected={selectedIndex === 0}
+                                                    onClick={(event) => handleListItemClick(event, 0, '/auth/signout')}
+                                                >
+                                                    <ListItemIcon>
+                                                        <UserX size="1.3rem" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={<Typography variant="body2">Signout</Typography>} />
+                                                </ListItemButton>
+
                                             </List>
                                         </Box>
                                     </PerfectScrollbar>

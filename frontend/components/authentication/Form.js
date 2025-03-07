@@ -30,7 +30,9 @@ const Form = ({ route, method }) => {
     }
 
     try {
-      const res = await api.post(route, { username, password, ...(method === "signup" && { email }) });
+      const res = await api.post(route,
+        { username, password, ...(method === "signup" && { email }) },
+        { auth_required: false });
 
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
@@ -42,7 +44,7 @@ const Form = ({ route, method }) => {
         console.log(redirectTo);
         router.push(redirectTo);
       } else {
-        router.push("/login");
+        router.push("/auth/login");
       }
     } catch (error) {
       alert("Erreur: " + (error.response?.data?.detail || error.message));
@@ -99,7 +101,7 @@ const Form = ({ route, method }) => {
 };
 
 Form.propTypes = {
-  route: PropTypes.oneOf(['/login', '/signup']),
+  route: PropTypes.oneOf(['/auth/login', '/auth/signup']),
   method: PropTypes.oneOf(['login', 'signup'])
 };
 
