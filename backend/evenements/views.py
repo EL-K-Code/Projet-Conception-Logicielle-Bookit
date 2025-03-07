@@ -62,7 +62,7 @@ class CreateEventMaterialView(generics.CreateAPIView):
 
 class EventListView(APIView):
     """
-    Vue permettant de récupérer la liste complète des événements.
+    Vue permettant de récupérer la liste complète des événements non réservés
     """
 
     permission_classes = [AllowAny]
@@ -76,9 +76,11 @@ class EventListView(APIView):
         Returns:
             _HttpResponse_: Objet représentant la réponse HTTP en cours.
         """
-        event_rooms = EventRoom.objects.all()
-        event_buses = EventBus.objects.all()
-        event_materials = EventMaterial.objects.all()
+
+        # Récupération des éevenemets non réservés
+        event_rooms = EventRoom.objects.filter(is_reserved=False)
+        event_buses = EventBus.objects.filter(is_reserved=False)
+        event_materials = EventMaterial.objects.filter(is_reserved=False)
 
         room_serializer = EventRoomSerializer(event_rooms, many=True)
         bus_serializer = EventBusSerializer(event_buses, many=True)
