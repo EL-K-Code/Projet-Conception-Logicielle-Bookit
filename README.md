@@ -103,6 +103,53 @@ docker run -p 3000:3000 frontend
 L'application frontend sera accessible à [http://localhost:3000](http://localhost:3000)
 
 ### :arrow_forward: Lancer l'application sans image Docker
+Assurez-vous d'avoir les outils suivants installés sur votre machine :
+
+- **Python** pour le backend.
+- **Node.js** pour le frontend: Vous pouvez installer Node.js via nvm, le gestionnaire de version de Node.js
+
+- [ ] Installation de nvm (Node Version Manager)
+   Si nvm n'est pas déjà installé sur votre système, suivez les étapes ci-dessous pour l'installer
+
+1. Installer nvm
+Exécutez la commande suivante dans votre terminal pour installer nvm :
+```bash
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+```
+2. Appliquer les modifications au shell
+Après l'installation de nvm, rechargez votre shell pour appliquer les changements :
+```bash
+source ~/.bashrc
+```
+3. Vérifier l'installation de nvm
+Vérifiez que nvm est correctement installé en exécutant :
+```bash
+nvm --version
+```
+Si la version de nvm est affichée, l'installation a réussi.
+
+- [ ] Installer Node.js 20
+- [ ] 
+Une fois nvm installé, vous pouvez utiliser nvm pour installer la version de Node.js 20, qui est requise pour le projet. Exécutez les commandes suivantes :
+
+1. Installer Node.js 20 :
+```bash
+nvm install 20
+```
+
+2. Définir Node.js 20 comme version par défaut :
+```bash
+nvm use 20
+nvm alias default 20
+```
+
+3. Vérifier l'installation de Node.js et npm
+Pour confirmer que Node.js et npm sont installés correctement, exécutez les commandes suivantes :
+```bash
+node -v
+npm -v
+```
+Cela affichera les versions respectives de Node.js et npm.
 
 - [ ] Créez un environnement virtuel :
   ```bash
