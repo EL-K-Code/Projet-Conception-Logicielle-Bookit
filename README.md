@@ -8,8 +8,14 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 
 **Bookit** est une application de réservation des services tels que des **bus**, **salles** et **matériaux**. Elle permet de centraliser la gestion des ressources, de visualiser les disponibilités des ressources, et de permettre aux utilisateurs de faire des réservations facilement.
 
-### ✨ Fonctionnalités
-...
+### ✨ Fonctionaités
+
+Notre application présente trois types d'utilisateurs : les consommateurs (Consumer), les administrateurs d'évènements (Event Admin) et les administrateurs (Admin)
+
+- [ ] Event Admin : Créer, supprimer et modifier les évènements
+- [ ] Consumer : Consulter les évènements, Réserver les évènements, Annuler une réservation
+
+A noter qu'une notification via mail est envoyé à tous les consommateurs lorsqu'un évènement est créé ou mis à jour par l'administrateur évènement.
 
 
 ### 💻 Technologies utilisées
@@ -130,7 +136,7 @@ cp ../frontend/.env.template ./frontend/.env.template.env
 2. Complétez les variables d'environnement dans le fichier .env du backend :
 
    Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
-      
+
    Voici les variables à compléter :
 - **DJANGO_SUPERUSER_USERNAME** : Entrez un nom d'utilisateur pour l'administrateur Django.
 - **DJANGO_SUPERUSER_EMAIL** : Entrez l'email de l'administrateur Django.
@@ -142,7 +148,7 @@ cp ../frontend/.env.template ./frontend/.env.template.env
 - **DJANGO_DEBUG** : Valeur par défaut True. Changez-la en False pour un environnement de production.
 - **DJANGO_ALLOWED_HOSTS** : Liste des hôtes autorisés. La valeur par défaut inclut localhost et 127.0.0.1, mais Vous devrez l'ajuster si votre application doit être accessible depuis d'autres hôtes.
 - **FRONTEND_APP_API_URL** : Liste des URL de l'API frontend. La valeur par défaut inclut http://localhost:3000 pour un développement local et https://bookit-ensai.kub.sspcloud.fr pour la production.
-- **EMAIL_HOST_USER** et **EMAIL_HOST_PASSWORD** : Entrez les informations de connexion de votre serveur SMTP pour l'envoi d'emails. Ces champs sont vides par défaut. Si vous utilisez Gmail, remplissez-les avec les informations nécessaires pour l'authentification via le service Gmail. Assurez-vous de bien sécuriser ces informations. 
+- **EMAIL_HOST_USER** et **EMAIL_HOST_PASSWORD** : Entrez les informations de connexion de votre serveur SMTP pour l'envoi d'emails. Ces champs sont vides par défaut. Si vous utilisez Gmail, remplissez-les avec les informations nécessaires pour l'authentification via le service Gmail. Assurez-vous de bien sécuriser ces informations.
 
 
 - [ ] Appliquer les migrations :
