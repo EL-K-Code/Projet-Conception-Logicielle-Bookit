@@ -24,9 +24,8 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 
 3. **Création et gestion des événements**:
    - [ ] Création des événements pour la réservation de bus, salles ou matériel.
-   - [ ] Gé la durée, la capacité et la disponibilité des événements.
    - [ ] Mise  à jour ou supprimer des événements existants.
-   - [ ] iste des événements disponibles
+   - [ ] Liste des événements disponibles
 
 3. **Réservation des ressources**
    - [ ] *Bus* : Réservation de places pour des événements spécifiques (par exemple, transport pour des sorties).
