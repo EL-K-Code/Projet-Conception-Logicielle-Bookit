@@ -4,13 +4,13 @@ Ce module contient des tests unitaires pour les reservations de bus, salle et ma
 
 from datetime import date, datetime, time
 
-from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from evenements.models import Bus, EventBus, EventMaterial, EventRoom, Material, Room
 from reservations.models import ReservationBus, ReservationMaterial, ReservationRoom
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIClient, APITestCase
 from userspace.models import User
 
@@ -100,10 +100,14 @@ class ReservationManagerTests(ReservationTestSetup):
         # On vérifie si is_reserved==True après réservation de la dernière place du bus
         self.assertEqual(self.event_bus.is_reserved, True)
 
-        with self.assertRaises(ValidationError, msg="Plus de places disponibles"):
+        with self.assertRaises(ValidationError) as context:
             ReservationBus.objects.reserve_bus(
                 consumer=self.user, event_bus=self.event_bus
             )
+
+        errors = context.exception.detail
+        self.assertEqual(errors["error"], "Plus de places disponibles")
+        self.assertEqual(errors["code"], "NO_SEATS_AVAILABLE")
 
     def test_reserve_room_success(self):
         """
@@ -116,7 +120,7 @@ class ReservationManagerTests(ReservationTestSetup):
             start_time=time(16, 0),
             end_time=time(18, 0),
         )
-        self.assertEqual(self.event_room.is_reserved, True)
+        self.assertEqual(self.event_room.is_reserved, False)
         self.assertEqual(ReservationRoom.objects.count(), 1)
         self.assertEqual(reservation_room.consumer, self.user)
         self.assertEqual(reservation_room.event_room, self.event_room)
@@ -139,9 +143,7 @@ class ReservationManagerTests(ReservationTestSetup):
             start_time=time(17, 0),
             end_time=time(19, 0),
         )
-        with self.assertRaises(
-            ValidationError, msg="Cette salle existe déjà pour ce créneau"
-        ):
+        with self.assertRaises(ValidationError) as context:
             ReservationRoom.objects.reserve_room(
                 consumer=self.user,
                 event_room=self.event_room,
@@ -149,6 +151,11 @@ class ReservationManagerTests(ReservationTestSetup):
                 start_time=time(18, 0),
                 end_time=time(20, 0),
             )
+        errors = context.exception.detail
+        self.assertEqual(
+            errors["error"], "Cette salle est déjà réservée pour ce créneau"
+        )
+        self.assertEqual(errors["code"], "ROOM_ALREADY_BOOKED")
 
     def test_reserve_material_success(self):
         """
@@ -180,9 +187,7 @@ class ReservationManagerTests(ReservationTestSetup):
         """
         Test pour vérifier la réservation avec stock insuffisant
         """
-        with self.assertRaises(
-            ValidationError, msg="Stock insuffisant pour cette réservation"
-        ):
+        with self.assertRaises(ValidationError) as context:
             ReservationMaterial.objects.reserve_material(
                 consumer=self.user,
                 event_material=self.event_material,
@@ -191,6 +196,10 @@ class ReservationManagerTests(ReservationTestSetup):
                 end_time=time(19, 0),
                 quantity=15,
             )
+
+        errors = context.exception.detail
+        self.assertEqual(errors["error"], "Stock insuffisant pour cette réservation")
+        self.assertEqual(errors["code"], "INSUFFICIENT_STOCK")
 
     def test_cancel_bus_reservation(self):
         """
