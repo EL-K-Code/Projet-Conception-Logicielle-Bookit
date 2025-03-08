@@ -63,10 +63,12 @@ cp frontend/.env.template frontend/.env
    Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
 
    Voici les variables à compléter :
+````ini
 - **DJANGO_SUPERUSER_USERNAME** : Entrez un nom d'utilisateur pour l'administrateur Django.
 - **DJANGO_SUPERUSER_EMAIL** : Entrez l'email de l'administrateur Django.
 - **DJANGO_SUPERUSER_PASSWORD** : Entrez un mot de passe pour l'administrateur Django.
 - **DJANGO_SECRET_KEY** : Générez une nouvelle clé secrète Django. Vous pouvez utiliser la commande suivante pour générer une clé secrète:
+
   ```bash
   python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
   ```
@@ -74,6 +76,7 @@ cp frontend/.env.template frontend/.env
 - **DJANGO_ALLOWED_HOSTS** : Liste des hôtes autorisés. La valeur par défaut inclut localhost et 127.0.0.1, mais Vous devrez l'ajuster si votre application doit être accessible depuis d'autres hôtes.
 - **FRONTEND_APP_API_URL** : Liste des URL de l'API frontend. La valeur par défaut inclut http://localhost:3000, https://bookit-ensai.kub.sspcloud.fr
 - **EMAIL_HOST_USER** et **EMAIL_HOST_PASSWORD** : Entrez les informations de connexion de votre serveur SMTP pour l'envoi d'emails. Ces champs sont vides par défaut. Si vous utilisez Gmail, remplissez-les avec les informations nécessaires pour l'authentification via le service Gmail. Assurez-vous de bien sécuriser ces informations.
+````
 
 - [ ] Pull des images depuis Docker Hub
 
