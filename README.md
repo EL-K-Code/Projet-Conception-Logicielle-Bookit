@@ -13,9 +13,10 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 
 ### ✨ Fonctionnalités principales
 
-1. **s'inscrire, se connecter, se déconnecter, se déconnecter**
+1. **s'inscrire, se connecter, se déconnecter, se désinscrire**
    
-3. **Gestion des utilisateurs**: 
+3. **Gestion des utilisateurs**:
+   
    Nous avons 3 types d'utilisateurs:
    - [ ]  Consumer: Utilisateur classique, peut consulter les évenements, réserver des ressources et gérer ses réservations
    - [ ]  Event Admin: Administrateur d'événements, peut créer, modifier, supprimer et gérer des événements (bus, salles, matériel)
@@ -34,6 +35,7 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
    - [ ] Les utilisateurs peuvent également annuler leurs réservations si nécessaire
 
 7. **Notifications automatiques**
+   
       Lorsqu'un événement est créé ou mis à jour, une notification par e-mail est envoyée à tous les consommateurs inscrits pour les tenir informés des nouvelles disponibilités et modifications des événements.
 
    
