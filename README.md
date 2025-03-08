@@ -79,7 +79,7 @@ cp backend/.env.template backend/.env
 cp frontend/.env.template frontend/.env
 ```
 
-2. Complétez les variables d'environnement dans le fichier .env du backend :
+2. Complétez les variables d'environnement dans le fichier `.env`  du backend :
 
    Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
 
