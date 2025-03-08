@@ -238,24 +238,26 @@ Le projet utilise GitHub Actions pour automatiser les tests, la vérification du
 
 ## 🎯 Scénario d'utilisation de l'application
 
-1. Création du compte utilisateur :
+Imaginons un utilisateur souhaitant réserver une salle: 
+
+1. **Création du compte utilisateur** :
 
    L'utilisateur se rend sur la page d'inscription de l'application. Il s'inscrit donc en tant que "Consumer" avec nom d(utilisateur s, on adresse e-mail et un mot de passe.
 
-2. Connexion :
+2. **Connexion** :
 
    L'utilisateur se connecte avec ses identifiants (Nom d'utilisateur et mot de passe) via la page de connexion. Après la connexion, l'utilisateur accède à son tableau de bord, où il peut consulter les événements disponibles (salles, bus, matériel).
    
 
-3. Réservation d'une salle :
+3. **Réservation d'une salle** :
 
    L'utilisateur sélectionne une salle disponible et réserve la date et l'heure qui lui convient. Il peut alors voir  la réservation apparaître dans son tableau de bord.
 
-4. Annulation d'une réservation :
+4. **Annulation d'une réservation** :
 
    Si l'utilisateur décide de ne plus utiliser la salle, il peut annuler sa réservation via son tableau de bord.
 
-5. Déconnexion :
+5. **Déconnexion** :
    
    L'utilisateur se déconnecte de l'application avec le bouton de déconnexion
 
