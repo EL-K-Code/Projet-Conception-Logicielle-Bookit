@@ -11,7 +11,7 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 **Bookit** est une application de réservation des services tels que des **bus**, **salles** et **matériaux**. Elle permet de centraliser la gestion des ressources, de visualiser les disponibilités des ressources, et de permettre aux utilisateurs de faire des réservations facilement.
 
 
-### ✨ Fonctionaités
+## ✨ Fonctionaités
 
 Notre application présente trois types d'utilisateurs : les consommateurs (Consumer), les administrateurs d'évènements (Event Admin) et les administrateurs (Admin)
 
@@ -21,7 +21,7 @@ Notre application présente trois types d'utilisateurs : les consommateurs (Cons
 A noter qu'une notification via mail est envoyé à tous les consommateurs lorsqu'un évènement est créé ou mis à jour par l'administrateur évènement.
 
 
-### 💻 Technologies utilisées
+## 💻 Technologies utilisées
 - [ ] Backend: Django
 - [ ] Frontend: React
 - [ ] Base de données: SQLite
