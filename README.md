@@ -11,15 +11,33 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 **Bookit** est une application de réservation des services tels que des **bus**, **salles** et **matériaux**. Elle permet de centraliser la gestion des ressources, de visualiser les disponibilités des ressources, et de permettre aux utilisateurs de faire des réservations facilement.
 
 
-### ✨ Fonctionaités
+### ✨ Fonctionnalités principales
 
-Notre application présente trois types d'utilisateurs : les consommateurs (Consumer), les administrateurs d'évènements (Event Admin) et les administrateurs (Admin)
+1. **s'inscrire, se connecter, se déconnecter, se désinscrire**
+   
+3. **Gestion des utilisateurs**:
+   
+   Nous avons 3 types d'utilisateurs:
+   - [ ]  *Consumer*: Utilisateur classique, peut consulter les évenements, réserver des ressources et gérer ses réservations
+   - [ ]  *Event Admin*: Administrateur d'événements, peut créer, modifier, supprimer et gérer des événements (bus, salles, matériel)
+   - [ ]  *Admin*: Administrateur principal, avec des droits étendus pour gérer les utilisateurs, ressources et les configurations générales de l'application
 
-- [ ] Event Admin : Créer, supprimer et modifier les évènements
-- [ ] Consumer : Consulter les évènements, Réserver les évènements, Annuler une réservation
+3. **Création et gestion des événements**:
+   - [ ] Création des événements pour la réservation de bus, salles ou matériel.
+   - [ ] Mise  à jour ou supprimer des événements existants.
+   - [ ] Liste des événements disponibles
 
-A noter qu'une notification via mail est envoyé à tous les consommateurs lorsqu'un évènement est créé ou mis à jour par l'administrateur évènement.
+3. **Réservation des ressources**
+   - [ ] *Bus* : Réservation de places pour des événements spécifiques (par exemple, transport pour des sorties).
+   - [ ] *Salles* : Réservation de salles pour des événements comme des conférences, cours, ou activités.
+   - [ ] *Matériel* : Réservation de matériel pour des événements particuliers.
+   - [ ] Les utilisateurs peuvent également annuler leurs réservations si nécessaire
 
+7. **Notifications automatiques**
+   
+      Lorsqu'un événement est créé ou mis à jour, une notification par e-mail est envoyée à tous les consommateurs inscrits pour les tenir informés des nouvelles disponibilités et modifications des événements.
+
+   
 
 ## 💻 Technologies utilisées
 - [ ] Backend: Django
@@ -189,6 +207,16 @@ Une fois nvm installé, vous pouvez utiliser nvm pour installer la version de No
 cd ../backend
 python manage.py makemigrations
 python manage.py migrate
+```
+Vous pouvez **initialiser des données** dans la base en lançant le srcipt d'initiliasation des données initlize_data.py contenu dans le dossier backend/backend/management/commanads.
+Pour faire cela, exécutez la commande:
+
+```bash
+python manage.py initialize_data
+```
+
+- [ ] Lancer le backend :
+```bash
 python manage.py runserver
 ```
 L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
@@ -217,6 +245,32 @@ Ensuite vous pouvez ouvrir le fichier `coverage_report/index.html` dans votre na
 Le projet utilise GitHub Actions pour automatiser les tests, la vérification du code à chaque push et le déploiement des images Docker vers Docker Hub
 
 
+## 🎯 Scénario d'utilisation de l'application
+
+Imaginons un utilisateur souhaitant réserver une salle: 
+
+1. **Création du compte utilisateur** :
+
+   L'utilisateur se rend sur la page d'inscription de l'application. Il s'inscrit donc en tant que "Consumer" avec nom d(utilisateur s, on adresse e-mail et un mot de passe.
+
+2. **Connexion** :
+
+   L'utilisateur se connecte avec ses identifiants (Nom d'utilisateur et mot de passe) via la page de connexion. Après la connexion, l'utilisateur accède à son tableau de bord, où il peut consulter les événements disponibles (salles, bus, matériel).
+   
+
+3. **Réservation d'une salle** :
+
+   L'utilisateur sélectionne une salle disponible et réserve la date et l'heure qui lui convient. Il peut alors voir  la réservation apparaître dans son tableau de bord.
+
+4. **Annulation d'une réservation** :
+
+   Si l'utilisateur décide de ne plus utiliser la salle, il peut annuler sa réservation via son tableau de bord.
+
+5. **Déconnexion** :
+   
+   L'utilisateur se déconnecte de l'application avec le bouton de déconnexion
+
+
 ## 👥 Équipe du projet
 Le projet est réalisé par les élèves:
 - [ ] Richard GOZAN
@@ -224,5 +278,5 @@ Le projet est réalisé par les élèves:
 - [ ] Yatoute MINTOMA
 
 Sous la supervision de :
-- [ ] Antoine Brunetti: Analyste Développeur à l'INSEE
-- [ ] Oriane Foussard: Analyste Développeur à l'INSEE
+- [ ] M. Antoine Brunetti: Analyste Développeur à l'INSEE
+- [ ] Mme Oriane Foussard: Analyste Développeur à l'INSEE

@@ -197,4 +197,5 @@ doc-docker-kubernetes/
 doc-react/
 doc-rest_framework/
 
-requirements
+# Dossier de configuration de vscode
+.vscode/
