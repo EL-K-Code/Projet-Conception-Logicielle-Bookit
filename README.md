@@ -38,17 +38,19 @@ Assurez-vous d'avoir installé Docker (ou Docker Desktop sous windows) sur votre
 Vous allez lancer l'application en utilisant les images docker que nous avons publié sur Docker Hub
 
 
-- [ ] Cloner le projet
+- [ ] Cloner le projet:
+      
    Récupérez le code source en clonant ce dépôt sur votre machine locale :
 ```bash
 git clone https://github.com/EL-K-Code/Projet-Conception-Logicielle-Bookit.git
 cd Projet-Conception-Logicielle-Bookit
 ```
 
-- [ ] Configurer les variables d'environnements
+- [ ] Configurer les variables d'environnements:
+      
    Avant de lancer l'application, vous devez définir certaines variables d'environnement nécessaires au bon fonctionnement de l'application:
       
-   1. Copiez le fichier `.env.template` et renommez-le en `.env` :
+1. Copiez le fichier `.env.template` et renommez-le en `.env` :
 
    Exécutez les commandes suivantes pour dupliquer le fichier modèle .env.template et créer le fichier .env qui sera utilisé par votre application :
 ```bash
@@ -56,7 +58,7 @@ cp backend/.env.template backend/.env
 cp frontend/.env.template frontend/.env
 ```
 
-   2. Complétez les variables d'environnement dans le fichier .env du backend :
+2. Complétez les variables d'environnement dans le fichier .env du backend :
 
    Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
 
