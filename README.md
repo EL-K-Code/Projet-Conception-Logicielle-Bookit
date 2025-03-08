@@ -1,12 +1,15 @@
 # Bookit - Application de réservation de services
 
+
 ## 🎓 Contexte
 
 Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel** en **2ᵉ année** à l'**ENSAI**. Il vise à appliquer les principes d'ingénierie de développement afin de concevoir une application complète et fonctionnelle répondant à un besoin concret.
 
+
 ## 📖 Description
 
 **Bookit** est une application de réservation des services tels que des **bus**, **salles** et **matériaux**. Elle permet de centraliser la gestion des ressources, de visualiser les disponibilités des ressources, et de permettre aux utilisateurs de faire des réservations facilement.
+
 
 ### ✨ Fonctionaités
 
@@ -103,7 +106,6 @@ Backend :  [http://127.0.0.1:8000](http://127.0.0.1:8000)
 Frontend : [http://localhost:3000](http://localhost:3000)
 
 
-  
 ## 📌 Instructions pour lancer l'application en local
 
 Assurez-vous d'avoir **Node.js** installé sur votre machine(pour le frontend).
