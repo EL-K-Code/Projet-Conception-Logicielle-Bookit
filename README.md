@@ -277,10 +277,10 @@ Imaginons un utilisateur souhaitant réserver une salle:
 
 ## 👥 Équipe du projet
 Le projet est réalisé par les élèves:
-- [ ] Richard GOZAN
-- [ ] Alex LABOU
-- [ ] Yatoute MINTOMA
+- [ ] **Richard GOZAN**
+- [ ] **Alex LABOU**
+- [ ] **Yatoute MINTOMA**
 
 Sous la supervision de :
-- [ ] M. Antoine Brunetti: Analyste Développeur à l'INSEE
-- [ ] Mme Oriane Foussard: Analyste Développeur à l'INSEE
+- [ ] **M. Antoine Brunetti**: Analyste Développeur à l'INSEE
+- [ ] **Mme Oriane Foussard**: Analyste Développeur à l'INSEE
