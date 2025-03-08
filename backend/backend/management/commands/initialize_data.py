@@ -74,22 +74,22 @@ class Command(BaseCommand):
         events = {
             "event_buses": [
                 EventBus.objects.create(
-                    description="Sortie gala de fin d'année",
+                    description="Séminaire à Saint Malo",
                     organizer=users["event_admin"],
                     resource=resources["buses"][0],
-                    departure="ENSAI",
-                    destination="Chateau d'Apigné",
-                    start_time=timezone.make_aware(datetime(2025, 3, 29, 18, 0, 0)),
-                    end_time=timezone.make_aware(datetime(2025, 3, 29, 19, 0, 0)),
+                    departure="Rennes",
+                    destination="Saint Malo",
+                    start_time=timezone.make_aware(datetime(2025, 3, 8, 18, 0, 0)),
+                    end_time=timezone.make_aware(datetime(2025, 3, 21, 19, 0, 0)),
                 ),
                 EventBus.objects.create(
-                    description="Visite place de la mairie",
+                    description="Sortie gala de fin d'année",
                     organizer=users["event_admin"],
                     resource=resources["buses"][1],
                     departure="ENSAI",
-                    destination="République",
-                    start_time=timezone.make_aware(datetime(2025, 3, 22, 10, 0, 0)),
-                    end_time=timezone.make_aware(datetime(2025, 3, 22, 12, 0, 0)),
+                    destination="Chateau d'Apigné",
+                    start_time=timezone.make_aware(datetime(2025, 3, 22, 19, 0, 0)),
+                    end_time=timezone.make_aware(datetime(2025, 3, 22, 20, 0, 0)),
                 ),
             ],
             "event_rooms": [
@@ -134,14 +134,14 @@ class Command(BaseCommand):
         reservation_room1 = ReservationRoom.objects.reserve_room(
             consumer=users["consumer"],
             event_room=events["event_rooms"][0],
-            date=date(2025, 3, 3),
+            date=date(2025, 3, 21),
             start_time=time(9, 0),
             end_time=time(12, 0),
         )
         reservation_room2 = ReservationRoom.objects.reserve_room(
             consumer=users["consumer"],
             event_room=events["event_rooms"][1],
-            date=date(2025, 3, 4),
+            date=date(2025, 3, 21),
             start_time=time(14, 0),
             end_time=time(17, 0),
         )
@@ -152,7 +152,7 @@ class Command(BaseCommand):
         reservation_material1 = ReservationMaterial.objects.reserve_material(
             consumer=users["consumer"],
             event_material=events["event_materials"][0],
-            date=date(2025, 3, 3),
+            date=date(2025, 3, 21),
             start_time=time(10, 0),
             end_time=time(12, 0),
             quantity=5,
@@ -160,7 +160,7 @@ class Command(BaseCommand):
         reservation_material2 = ReservationMaterial.objects.reserve_material(
             consumer=users["consumer"],
             event_material=events["event_materials"][1],
-            date=date(2025, 3, 3),
+            date=date(2025, 3, 21),
             start_time=time(13, 0),
             end_time=time(15, 0),
             quantity=3,
