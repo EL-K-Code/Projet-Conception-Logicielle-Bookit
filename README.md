@@ -11,15 +11,37 @@ Ce projet a été réalisé dans le cadre du cours de **Conception de logiciel**
 **Bookit** est une application de réservation des services tels que des **bus**, **salles** et **matériaux**. Elle permet de centraliser la gestion des ressources, de visualiser les disponibilités des ressources, et de permettre aux utilisateurs de faire des réservations facilement.
 
 
-### ✨ Fonctionaités
+### ✨ Fonctionnalités principales
 
-Notre application présente trois types d'utilisateurs : les consommateurs (Consumer), les administrateurs d'évènements (Event Admin) et les administrateurs (Admin)
+1. **s'inscrire, se connecter, se déconnecter, se déconnecter**
+   
+3. **Gestion des utilisateurs**: 
+   
+   Nous avons 3 types d'utilisateurs:
+- [ ]  Consumer: Utilisateur classique, peut consulter les évenements, réserver des ressources et gérer ses réservations
+- [ ]  Event Admin: Administrateur d'événements, peut créer, modifier, supprimer et gérer des événements (bus, salles, matériel)
+- [ ]  Admin: Administrateur principal, avec des droits étendus pour gérer les utilisateurs, ressources et les configurations générales de l'application
 
-- [ ] Event Admin : Créer, supprimer et modifier les évènements
-- [ ] Consumer : Consulter les évènements, Réserver les évènements, Annuler une réservation
+3. **Création et gestion des événements**:
+   
+   - [ ] Création des événements pour la réservation de bus, salles ou matériel.
+   - [ ] Gé la durée, la capacité et la disponibilité des événements.
+   - [ ] Mise  à jour ou supprimer des événements existants.
+   - [ ] iste des événements disponibles
 
-A noter qu'une notification via mail est envoyé à tous les consommateurs lorsqu'un évènement est créé ou mis à jour par l'administrateur évènement.
+3. **Réservation des ressources**
+   
+   - [ ] Bus : Réservation de places pour des événements spécifiques (par exemple, transport pour des sorties).
+   - [ ] Salles : Réservation de salles pour des événements comme des conférences, cours, ou activités.
+   - [ ] Matériel : Réservation de matériel pour des événements particuliers.
+   - [ ] Les utilisateurs peuvent également annuler leurs réservations si nécessaire
 
+
+7. **Notifications automatiques**
+   
+      Lorsqu'un événement est créé ou mis à jour, une notification par e-mail est envoyée à tous les consommateurs inscrits pour les tenir informés des nouvelles disponibilités et modifications des événements.
+
+   
 
 ## 💻 Technologies utilisées
 - [ ] Backend: Django
@@ -224,5 +246,5 @@ Le projet est réalisé par les élèves:
 - [ ] Yatoute MINTOMA
 
 Sous la supervision de :
-- [ ] Antoine Brunetti: Analyste Développeur à l'INSEE
-- [ ] Oriane Foussard: Analyste Développeur à l'INSEE
+- [ ] M. Antoine Brunetti: Analyste Développeur à l'INSEE
+- [ ] Mme Oriane Foussard: Analyste Développeur à l'INSEE
