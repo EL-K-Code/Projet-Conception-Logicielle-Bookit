@@ -5,6 +5,7 @@ import { Divider, List, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // project imports
+import AccessComponent from '@/components/AccessComponent';
 import NavCollapse from '../NavCollapse';
 import NavItem from '../NavItem';
 
@@ -17,6 +18,8 @@ const NavGroup = ({ item }) => {
     const theme = useTheme();
 
     // menu list collapse & items
+    const parent = item ;
+    console.log(parent?.accessGroups);
     const items = item.children?.map((menu) => {
         switch (menu.type) {
             case 'collapse':
@@ -33,7 +36,7 @@ const NavGroup = ({ item }) => {
     });
 
     return (
-        <>
+        <> <AccessComponent requiredGroups={parent?.accessGroups}>
             <List
                 subheader={
                     item.title && (
@@ -50,6 +53,7 @@ const NavGroup = ({ item }) => {
             >
                 {items}
             </List>
+         </AccessComponent>
 
             {/* group divider */}
             <Divider sx={{ mt: 0.25, mb: 1.25 }} />

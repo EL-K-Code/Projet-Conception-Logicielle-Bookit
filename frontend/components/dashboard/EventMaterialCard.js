@@ -6,8 +6,8 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from 'prop-types';
 
-
 // Project imports
+import AccessComponent from '@/components/AccessComponent';
 import getIconeByType from '@/components/icone';
 import MainCard from "@/ui-component/cards/MainCard";
 
@@ -133,14 +133,17 @@ const EventMaterialCard = ({event, CardHeight }) => {
              <MenuItem onClick={() => handleAction(`/reservations/make/material/${event.id}`)}>
               {getIconeByType("calender", theme)} Make a reservation
             </MenuItem>
-
-            <MenuItem onClick={() => handleAction(`/events/update/material/${event.id}`)}>
-             {getIconeByType("edit", theme)} Update event
-            </MenuItem>
-
-            <MenuItem onClick={() => handleAction(`/events/delete/material/${event.id}`)}>
-              {getIconeByType("cancel", theme)} Delete event
+            <AccessComponent requiredGroups={["event_admin"]}>
+              <MenuItem onClick={() => handleAction(`/events/update/material/${event.id}`)}>
+              {getIconeByType("edit", theme)} Update event
               </MenuItem>
+            </AccessComponent>
+
+            <AccessComponent requiredGroups={["event_admin"]}>
+                <MenuItem onClick={() => handleAction(`/events/delete/material/${event.id}`)}>
+                   {getIconeByType("cancel", theme)} Delete event
+                </MenuItem>
+            </AccessComponent>
           </Menu>
         </Grid>
       </Grid>

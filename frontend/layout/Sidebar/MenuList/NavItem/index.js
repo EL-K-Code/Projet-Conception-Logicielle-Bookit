@@ -10,6 +10,7 @@ import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, u
 import { useTheme } from '@mui/material/styles';
 
 // project imports
+import AccessComponent from '@/components/AccessComponent';
 import getIconeByType from '@/components/icone';
 import { MENU_OPEN, SET_MENU } from '@/store/actions';
 // types
@@ -64,6 +65,7 @@ const NavItem = ({ item, level }) => {
     }, []);
 
     return (
+        <><AccessComponent requiredGroups={item?.accessGroups}>
         <ListItemButton
             {...listItemProps}
             disabled={item.disabled}
@@ -103,6 +105,8 @@ const NavItem = ({ item, level }) => {
                 />
             )}
         </ListItemButton>
+    </AccessComponent>
+        </>
     );
 };
 

@@ -23,8 +23,18 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import MainLayout from "@/layout";
 import NavigationScroll from "@/layout/NavigationScroll";
 
+
 const Bookit =({ Component, pageProps }) => {
   const router = useRouter();
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   const savedGroups = JSON.parse(localStorage.getItem('userGroups'));
+  //   if (savedGroups && savedGroups.length > 0) {
+  //     dispatch(setUserGroup(savedGroups));
+
+  //   }
+  // }, [dispatch]);
 
   // Définir les routes nécessitant MainLayout ou MinimalLayout
   const notMainLayoutRoutes = ["/auth/login", "/auth/logout", "/auth/signup", "/auth/signout"];

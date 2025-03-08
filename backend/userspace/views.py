@@ -5,11 +5,40 @@ Ce module définit les vues permettant l'inscription, la déconnexion et
 la révocation des tokens JWT des utilisateurs.
 """
 
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
 from .serializers import UserSerializer
+
+
+class LoginView(TokenObtainPairView):
+    """Login"""
+
+    serializer_class = TokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        """Requête post"""
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+            user = serializer.user
+
+            # Créer la réponse personnalisée
+            response_data = {
+                "refresh": serializer.validated_data["refresh"],
+                "access": serializer.validated_data["access"],
+                "username": user.username,
+                "groups": user.groups.values_list("name", flat=True),
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class SignUpView(generics.CreateAPIView):

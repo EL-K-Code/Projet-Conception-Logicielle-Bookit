@@ -153,13 +153,13 @@ const ProfileSection = () => {
                                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                                     <Box sx={{ p: 2 }}>
                                         <Stack>
-                                            <Stack direction="row" spacing={0.5} alignItems="center">
+                                            {/* <Stack direction="row" spacing={0.5} alignItems="center">
                                                 <Typography variant="h4">Good Morning,</Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    Johne Doe
+
                                                 </Typography>
-                                            </Stack>
-                                            <Typography variant="subtitle2">Project Admin</Typography>
+                                            </Stack> */}
+
                                         </Stack>
                                         <OutlinedInput
                                             sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}

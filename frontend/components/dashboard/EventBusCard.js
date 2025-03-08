@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 
 // Project imports
+import AccessComponent from '@/components/AccessComponent';
 import getIconeByType from '@/components/icone';
 import MainCard from "@/ui-component/cards/MainCard";
 
@@ -129,14 +130,17 @@ const EventBusCard = ( {event,  CardHeight }) => {
                       <MenuItem onClick={() => handleAction(`/reservations/make/bus/${event.id}`)}>
                         {getIconeByType("calender", theme)} Make a reservation
                       </MenuItem>
+                      <AccessComponent requiredGroups={["event_admin"]}>
+                        <MenuItem onClick={() => handleAction(`/events/update/bus/${event.id}`)}>
+                          {getIconeByType("edit", theme)} Update event
+                        </MenuItem>
+                      </AccessComponent>
 
-                      <MenuItem onClick={() => handleAction(`/events/update/bus/${event.id}`)}>
-                        {getIconeByType("edit", theme)} Update event
-                      </MenuItem>
-
-                      <MenuItem onClick={() => handleAction(`/events/delete/bus/${event.id}`)}>
-                        {getIconeByType("cancel", theme)} Delete event
-                      </MenuItem>
+                      <AccessComponent requiredGroups={["event_admin"]}>
+                        <MenuItem onClick={() => handleAction(`/events/delete/bus/${event.id}`)}>
+                          {getIconeByType("cancel", theme)} Delete event
+                        </MenuItem>
+                      </AccessComponent>
                     </Menu>
                   </Grid>
                 </Grid>

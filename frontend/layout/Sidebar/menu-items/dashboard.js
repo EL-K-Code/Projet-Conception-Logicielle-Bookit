@@ -12,6 +12,7 @@ const dashboard = {
     id: 'home',
     title: 'Home',
     type: 'group',
+    accessGroups:["anonymous", "event_admin", "admin"],
     children: [
         {
             id: 'dashboard',
@@ -19,7 +20,8 @@ const dashboard = {
             type: 'item',
             url: '/',
             icon: icons.IconDashboard,
-            breadcrumbs: false
+            breadcrumbs: false,
+            accessGroups:["anonymous", "event_admin", "admin"]
         }
     ]
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { setUserGroup } from '@/store/actions';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/store/constants";
 import api from "@/utils/api";
 import { Typography, useMediaQuery } from '@mui/material';
@@ -7,6 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import PropTypes from 'prop-types';
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 
 const Form = ({ route, method }) => {
   const theme = useTheme();
@@ -16,14 +18,12 @@ const Form = ({ route, method }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setLoading(true);
-
-    console.log("Données envoyées :", {
-      username,
-      password});
 
     if (method === "signup"){
       localStorage.clear();
@@ -37,6 +37,9 @@ const Form = ({ route, method }) => {
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+        console.log(res.data.groups);
+        dispatch(setUserGroup(res.data.groups));
+        console.log(setUserGroup(res.data.groups));
 
         // Récupère l'URL demandée avant connexion
         const redirectTo = localStorage.getItem("redirectAfterLogin") || "/";
