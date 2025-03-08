@@ -207,6 +207,16 @@ Une fois nvm installé, vous pouvez utiliser nvm pour installer la version de No
 cd ../backend
 python manage.py makemigrations
 python manage.py migrate
+```
+Vous pouvez **initialiser des données** dans la base en lançant le srcipt d'initiliasation des données initlize_data.py contenu dans le dossier backend/backend/management/commanads.
+Pour faire cela, exécutez la commande:
+
+```bash
+python manage.py initialize_data
+```
+
+- [ ] Lancer le backend :
+```bash
 python manage.py runserver
 ```
 L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
