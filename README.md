@@ -87,13 +87,8 @@ docker pull richard0209/bookit-frontend:latest
 - [ ] Exécuter l'application
   - backend
   ```bash
-  docker run --env-file .env -p 8000:8000 richard0209/bookit-backend:latest
+  docker run --env-file backend/.env -p 8000:8000 richard0209/bookit-backend:latest
   ```
-  📌 **Remarque** : Assurez-vous que le fichier .env est présent dans le dossier depuis lequel vous exécutez la commande(veuillez consulter la section Variables d'environnement plus bas pour obtenir des instructions sur la création et la configuration de ce fichier)
-   Si ce n'est pas le cas, spécifiez son chemin complet :
-   ```bash
-   docker run --env-file /chemin/vers/.env -p 8000:8000 richard0209/bookit-backend:latest
-   ```
 
   - frontend
   ```bash
