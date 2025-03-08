@@ -28,22 +28,50 @@ A noter qu'une notification via mail est envoyé à tous les consommateurs lorsq
 
 ## 🚀 Quickstart (Démarrage rapide)
 
-L'application est déployée et accessible à l'adresse suivante: [https://bookit-ensai.kub.sspcloud.fr/](https://bookit-ensai.kub.sspcloud.fr/)
+### :arrow_forward: Application délpoyée
 
+L'application est déployée avec sur Kubernetes et accessible à l'adresse suivante: [https://bookit-ensai.kub.sspcloud.fr/](https://bookit-ensai.kub.sspcloud.fr/)
 
+### :arrow_forward: Lancer l'application via Docker Hub
 
-## 📌 Instructions
-
-L'application peut être lancée de plusieurs manières :
-
-- [ ] **Lancer via Docker Hub (images préconstruites)**
-- [ ] **Lancer localement**
-   - **Avec image Docker**
-   - **sans image Docker**
-
-## :arrow_forward: Lancer l'application via Docker Hub
 Assurez-vous d'avoir installé Docker (ou Docker Desktop sous windows) sur votre machine.
-Vous pouvez lancer l'application en utilisant les images docker que nous avons publié sur Docker Hub
+Vous allez lancer l'application en utilisant les images docker que nous avons publié sur Docker Hub
+
+
+- [ ] Cloner le projet
+   Récupérez le code source en clonant ce dépôt sur votre machine locale :
+```bash
+git clone https://github.com/EL-K-Code/Projet-Conception-Logicielle-Bookit.git
+cd Projet-Conception-Logicielle-Bookit
+```
+
+- [ ] Configurer les variables d'environnements
+   Avant de lancer l'application, vous devez définir certaines variables d'environnement nécessaires au bon fonctionnement de l'application:
+      
+   1. Copiez le fichier `.env.template` et renommez-le en `.env` :
+
+   Exécutez les commandes suivantes pour dupliquer le fichier modèle .env.template et créer le fichier .env qui sera utilisé par votre application :
+```bash
+cp backend/.env.template backend/.env
+cp frontend/.env.template frontend/.env
+```
+
+   2. Complétez les variables d'environnement dans le fichier .env du backend :
+
+   Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
+
+   Voici les variables à compléter :
+- **DJANGO_SUPERUSER_USERNAME** : Entrez un nom d'utilisateur pour l'administrateur Django.
+- **DJANGO_SUPERUSER_EMAIL** : Entrez l'email de l'administrateur Django.
+- **DJANGO_SUPERUSER_PASSWORD** : Entrez un mot de passe pour l'administrateur Django.
+- **DJANGO_SECRET_KEY** : Générez une nouvelle clé secrète Django. Vous pouvez utiliser la commande suivante pour générer une clé secrète:
+  ```bash
+  python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+  ```
+- **DJANGO_DEBUG** : Valeur par défaut True. Changez-la en False pour un environnement de production.
+- **DJANGO_ALLOWED_HOSTS** : Liste des hôtes autorisés. La valeur par défaut inclut localhost et 127.0.0.1, mais Vous devrez l'ajuster si votre application doit être accessible depuis d'autres hôtes.
+- **FRONTEND_APP_API_URL** : Liste des URL de l'API frontend. La valeur par défaut inclut http://localhost:3000, https://bookit-ensai.kub.sspcloud.fr
+- **EMAIL_HOST_USER** et **EMAIL_HOST_PASSWORD** : Entrez les informations de connexion de votre serveur SMTP pour l'envoi d'emails. Ces champs sont vides par défaut. Si vous utilisez Gmail, remplissez-les avec les informations nécessaires pour l'authentification via le service Gmail. Assurez-vous de bien sécuriser ces informations.
 
 - [ ] Pull des images depuis Docker Hub
 
@@ -57,7 +85,7 @@ docker pull richard0209/bookit-frontend:latest
   ```bash
   docker run --env-file .env -p 8000:8000 richard0209/bookit-backend:latest
   ```
-  📌 **Remarque** : Assurez-vous que le fichier .env est présent dans le dossier depuis lequel vous exécutez la commande.
+  📌 **Remarque** : Assurez-vous que le fichier .env est présent dans le dossier depuis lequel vous exécutez la commande(veuillez consulter la section Variables d'environnement plus bas pour obtenir des instructions sur la création et la configuration de ce fichier)
    Si ce n'est pas le cas, spécifiez son chemin complet :
    ```bash
    docker run --env-file /chemin/vers/.env -p 8000:8000 richard0209/bookit-backend:latest
@@ -67,64 +95,38 @@ docker pull richard0209/bookit-frontend:latest
   ```bash
   docker run -d -e NEXT_PUBLIC_API_URL=http://127.0.0.1:8000 -p 3000:3000 --name bookit-frontend richard0209/bookit-frontend:latest
   ```
-  Une fois les deux services lancés, le backend sera accessible à l'adresse: [http://127.0.0.1:8000](http://127.0.0.1:8000) et le frontend à l'adresse: [http://localhost:3000](http://localhost:3000)
+  
+- [ ] Accéder à l'application :
+
+Une fois les services démarrés, accédez au :
+
+Backend :  [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Frontend : [http://localhost:3000](http://localhost:3000)
 
 
-## :arrow_forward: Lancer l'application localement
+  
+## 📌 Instructions pour lancer l'application en local
 
-- Clonez ce dépôt:
-```bash
-git clone https://github.com/EL-K-Code/Projet-Conception-Logicielle-Bookit.git
-```
-- Positionnez-vous dans le projet cloné
-```bash
-cd Projet-Conception-Logicielle-Bookit
-```
-
-L'application peut être lancée avec ou sans image Docker
-
-- [ ] Lancer l'application via Docker
- - backend:
-Accédez au répertoireee backend, construisez puis lancez l'image Docker:
-```bash
-cd backend
-docker build -t backend .
-docker run -p 8000:8000 backend
-```
-L'application backend sera accessible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
-- Frontend
-Accédez au répertoireee frontend, construisez puis lancez l'image Docker:
-```bash
-cd frontend
-docker build -t frontend .
-docker run -p 3000:3000 frontend
-```
-L'application frontend sera accessible à [http://localhost:3000](http://localhost:3000)
-
-### :arrow_forward: Lancer l'application sans image Docker
-Assurez-vous d'avoir les outils suivants installés sur votre machine :
-
-- **Python** pour le backend.
-- **Node.js** pour le frontend: Vous pouvez installer Node.js via nvm, le gestionnaire de version de Node.js
+Assurez-vous d'avoir **Node.js** installé sur votre machine(pour le frontend).
+Vous pouvez installer Node.js via nvm, le gestionnaire de version de Node.js:
 
 - [ ] Installation de nvm (Node Version Manager)
       
    Si nvm n'est pas déjà installé sur votre système, suivez les étapes ci-dessous pour l'installer
 
-1. Installer nvm
+   1. Installer nvm
    
    Exécutez la commande suivante dans votre terminal pour installer nvm :
    ```bash
    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
    ```
-2. Appliquer les modifications au shell
+   2. Appliquer les modifications au shell
    
    Après l'installation de nvm, rechargez votre shell pour appliquer les changements :
    ```bash
    source ~/.bashrc
    ```
-3. Vérifier l'installation de nvm
+   3. Vérifier l'installation de nvm
    
    Vérifiez que nvm est correctement installé en exécutant :
    ```bash
@@ -136,18 +138,18 @@ Assurez-vous d'avoir les outils suivants installés sur votre machine :
 
 Une fois nvm installé, vous pouvez utiliser nvm pour installer la version de Node.js 20, qui est requise pour le projet. Exécutez les commandes suivantes :
 
-1. Installer Node.js 20 :
+   1. Installer Node.js 20 :
    ```bash
    nvm install 20
    ```
 
-2. Définir Node.js 20 comme version par défaut :
+   2. Définir Node.js 20 comme version par défaut :
    ```bash
    nvm use 20
    nvm alias default 20
    ```
 
-3. Vérifier l'installation de Node.js et npm
+   3. Vérifier l'installation de Node.js et npm
    
    Pour confirmer que Node.js et npm sont installés correctement, exécutez les commandes suivantes :
    ```bash
@@ -170,7 +172,7 @@ Une fois nvm installé, vous pouvez utiliser nvm pour installer la version de No
      source venv/bin/activate
      ```
 
- - Installer les dépendances
+ - [ ] Installer les dépendances
    - Backend
   ```bash
   pip install -r backend/requirements.txt
@@ -180,36 +182,6 @@ Une fois nvm installé, vous pouvez utiliser nvm pour installer la version de No
   cd frontend
   npm install
   ```
-
- - [ ] Définir les variables d'environnements
-       
-  Pour configurer l'application, vous devez définir certaines variables d'environnement nécessaires au bon fonctionnement de l'application.
-
-1. Copiez le fichier `.env.template` et renommez-le en `.env` :
-
-   Exécutez les commandes suivantes pour dupliquer le fichier modèle .env.template et créer le fichier .env qui sera utilisé par votre application :
-```bash
-cp ../backend/.env.template ./backend/.env.template.env
-cp ../frontend/.env.template ./frontend/.env.template.env
-```
-
-2. Complétez les variables d'environnement dans le fichier .env du backend :
-
-   Ouvrez le fichier .env du backend et remplissez les variables avec les valeurs appropriées. Certaines variables sont déjà renseignées par défaut(vous pouvez ajuster ces valeurs selon vos besoins)
-
-   Voici les variables à compléter :
-- **DJANGO_SUPERUSER_USERNAME** : Entrez un nom d'utilisateur pour l'administrateur Django.
-- **DJANGO_SUPERUSER_EMAIL** : Entrez l'email de l'administrateur Django.
-- **DJANGO_SUPERUSER_PASSWORD** : Entrez un mot de passe pour l'administrateur Django.
-- **DJANGO_SECRET_KEY** : Générez une nouvelle clé secrète Django. Vous pouvez utiliser la commande suivante pour générer une clé secrète:
-  ```bash
-  python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
-  ```
-- **DJANGO_DEBUG** : Valeur par défaut True. Changez-la en False pour un environnement de production.
-- **DJANGO_ALLOWED_HOSTS** : Liste des hôtes autorisés. La valeur par défaut inclut localhost et 127.0.0.1, mais Vous devrez l'ajuster si votre application doit être accessible depuis d'autres hôtes.
-- **FRONTEND_APP_API_URL** : Liste des URL de l'API frontend. La valeur par défaut inclut http://localhost:3000 pour un développement local et https://bookit-ensai.kub.sspcloud.fr pour la production.
-- **EMAIL_HOST_USER** et **EMAIL_HOST_PASSWORD** : Entrez les informations de connexion de votre serveur SMTP pour l'envoi d'emails. Ces champs sont vides par défaut. Si vous utilisez Gmail, remplissez-les avec les informations nécessaires pour l'authentification via le service Gmail. Assurez-vous de bien sécuriser ces informations.
-
 
 - [ ] Appliquer les migrations :
 ```bash
@@ -226,6 +198,7 @@ cd frontend
 npm run dev
 ```
 L'application frontend sera accessible à [http://localhost:3000](http://localhost:3000)
+
 
 ## 📈 Tests unitaires
 Les tests unitaires sont automatisés à chaque push via GitHub Actions.
