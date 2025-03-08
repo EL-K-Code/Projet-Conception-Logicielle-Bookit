@@ -116,7 +116,7 @@ class UserReservationsView(APIView):
         # Filtrer uniquement les réservations "en cours" et "à venir" de l'utilisateur
         in_progress = {
             "buses": user.reservationbus_set.filter(
-                start_time__lte=now, end_time__gte=now
+                event_bus__start_time__lte=now, event_bus__end_time__gte=now
             ),
             "rooms": user.reservationroom_set.filter(
                 start_time__lte=now, end_time__gte=now
@@ -127,7 +127,7 @@ class UserReservationsView(APIView):
         }
 
         upcoming = {
-            "buses": user.reservationbus_set.filter(start_time__gt=now),
+            "buses": user.reservationbus_set.filter(event_bus__start_time__gt=now),
             "rooms": user.reservationroom_set.filter(start_time__gt=now),
             "materials": user.reservationmaterial_set.filter(start_time__gt=now),
         }
@@ -166,6 +166,6 @@ class UserReservationsView(APIView):
 
         # Combiner et trier les réservations
         all_reservations = reservation_buses + reservation_rooms + reservation_materials
-        sorted_reservations = sorted(all_reservations, key=lambda x: x["start_time"])
+        sorted_reservations = sorted(all_reservations, key=lambda x: x["created_at"])
 
         return Response(sorted_reservations)

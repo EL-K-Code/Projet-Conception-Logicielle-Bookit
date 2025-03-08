@@ -18,11 +18,7 @@ class Reservation(models.Model):
         User, on_delete=models.CASCADE, blank=False, null=False
     )
 
-    is_consume = models.BooleanField(default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
-
-    calendar_event_id = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         """
