@@ -2,6 +2,7 @@
 Module contenant les vues pour la gestion des réservations dans Bookit.
 """
 
+from django.db.models import Q
 from django.utils import timezone
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -112,6 +113,8 @@ class UserReservationsView(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         now = timezone.now()
+        today = now.date()
+        current_time = now.time()
 
         # Filtrer uniquement les réservations "en cours" et "à venir" de l'utilisateur
         in_progress = {
@@ -119,17 +122,21 @@ class UserReservationsView(APIView):
                 event_bus__start_time__lte=now, event_bus__end_time__gte=now
             ),
             "rooms": user.reservationroom_set.filter(
-                start_time__lte=now, end_time__gte=now
+                date=today, start_time__lte=current_time, end_time__gte=current_time
             ),
             "materials": user.reservationmaterial_set.filter(
-                start_time__lte=now, end_time__gte=now
+                date=today, start_time__lte=current_time, end_time__gte=current_time
             ),
         }
 
         upcoming = {
             "buses": user.reservationbus_set.filter(event_bus__start_time__gt=now),
-            "rooms": user.reservationroom_set.filter(start_time__gt=now),
-            "materials": user.reservationmaterial_set.filter(start_time__gt=now),
+            "rooms": user.reservationroom_set.filter(
+                (Q(date=today) & Q(start_time__gte=current_time)) | Q(date__gte=today)
+            ),
+            "materials": user.reservationmaterial_set.filter(
+                (Q(date=today) & Q(start_time__gte=current_time)) | Q(date__gte=today)
+            ),
         }
 
         # Sérialisation des réservations "en cours"
@@ -166,6 +173,8 @@ class UserReservationsView(APIView):
 
         # Combiner et trier les réservations
         all_reservations = reservation_buses + reservation_rooms + reservation_materials
-        sorted_reservations = sorted(all_reservations, key=lambda x: x["created_at"])
+        sorted_reservations = sorted(
+            all_reservations, key=lambda x: x["created_at"], reverse=True
+        )
 
         return Response(sorted_reservations)

@@ -85,6 +85,21 @@ const UserReservedEventsCard = ({api_url}) => {
                             }}
                         >
                             <Grid item>
+
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontWeight: 500,
+                                    backgroundColor: reservation.status === "upcoming" ? theme.palette.success.light :
+                                                    theme.palette.warning.light ,
+                                    borderRadius: '4px',
+                                    padding: '2px 6px',
+                                    marginBottom: '4px',
+                                }}
+                            >
+                                {reservation.status}
+                            </Typography>
+
                             <Grid container alignItems="center" justifyContent="space-between">
                                 <Grid
                                 item
@@ -117,6 +132,7 @@ const UserReservedEventsCard = ({api_url}) => {
                                     reservation?.event_bus_details?.description ||
                                     reservation?.event_material_details?.resource_name ||
                                     'Réservation'}
+
                                 </Typography>
                                 <Typography
                                     variant="subtitle2"
@@ -130,7 +146,9 @@ const UserReservedEventsCard = ({api_url}) => {
                                     }}
                                 >
                                     {getIconeByType("date", theme)}
-                                    {formattedDate(reservation?.created_at) || 'Date non disponible'}
+                                    {formattedDate(
+                                    reservation?.event_bus_details?.start_time||
+                                    reservation?.start_datetime) || 'Date non disponible'}
                                 </Typography>
 
                                 {getIconeByType("cancel", theme, () => cancelReservation(reservation))}
