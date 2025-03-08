@@ -1,10 +1,10 @@
-import api from "@/api";
+import api from "@/utils/api";
 import { FormControl, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
-import ErrorBox from "../erro";
+import ErrorBox from "../../utils/erro";
 
 const EventForm = ({ event_type, route, api_url }) => {
   const theme = useTheme();
@@ -12,8 +12,8 @@ const EventForm = ({ event_type, route, api_url }) => {
   const [description, set_description] = useState("");
   const [resource, set_resource] = useState(""); // Champs ressource
   const [available_seats, set_available_seats] = useState("");
-  const [departure_time, set_departure_time] = useState("");
-  const [arrival_time, set_arrival_time] = useState("");
+  const [start_time, set_start_time] = useState("");
+  const [end_time, set_end_time] = useState("");
   const [departure, set_departure] = useState("");
   const [destination, set_destination] = useState("");
   const [available_stock, set_available_stock] = useState("");
@@ -50,8 +50,8 @@ const EventForm = ({ event_type, route, api_url }) => {
       resource, // Envoie uniquement l'ID de la ressource
       ...(event_type === "eventbus" && {
         available_seats,
-        departure_time,
-        arrival_time,
+        start_time,
+        end_time,
         departure,
         destination
       }),
@@ -67,8 +67,8 @@ const EventForm = ({ event_type, route, api_url }) => {
         resource, // L'ID est envoyé ici
         ...(event_type === "eventbus" && {
           available_seats,
-          departure_time,
-          arrival_time,
+          start_time,
+          end_time,
           departure,
           destination
         }),
@@ -150,8 +150,8 @@ const EventForm = ({ event_type, route, api_url }) => {
           <TextField
             className="form-input"
             type="datetime-local"
-            value={departure_time}
-            onChange={(e) => set_departure_time(e.target.value)}
+            value={start_time}
+            onChange={(e) => set_start_time(e.target.value)}
             placeholder="Heure de Départ"
             label="Heure de Départ"
             required
@@ -161,8 +161,8 @@ const EventForm = ({ event_type, route, api_url }) => {
           <TextField
             className="form-input"
             type="datetime-local"
-            value={arrival_time}
-            onChange={(e) => set_arrival_time(e.target.value)}
+            value={end_time}
+            onChange={(e) => set_end_time(e.target.value)}
             placeholder="Heure d'Arrivée"
             label="Heure d'Arrivée"
             required

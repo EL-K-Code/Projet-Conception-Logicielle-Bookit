@@ -1,11 +1,11 @@
 "use client";
 
-import ErrorBox from '@/components/erro';
+import ErrorBox from '@/utils/erro';
 import { Button, TextField, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import api from '@/api';
+import api from '@/utils/api';
 
 export default function ReservationForm({ event_type, api_url, id}) {
   const event_key = event_type === 'eventroom' ? 'event_room' : event_type === 'eventmaterial' ? 'event_material' : 'event_bus';

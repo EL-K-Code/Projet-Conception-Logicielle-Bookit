@@ -5,10 +5,9 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from 'prop-types';
 
-import { CalendarPlus, Edit, MoreVertical, School, XCircle } from 'lucide-react';
 // Project imports
+import getIconeByType from '@/components/icone';
 import MainCard from "@/ui-component/cards/MainCard";
-// import SkeletonEarningCard from "@/ui-component/Skeleton/EarningCard";
 
 // Assets
 
@@ -100,7 +99,7 @@ const EventRoomCard = ({event, CardHeight }) => {
               mt: 1,
             }}
           >
-            <School size={30} />
+            {getIconeByType("room", theme)}
          </Avatar>
 
         </Grid>
@@ -118,7 +117,7 @@ const EventRoomCard = ({event, CardHeight }) => {
             aria-haspopup="true"
             onClick={handleClick}
           >
-            <MoreVertical size={20} />
+            {getIconeByType("more", theme)}
           </Avatar>
           <Menu
             id="menu-earning-card"
@@ -129,17 +128,17 @@ const EventRoomCard = ({event, CardHeight }) => {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            <MenuItem onClick={() => handleAction(`/reservations/make/room/${event.id}`)}>
-                <CalendarPlus style={{ marginRight: "8px" }} /> Faire une réservation
-              </MenuItem>
+             <MenuItem onClick={() => handleAction(`/reservations/make/room/${event.id}`)}>
+             {getIconeByType("calender", theme)} Make a reservation
+            </MenuItem>
 
-              <MenuItem onClick={() => handleAction(`/events/update/room/${event.id}`)}>
-                <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
-              </MenuItem>
+            <MenuItem onClick={() => handleAction(`/events/update/room/${event.id}`)}>
+              {getIconeByType("edit", theme)} Update event
+            </MenuItem>
 
-              <MenuItem onClick={() => handleAction(`/events/delete/room/${event.id}`)}>
-                <XCircle style={{ marginRight: "8px" }} /> Annuler la réservation
-              </MenuItem>
+            <MenuItem onClick={() => handleAction(`/events/delete/room/${event.id}`)}>
+            {getIconeByType("cancel", theme)} Delete event
+            </MenuItem>
           </Menu>
         </Grid>
       </Grid>

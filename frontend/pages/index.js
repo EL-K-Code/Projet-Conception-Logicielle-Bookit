@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 
 // project imports
-import api from '@/api';
 import EventBusCard from '@/components/dashboard/EventBusCard';
 import EventMaterialCard from '@/components/dashboard/EventMaterialCard';
 import EventRoomCard from '@/components/dashboard/EventRoomCard';
 import UserReservedEventsCard from '@/components/dashboard/UserReservedEventsCard';
-import ErrorBox from '@/components/erro';
 import { gridSpacing } from '@/store/constants';
 import TitleCard from '@/ui-component/cards/TitleCard';
+import api from '@/utils/api';
+import ErrorBox from '@/utils/erro';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 

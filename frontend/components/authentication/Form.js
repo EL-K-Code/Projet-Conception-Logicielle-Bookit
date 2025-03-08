@@ -1,7 +1,7 @@
 "use client";
 
-import api from "@/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/store/constants";
+import api from "@/utils/api";
 import { Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";

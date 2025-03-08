@@ -2,6 +2,7 @@
 Module contenant les vues pour la gestion des réservations dans Bookit.
 """
 
+from django.utils import timezone
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -106,55 +107,65 @@ class CancelMaterialReservation(generics.DestroyAPIView):
 
 
 class UserReservationsView(APIView):
-    """
-    Vue permettant de récupérer la liste des réservations de l'utilisateur connecté.
-    """
-
     permission_classes = [IsConsumerAndOwner]
 
     def get(self, request, *args, **kwargs):
-        """Méthode GET pour récupérer les différentes réservations de l'utilisateur.
-
-        Args:
-            request (HttpRequest): Objet représentant la requête HTTP en cours.
-
-        Returns:
-            Response: Objet représentant la réponse HTTP contenant les réservations.
-        """
         user = request.user
+        now = timezone.now()
 
-        # Récupération des réservations de l'utilisateur
-        reservation_buses = user.reservationbus_set.all()
-        reservation_rooms = user.reservationroom_set.all()
-        reservation_materials = user.reservationmaterial_set.all()
+        # Filtrer uniquement les réservations "en cours" et "à venir" de l'utilisateur
+        in_progress = {
+            "buses": user.reservationbus_set.filter(
+                start_time__lte=now, end_time__gte=now
+            ),
+            "rooms": user.reservationroom_set.filter(
+                start_time__lte=now, end_time__gte=now
+            ),
+            "materials": user.reservationmaterial_set.filter(
+                start_time__lte=now, end_time__gte=now
+            ),
+        }
 
-        # Sérialisation des données
-        bus_serializer = ReservationBusSerializer(reservation_buses, many=True)
-        room_serializer = ReservationRoomSerializer(reservation_rooms, many=True)
-        material_serializer = ReservationMaterialSerializer(
-            reservation_materials, many=True
-        )
+        upcoming = {
+            "buses": user.reservationbus_set.filter(start_time__gt=now),
+            "rooms": user.reservationroom_set.filter(start_time__gt=now),
+            "materials": user.reservationmaterial_set.filter(start_time__gt=now),
+        }
 
-        # Ajouter un champ 'type_reservation' à chaque réservation
+        # Sérialisation des réservations "en cours"
         reservation_buses = [
-            {"type_reservation": "bus", **reservation}
-            for reservation in bus_serializer.data
+            {"type_reservation": "bus", "status": "in progress", **data}
+            for data in ReservationBusSerializer(in_progress["buses"], many=True).data
         ]
         reservation_rooms = [
-            {"type_reservation": "room", **reservation}
-            for reservation in room_serializer.data
+            {"type_reservation": "room", "status": "in progress", **data}
+            for data in ReservationRoomSerializer(in_progress["rooms"], many=True).data
         ]
         reservation_materials = [
-            {"type_reservation": "material", **reservation}
-            for reservation in material_serializer.data
+            {"type_reservation": "material", "status": "in progress", **data}
+            for data in ReservationMaterialSerializer(
+                in_progress["materials"], many=True
+            ).data
         ]
 
-        # Combiner toutes les réservations dans une seule liste
-        all_reservations = reservation_buses + reservation_rooms + reservation_materials
+        # Sérialisation des réservations "à venir"
+        reservation_buses += [
+            {"type_reservation": "bus", "status": "upcoming", **data}
+            for data in ReservationBusSerializer(upcoming["buses"], many=True).data
+        ]
+        reservation_rooms += [
+            {"type_reservation": "room", "status": "upcoming", **data}
+            for data in ReservationRoomSerializer(upcoming["rooms"], many=True).data
+        ]
+        reservation_materials += [
+            {"type_reservation": "material", "status": "upcoming", **data}
+            for data in ReservationMaterialSerializer(
+                upcoming["materials"], many=True
+            ).data
+        ]
 
-        # Trier les réservations par la date de réservation
-        sorted_reservations = sorted(
-            all_reservations, key=lambda x: x["created_at"], reverse=True
-        )
+        # Combiner et trier les réservations
+        all_reservations = reservation_buses + reservation_rooms + reservation_materials
+        sorted_reservations = sorted(all_reservations, key=lambda x: x["start_time"])
 
         return Response(sorted_reservations)

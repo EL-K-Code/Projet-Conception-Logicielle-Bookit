@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 
 //Projet import
-import api from "@/api";
-import ErrorBox from '@/components/erro';
+import api from "@/utils/api";
+import ErrorBox from '@/utils/erro';
 
 // Mise à jour d'un événement
 const UpdateEventForm = ({ event_type, route, api_url, id }) => {
@@ -15,8 +15,8 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
   const [description, set_description] = useState("");
   const [resource, set_resource] = useState("");
   const [available_seats, set_available_seats] = useState("");
-  const [departure_time, set_departure_time] = useState("");
-  const [arrival_time, set_arrival_time] = useState("");
+  const [start_time, set_start_time] = useState("");
+  const [end_time, set_end_time] = useState("");
   const [departure, set_departure] = useState("");
   const [destination, set_destination] = useState("");
   const [available_stock, set_available_stock] = useState("");
@@ -48,8 +48,8 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
       resource,
       ...(event_type === "eventbus" && {
         available_seats,
-        departure_time,
-        arrival_time,
+        start_time,
+        end_time,
         departure,
         destination
       }),
@@ -64,8 +64,8 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
         resource,
         ...(event_type === "eventbus" && {
           available_seats,
-          departure_time,
-          arrival_time,
+          start_time,
+          end_time,
           departure,
           destination
         }),
@@ -130,8 +130,8 @@ const UpdateEventForm = ({ event_type, route, api_url, id }) => {
       {event_type === "eventbus" && (
         <>
           <TextField type="number" value={available_seats} onChange={(e) => set_available_seats(e.target.value)} label="Nombre de Places Disponibles" required fullWidth />
-          <TextField type="datetime-local" value={departure_time} onChange={(e) => set_departure_time(e.target.value)} label="Heure de Départ" required fullWidth InputLabelProps={{ shrink: true }} />
-          <TextField type="datetime-local" value={arrival_time} onChange={(e) => set_arrival_time(e.target.value)} label="Heure d'Arrivée" required fullWidth InputLabelProps={{ shrink: true }} />
+          <TextField type="datetime-local" value={start_time} onChange={(e) => set_start_time(e.target.value)} label="Heure de Départ" required fullWidth InputLabelProps={{ shrink: true }} />
+          <TextField type="datetime-local" value={end_time} onChange={(e) => set_end_time(e.target.value)} label="Heure d'Arrivée" required fullWidth InputLabelProps={{ shrink: true }} />
           <TextField type="text" value={departure} onChange={(e) => set_departure(e.target.value)} label="Lieu de Départ" required fullWidth />
           <TextField type="text" value={destination} onChange={(e) => set_destination(e.target.value)} label="Lieu d'Arrivée" required fullWidth />
         </>

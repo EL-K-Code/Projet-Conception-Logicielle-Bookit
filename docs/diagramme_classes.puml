@@ -53,8 +53,8 @@ class EventBus {
     +available_seats : Integer
     +departure : String
     +destination : String
-    +departure_time : Date
-    +arrival_time : Date
+    +start_time : Date
+    +end_time : Date
 }
 
 class EventRoom {

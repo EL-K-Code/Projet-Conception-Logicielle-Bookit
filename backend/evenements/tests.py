@@ -77,8 +77,8 @@ class EventViewsTests(APITestCase, TestCase):
             resource=cls.bus1,
             departure="Paris",
             destination="Lyon",
-            departure_time=timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
-            arrival_time=timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
+            start_time=timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
+            end_time=timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
         )
         cls.event_room = EventRoom.objects.create(
             description="salle disponible sur réservation",
@@ -143,8 +143,8 @@ class EventViewsTests(APITestCase, TestCase):
             "resource": self.bus2.id,
             "departure": "Paris",
             "destination": "Lyon",
-            "departure_time": timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
-            "arrival_time": timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
+            "start_time": timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
+            "end_time": timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
         }
         response = self.client.post(url, data)
 
@@ -220,8 +220,8 @@ class EventViewsTests(APITestCase, TestCase):
             "resource": self.bus1.id,
             "departure": "Paris",
             "destination": "Marseille",
-            "departure_time": timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
-            "arrival_time": timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
+            "start_time": timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
+            "end_time": timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
         }
         response = self.client.put(url, data)
 

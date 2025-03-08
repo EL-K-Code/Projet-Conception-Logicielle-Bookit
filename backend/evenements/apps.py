@@ -7,7 +7,7 @@ Ce module définit la configuration de l'application Django `evenements`.
 from django.apps import AppConfig
 
 
-class ReservationsConfig(AppConfig):
+class EvenementsConfig(AppConfig):
     """
     Configuration de l'application 'evenements'.
 

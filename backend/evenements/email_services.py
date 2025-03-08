@@ -73,8 +73,8 @@ class SendEventBusNotification(SendEventNotification):
             "available_seats": self.instance.available_seats,
             "departure": self.instance.departure,
             "destination": self.instance.destination,
-            "departure_time": self.instance.departure_time,
-            "arrival_time": self.instance.arrival_time,
+            "start_time": self.instance.start_time,
+            "end_time": self.instance.end_time,
             "organizer_first_name": self.instance.organizer.first_name,
             "organizer_last_name": self.instance.organizer.last_name,
         }

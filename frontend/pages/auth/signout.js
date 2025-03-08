@@ -1,6 +1,6 @@
 "use client";
 
-import api from "@/api";
+import api from "@/utils/api";
 import Link from 'next/link';
 import { useEffect, useState } from "react";
 

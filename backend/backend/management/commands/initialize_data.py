@@ -79,8 +79,8 @@ class Command(BaseCommand):
                     resource=resources["buses"][0],
                     departure="ENSAI",
                     destination="Chateau d'Apigné",
-                    departure_time=timezone.make_aware(datetime(2025, 3, 29, 18, 0, 0)),
-                    arrival_time=timezone.make_aware(datetime(2025, 3, 29, 19, 0, 0)),
+                    start_time=timezone.make_aware(datetime(2025, 3, 29, 18, 0, 0)),
+                    end_time=timezone.make_aware(datetime(2025, 3, 29, 19, 0, 0)),
                 ),
                 EventBus.objects.create(
                     description="Visite place de la mairie",
@@ -88,8 +88,8 @@ class Command(BaseCommand):
                     resource=resources["buses"][1],
                     departure="ENSAI",
                     destination="République",
-                    departure_time=timezone.make_aware(datetime(2025, 3, 22, 10, 0, 0)),
-                    arrival_time=timezone.make_aware(datetime(2025, 3, 22, 12, 0, 0)),
+                    start_time=timezone.make_aware(datetime(2025, 3, 22, 10, 0, 0)),
+                    end_time=timezone.make_aware(datetime(2025, 3, 22, 12, 0, 0)),
                 ),
             ],
             "event_rooms": [

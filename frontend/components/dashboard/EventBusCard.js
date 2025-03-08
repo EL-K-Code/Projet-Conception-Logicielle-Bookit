@@ -6,8 +6,9 @@ import { Avatar, Box, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import PropTypes from 'prop-types';
 
-import { Bus, CalendarPlus, Edit, MoreVertical, XCircle } from 'lucide-react';
+
 // Project imports
+import getIconeByType from '@/components/icone';
 import MainCard from "@/ui-component/cards/MainCard";
 
 // Styles
@@ -96,7 +97,7 @@ const EventBusCard = ( {event,  CardHeight }) => {
                         mt: 1,
                       }}
                     >
-                      <Bus size={20} />
+                      {getIconeByType("bus", theme)}
                   </Avatar>
                   </Grid>
                   <Grid item>
@@ -113,7 +114,7 @@ const EventBusCard = ( {event,  CardHeight }) => {
                       aria-haspopup="true"
                       onClick={handleClick}
                     >
-                      <MoreVertical size={20} />
+                      {getIconeByType("more", theme)}
                     </Avatar>
 
                     <Menu
@@ -126,15 +127,15 @@ const EventBusCard = ( {event,  CardHeight }) => {
                       transformOrigin={{ vertical: "top", horizontal: "right" }}
                     >
                       <MenuItem onClick={() => handleAction(`/reservations/make/bus/${event.id}`)}>
-                        <CalendarPlus style={{ marginRight: "8px" }} /> Faire une réservation
+                        {getIconeByType("calender", theme)} Make a reservation
                       </MenuItem>
 
                       <MenuItem onClick={() => handleAction(`/events/update/bus/${event.id}`)}>
-                        <Edit style={{ marginRight: "8px" }} /> Modifier l'événement
+                        {getIconeByType("edit", theme)} Update event
                       </MenuItem>
 
                       <MenuItem onClick={() => handleAction(`/events/delete/bus/${event.id}`)}>
-                        <XCircle style={{ marginRight: "8px" }} /> Annuler la réservation
+                        {getIconeByType("cancel", theme)} Delete event
                       </MenuItem>
                     </Menu>
                   </Grid>

@@ -49,8 +49,8 @@ class ReservationTestSetup(TestCase):
             resource=cls.bus,
             departure="Paris",
             destination="Lyon",
-            departure_time=timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
-            arrival_time=timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
+            start_time=timezone.make_aware(datetime(2025, 3, 1, 18, 0, 0)),
+            end_time=timezone.make_aware(datetime(2025, 3, 1, 19, 0, 0)),
         )
         cls.event_room = EventRoom.objects.create(
             description="salle disponible sur réservation",

@@ -10,8 +10,8 @@ import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, u
 import { useTheme } from '@mui/material/styles';
 
 // project imports
+import getIconeByType from '@/components/icone';
 import { MENU_OPEN, SET_MENU } from '@/store/actions';
-
 // types
 import PropTypes from 'prop-types';
 
@@ -24,11 +24,6 @@ const NavItem = ({ item, level }) => {
     const dispatch = useDispatch();
     const customization = useSelector((state) => state.customization);
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
-    const Icon = item.icon;
-    const itemIcon = item?.icon ? (
-        <Icon stroke={1.5} size="1.3rem" />
-    ) : (""
-    );
 
     let itemTarget = '_self';
     if (item.target) {
@@ -83,7 +78,7 @@ const NavItem = ({ item, level }) => {
             selected={customization.isOpen.findIndex((id) => id === item.id) > -1}
             onClick={() => itemHandler(item.id)}
         >
-            <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
+            <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{getIconeByType(item.id, theme)}</ListItemIcon>
             <ListItemText
                 primary={
                     <Typography variant={customization.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">

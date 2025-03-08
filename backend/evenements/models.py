@@ -165,8 +165,8 @@ class EventBus(Event):
         null=False,
         validators=[MinLengthValidator(2)],
     )
-    departure_time = models.DateTimeField(blank=False, null=False)
-    arrival_time = models.DateTimeField()
+    start_time = models.DateTimeField(blank=False, null=False)
+    end_time = models.DateTimeField()
 
     class Meta:
         """
@@ -175,11 +175,11 @@ class EventBus(Event):
 
         constraints = [
             models.UniqueConstraint(
-                fields=["resource", "departure_time", "destination"],
+                fields=["resource", "start_time", "destination"],
                 name="unique_event_bus",
             ),
             models.CheckConstraint(
-                condition=models.Q(departure_time__lt=models.F("arrival_time")),
+                condition=models.Q(start_time__lt=models.F("end_time")),
                 name="check_departure_before_arrival",
             ),
         ]

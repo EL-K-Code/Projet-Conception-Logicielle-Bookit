@@ -1,7 +1,7 @@
 "use client";
 
-import api from "@/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/store/constants";
+import api from "@/utils/api";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/router";
 import PropTypes from 'prop-types';
