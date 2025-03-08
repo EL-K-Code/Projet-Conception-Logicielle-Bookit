@@ -208,7 +208,10 @@ cd ../backend
 python manage.py makemigrations
 python manage.py migrate
 ```
-Vous pouvez **initialiser des données** dans la base en lançant le srcipt d'initiliasation des données initlize_data.py contenu dans le dossier backend/backend/management/commanads.
+
+- [ ] Initialisation de données dans la base:
+      
+Vous pouvez **initialiser des données** dans la base en lançant le srcipt d'initiliasation des données initlize_data.py contenu dans le dossier backend/backend/management/commands/
 Pour faire cela, exécutez la commande:
 
 ```bash
@@ -216,6 +219,7 @@ python manage.py initialize_data
 ```
 
 - [ ] Lancer le backend :
+      
 ```bash
 python manage.py runserver
 ```
@@ -273,10 +277,10 @@ Imaginons un utilisateur souhaitant réserver une salle:
 
 ## 👥 Équipe du projet
 Le projet est réalisé par les élèves:
-- [ ] Richard GOZAN
-- [ ] Alex LABOU
-- [ ] Yatoute MINTOMA
+- [ ] **Richard GOZAN**
+- [ ] **Alex LABOU**
+- [ ] **Yatoute MINTOMA**
 
 Sous la supervision de :
-- [ ] M. Antoine Brunetti: Analyste Développeur à l'INSEE
-- [ ] Mme Oriane Foussard: Analyste Développeur à l'INSEE
+- [ ] **M. Antoine Brunetti**: Analyste Développeur à l'INSEE
+- [ ] **Mme Oriane Foussard**: Analyste Développeur à l'INSEE
