@@ -208,7 +208,10 @@ cd ../backend
 python manage.py makemigrations
 python manage.py migrate
 ```
-Vous pouvez **initialiser des données** dans la base en lançant le srcipt d'initiliasation des données initlize_data.py contenu dans le dossier backend/backend/management/commanads.
+
+- [ ] Initialisation de données dans la base:
+      
+Vous pouvez **initialiser des données** dans la base en lançant le srcipt d'initiliasation des données initlize_data.py contenu dans le dossier backend/backend/management/commands/
 Pour faire cela, exécutez la commande:
 
 ```bash
@@ -216,6 +219,7 @@ python manage.py initialize_data
 ```
 
 - [ ] Lancer le backend :
+      
 ```bash
 python manage.py runserver
 ```
