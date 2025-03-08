@@ -1,5 +1,5 @@
 import api from "@/utils/api";
-import { FormControl, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from "next/navigation";
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ const EventForm = ({ event_type, route, api_url }) => {
   const theme = useTheme();
   const match_down_sm = useMediaQuery(theme.breakpoints.down('md'));
   const [description, set_description] = useState("");
-  const [resource, set_resource] = useState(""); // Champs ressource
+  const [resource, set_resource] = useState("");
   const [available_seats, set_available_seats] = useState("");
   const [start_time, set_start_time] = useState("");
   const [end_time, set_end_time] = useState("");
@@ -18,114 +18,93 @@ const EventForm = ({ event_type, route, api_url }) => {
   const [destination, set_destination] = useState("");
   const [available_stock, set_available_stock] = useState("");
   const [loading, set_loading] = useState(false);
-  const [resources, set_resources] = useState([]);  // Pour stocker les ressources récupérées
+  const [resources, set_resources] = useState([]);
   const [error, set_error] = useState(null);
   const router = useRouter();
 
-  // Fonction pour charger les ressources depuis l'API
-  const fetchResources = async () => {
-    try {
-      const response = await api.get(api_url);
-      set_resources(response.data);
-      set_error(null); // Réinitialiser l'erreur si la requête réussit
-    } catch (error) {
-      set_error({
-        statusCode: error.response?.status || 500,
-      });
-    }
-  };
-
-  // Charger les ressources lorsque le composant est monté
   useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await api.get(api_url);
+        set_resources(response.data);
+        set_error(null);
+      } catch (error) {
+        set_error({
+          statusCode: error.response?.status || 500,
+        });
+      }
+    };
     fetchResources();
   }, [api_url]);
 
-  // Soumission du formulaire
   const handle_submit = async (e) => {
     e.preventDefault();
     set_loading(true);
 
-    console.log("Données envoyées :", {
-      description,
-      resource, // Envoie uniquement l'ID de la ressource
-      ...(event_type === "eventbus" && {
-        available_seats,
-        start_time,
-        end_time,
-        departure,
-        destination
-      }),
-      ...(event_type === "eventmaterial" && {
-        available_stock
-      })
-    });
-
     try {
-      // Envoi des données selon le type d'événement
-        await api.post(route, {
+      await api.post(route, {
         description,
-        resource, // L'ID est envoyé ici
+        resource,
         ...(event_type === "eventbus" && {
           available_seats,
           start_time,
           end_time,
           departure,
-          destination
+          destination,
         }),
-        ...(event_type === "eventmaterial" && {
-          available_stock
-        })
+        ...(event_type === "eventmaterial" && { available_stock }),
       });
       set_error(null);
-      router.push("/"); // Redirection après la soumission
+      router.push("/");
     } catch (error) {
       set_error({
         statusCode: error.response?.status || 500,
       });
     } finally {
-      set_loading(false); // Fin de chargement
+      set_loading(false);
     }
   };
 
   return (
     <>
-    {error && (
-        <ErrorBox
-          statusCode={error.statusCode}
-          defaultMessage={error.defaultMessage}
-        />
-      )}
+      {error && <ErrorBox statusCode={error.statusCode} defaultMessage={error.defaultMessage} />}
 
-    <form onSubmit={handle_submit} className="form-container">
-      <Typography color={theme.palette.secondary.main} gutterBottom variant={match_down_sm ? 'h3' : 'h2'}>
-        Créer un Événement {event_type === "eventbus" && "Bus"} {event_type === "eventroom" && "Salle"} {event_type === "eventmaterial" && "Matériel"}
-      </Typography>
+      <Box width="100%" mx="auto" p={3}>
+  <form onSubmit={handle_submit} className="form-container">
+    <Typography
+      color={theme.palette.secondary.main}
+      gutterBottom
+      align="center"
+      variant={match_down_sm ? 'h3' : 'h2'}
+    >
+      Créer un Événement
+      {event_type === "eventbus" && " Bus"}
+      {event_type === "eventroom" && " Salle"}
+      {event_type === "eventmaterial" && " Matériel"}
+    </Typography>
 
-      {/* Champ description commun */}
+    <Box display="flex" flexDirection="column" gap={2} maxWidth="100%">
       <TextField
-        className="form-input"
         type="text"
         value={description}
         onChange={(e) => set_description(e.target.value)}
-        placeholder="Description"
         label="Description"
         required
         fullWidth
       />
 
-      {/* Sélection des ressources */}
       <FormControl fullWidth required>
         <InputLabel>Ressource</InputLabel>
         <Select
-          className="form-input"
           value={resource}
-          onChange={(e) => set_resource(e.target.value)} // L'ID est sélectionné ici
+          onChange={(e) => set_resource(e.target.value)}
           label="Ressource"
+          fullWidth
         >
           {resources.length > 0 ? (
             resources.map((res) => (
               <MenuItem key={res.id} value={res.id}>
-                {res.name} {/* Affichage du nom, mais envoie l'ID */}
+                {res.name}
               </MenuItem>
             ))
           ) : (
@@ -134,57 +113,46 @@ const EventForm = ({ event_type, route, api_url }) => {
         </Select>
       </FormControl>
 
-      {/* Champs spécifiques pour le type 'eventbus' */}
       {event_type === "eventbus" && (
         <>
           <TextField
-            className="form-input"
             type="number"
             value={available_seats}
             onChange={(e) => set_available_seats(e.target.value)}
-            placeholder="Nombre de Places Disponibles"
             label="Nombre de Places Disponibles"
             required
             fullWidth
           />
           <TextField
-            className="form-input"
             type="datetime-local"
             value={start_time}
             onChange={(e) => set_start_time(e.target.value)}
-            placeholder="Heure de Départ"
             label="Heure de Départ"
             required
             fullWidth
             InputLabelProps={{ shrink: true }}
           />
           <TextField
-            className="form-input"
             type="datetime-local"
             value={end_time}
             onChange={(e) => set_end_time(e.target.value)}
-            placeholder="Heure d'Arrivée"
             label="Heure d'Arrivée"
             required
             fullWidth
             InputLabelProps={{ shrink: true }}
           />
           <TextField
-            className="form-input"
             type="text"
             value={departure}
             onChange={(e) => set_departure(e.target.value)}
-            placeholder="Lieu de Départ"
             label="Lieu de Départ"
             required
             fullWidth
           />
           <TextField
-            className="form-input"
             type="text"
             value={destination}
             onChange={(e) => set_destination(e.target.value)}
-            placeholder="Lieu d'Arrivée"
             label="Lieu d'Arrivée"
             required
             fullWidth
@@ -192,33 +160,32 @@ const EventForm = ({ event_type, route, api_url }) => {
         </>
       )}
 
-      {/* Champs spécifiques pour le type 'eventmaterial' */}
       {event_type === "eventmaterial" && (
         <TextField
-          className="form-input"
           type="number"
           value={available_stock}
           onChange={(e) => set_available_stock(e.target.value)}
-          placeholder="Stock Disponible"
           label="Stock Disponible"
           required
           fullWidth
         />
       )}
 
-      {/* Bouton de soumission avec état de chargement */}
       <button className="form-button" type="submit" disabled={loading}>
         {loading ? "Chargement..." : "Créer l'Événement"}
       </button>
-    </form>
-  </>);
+    </Box>
+  </form>
+</Box>
 
-}
+    </>
+  );
+};
 
 EventForm.propTypes = {
   eventType: PropTypes.string.isRequired,
-  route : PropTypes.string.isRequired,
-  api_url : PropTypes.string.isRequired
+  route: PropTypes.string.isRequired,
+  api_url: PropTypes.string.isRequired,
 };
 
-export default EventForm ;
+export default EventForm;
