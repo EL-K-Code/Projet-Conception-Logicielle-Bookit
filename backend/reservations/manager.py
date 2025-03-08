@@ -3,8 +3,8 @@ Manager personnalisé pour gérer les réservations de bus, salles et matériels
 Contient des méthodes pour vérifier la disponibilité et créer des réservations.
 """
 
-from django.core.exceptions import ValidationError
 from django.db import models
+from rest_framework.exceptions import ValidationError
 
 
 class ReservationManager(models.Manager):
@@ -30,7 +30,9 @@ class ReservationManager(models.Manager):
             event_bus.save()
             return self.create(consumer=consumer, event_bus=event_bus)
 
-        raise ValidationError("Plus de places disponibles")
+        raise ValidationError(
+            {"error": "Plus de places disponibles", "code": "NO_SEATS_AVAILABLE"}
+        )
 
     def reserve_room(self, consumer, event_room, **kwargs):
         """
@@ -58,9 +60,13 @@ class ReservationManager(models.Manager):
             end_time__gt=start_time,
         ).exists()
         if exists:
-            raise ValidationError("Cette salle existe déjà pour ce créneau")
+            raise ValidationError(
+                {
+                    "error": "Cette salle est déjà réservée pour ce créneau",
+                    "code": "ROOM_ALREADY_BOOKED",
+                }
+            )
 
-        event_room.is_reserved = True
         return self.create(
             consumer=consumer,
             date=date,
@@ -104,7 +110,12 @@ class ReservationManager(models.Manager):
                 quantity=quantity,
             )
 
-        raise ValidationError("Stock insuffisant pour cette réservation")
+        raise ValidationError(
+            {
+                "error": "Stock insuffisant pour cette réservation",
+                "code": "INSUFFICIENT_STOCK",
+            }
+        )
 
     def cancel_bus_reservation(self, reservation_bus):
         """
@@ -128,7 +139,6 @@ class ReservationManager(models.Manager):
             reservation_room(ReservationRoom): L'objet de réservation de salle à annuler.
         """
         event_room = reservation_room.event_room
-        event_room.is_reserved = False
         event_room.save()
         reservation_room.delete()
 
