@@ -149,9 +149,10 @@ const UserReservedEventsCard = ({api_url}) => {
                                     {formattedDate(
                                     reservation?.event_bus_details?.start_time||
                                     reservation?.start_datetime) || 'Date non disponible'}
+                                    
                                 </Typography>
-
-                                {getIconeByType("cancel", theme, () => cancelReservation(reservation))}
+                                {reservation.status === "upcoming" &&
+                                getIconeByType("cancel", theme, () => cancelReservation(reservation))}
                                 </Grid>
                             </Grid>
                             </Grid>

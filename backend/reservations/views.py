@@ -119,23 +119,23 @@ class UserReservationsView(APIView):
         # Filtrer uniquement les réservations "en cours" et "à venir" de l'utilisateur
         in_progress = {
             "buses": user.reservationbus_set.filter(
-                event_bus__start_time__lte=now, event_bus__end_time__gte=now
+                event_bus__start_time__lte=now, event_bus__end_time__gt=now
             ),
             "rooms": user.reservationroom_set.filter(
-                date=today, start_time__lte=current_time, end_time__gte=current_time
+                date=today, start_time__gte=current_time, end_time__lt=current_time
             ),
             "materials": user.reservationmaterial_set.filter(
-                date=today, start_time__lte=current_time, end_time__gte=current_time
+                date=today, start_time__gte=current_time, end_time__lt=current_time
             ),
         }
 
         upcoming = {
             "buses": user.reservationbus_set.filter(event_bus__start_time__gt=now),
             "rooms": user.reservationroom_set.filter(
-                (Q(date=today) & Q(start_time__gte=current_time)) | Q(date__gte=today)
+                (Q(date=today) & Q(start_time__gt=current_time)) | Q(date__gt=today)
             ),
             "materials": user.reservationmaterial_set.filter(
-                (Q(date=today) & Q(start_time__gte=current_time)) | Q(date__gte=today)
+                (Q(date=today) & Q(start_time__gt=current_time)) | Q(date__gt=today)
             ),
         }
 
