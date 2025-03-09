@@ -52,8 +52,8 @@ class ReservationRoomSerializer(serializers.ModelSerializer):
 
         model = ReservationRoom
         fields = "__all__"
-        # read_only_fields = ["consumer", "end_datetime", "start_datetime"]
-        # write_only_fields = ["event_room", "data", "start_time", "end_time"]
+        read_only_fields = ["consumer", "end_datetime", "start_datetime"]
+        write_only_fields = ["event_room", "data", "start_time", "end_time"]
 
     def get_start_datetime(self, obj):
         """
