@@ -31,7 +31,7 @@ export default function DeleteEvent() {
     };
 
     deleteEvent();
-  }, [id]);
+  }, [id, router]);
 
   return loading ? <p>Suppression en cours...</p> : null;
 }

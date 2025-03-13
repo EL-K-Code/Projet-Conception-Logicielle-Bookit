@@ -18,7 +18,6 @@ import ErrorBox from '@/utils/erro';
 
 const Dashboard = () => {
 
-    const [isLoading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
     const [error, set_error] = useState(null);
 
@@ -27,11 +26,9 @@ const Dashboard = () => {
             try {
                 const response = await api.get('api/evenements/list-event/', { auth_required: false });
                 setEvents(response.data);
-                setLoading(false);
                 set_error(null);
 
             } catch (error) {
-                setLoading(false);
                 set_error({
                     statusCode: error.response?.status || 500,
                   });

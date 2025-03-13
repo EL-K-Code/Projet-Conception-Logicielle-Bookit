@@ -9,20 +9,30 @@ export default function SignOut() {
     const [signedOut, setSignedOut] = useState(false);
 
     useEffect(() => {
+        let isMounted = true;
+    
         const signOut = async () => {
             try {
-                await api.delete("/api/auth/signout/");
-                localStorage.clear();
-                setSignedOut(true);
+                if (isMounted) {
+                    await api.delete("/api/auth/signout/");
+                    localStorage.clear();
+                    setSignedOut(true);
+                }
             } catch (error) {
                 setError(error.response?.data?.detail || error.message);
             }
         };
-
+    
         signOut();
+    
+        return () => {
+            isMounted = false; // Empêche la seconde exécution
+        };
     }, []);
+    
 
     if (signedOut) {
+        localStorage.clear();
         return (
             <div className="container">
                 <div className="box">

@@ -11,4 +11,3 @@ data:
   EMAIL_USE_TLS: "True"
   EMAIL_USE_SSL: "False"
   EMAIL_HOST_USER: "no.reply.bookit.ensai@gmail.com"
-

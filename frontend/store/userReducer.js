@@ -10,7 +10,7 @@ const initialState = {
     : ['anonymous'],
 };
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = initialState , action) => {
     switch (action.type) {
       case SET_USER_GROUP:
         localStorage.setItem('userGroups', JSON.stringify(action.payload));

@@ -12,7 +12,7 @@ const dashboard = {
     id: 'home',
     title: 'Home',
     type: 'group',
-    accessGroups:["anonymous", "event_admin", "admin"],
+    accessGroups:["anonymous", "consumer", "event_admin", "admin"],
     children: [
         {
             id: 'dashboard',
@@ -21,7 +21,7 @@ const dashboard = {
             url: '/',
             icon: icons.IconDashboard,
             breadcrumbs: false,
-            accessGroups:["anonymous", "event_admin", "admin"]
+            accessGroups:["anonymous", "consumer", "event_admin", "admin"]
         }
     ]
 };

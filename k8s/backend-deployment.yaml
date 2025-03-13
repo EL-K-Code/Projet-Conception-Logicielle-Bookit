@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: backend-app
+  labels:
+    app: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -14,19 +16,39 @@ spec:
     spec:
       containers:
         - name: backend
-          image: yatoute/bookit-backend:latest
+          image: richard0209/bookit-backend:latest
           imagePullPolicy: Always
-          resources:
-            requests:
-              cpu: 300m
-              memory: 300Mi  # Augmente légèrement
-            limits:
-              cpu: 300m
-              memory: 500Mi  # Augmente la limite mémoire
           envFrom:
+            - secretRef:
+                name: backend-secret
             - configMapRef:
                 name: backend-config
-            - secretRef:
-                name: backend-secrets
           ports:
             - containerPort: 8000
+              name: gunicorn
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1750m"
+            limits:
+              memory: "3Gi"
+              cpu: "2000m"
+          volumeMounts:
+            - name: static-files
+              mountPath: /backend/staticfiles  # Dossier des fichiers statiques
+      volumes:
+        - name: static-files
+          persistentVolumeClaim:
+            claimName: static-pvc  # PVC ou type de volume à définir selon ton cas
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: static-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # Ajuste la taille selon tes besoins

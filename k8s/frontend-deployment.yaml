@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-app
+  labels:
+    app: frontend
 spec:
   replicas: 2
   selector:
@@ -14,16 +16,18 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: yatoute/bookit-frontend:latest
-          resources:
-            limits:
-              memory: "200Mi"
-              cpu: "300m"
-          env:
-            - name: NEXT_PUBLIC_API_URL
-              value: "http://backend.user-yatoute.svc.cluster.local:8000"
+          image: richard0209/bookit-frontend:latest
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: frontend-config
           ports:
             - containerPort: 3000
+              name: http
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "1000m"
+            limits:
+              memory: "1Gi"
+              cpu: "1500m"
