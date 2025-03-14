@@ -68,7 +68,7 @@ const TitleCard = () => {
                                         mt: 0.45,
                                         mb: 0.45
                                     }}
-                                    primary={<Typography variant="h4">My reservations</Typography>}
+                                    primary={<Typography variant="h4">My bookings</Typography>}
                                 />
                             </ListItem>
                         </List>

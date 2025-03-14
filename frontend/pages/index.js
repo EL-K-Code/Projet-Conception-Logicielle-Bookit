@@ -1,8 +1,6 @@
-//hooks import
 import { useEffect, useState } from 'react';
-
-// material-ui
-import { Grid } from '@mui/material';
+import { Grid, Button, Box, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project imports
 import EventBusCard from '@/components/dashboard/EventBusCard';
@@ -14,12 +12,13 @@ import TitleCard from '@/ui-component/cards/TitleCard';
 import api from '@/utils/api';
 import ErrorBox from '@/utils/erro';
 
-// ==============================|| DEFAULT DASHBOARD ||============================== //
-
 const Dashboard = () => {
-
     const [events, setEvents] = useState([]);
     const [error, set_error] = useState(null);
+    const [showSidebar, setShowSidebar] = useState(false); // Toggle sur petit écran
+
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // Détecte les écrans < 600px
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -27,14 +26,12 @@ const Dashboard = () => {
                 const response = await api.get('api/evenements/list-event/', { auth_required: false });
                 setEvents(response.data);
                 set_error(null);
-
             } catch (error) {
                 set_error({
                     statusCode: error.response?.status || 500,
-                  });
+                });
             }
         };
-
         fetchEvents();
     }, []);
 
@@ -53,43 +50,51 @@ const Dashboard = () => {
 
     return (
         <>
-        {error && (
-            <ErrorBox
-            statusCode={error.statusCode}
-            defaultMessage={error.defaultMessage}
-            />
-        )}
-        <Grid container spacing={gridSpacing}>
+            {error && <ErrorBox statusCode={error.statusCode} defaultMessage={error.defaultMessage} />}
 
-{/* Première colonne */}
-            <Grid item xs={8}>
-                <Grid container spacing={gridSpacing}>
-                    {events.map(event => (
-                        <Grid item lg={6} md={6} sm={6} xs={12} key={event.id}>
-                            {renderEventCard(event)}
+            {/* Bouton aligné à droite sur mobile */}
+            {isSmallScreen && (
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setShowSidebar(!showSidebar)}
+                    >
+                        {showSidebar ? 'Back to events' : 'View my bookings'}
+                    </Button>
+                </Box>
+            )}
+
+            <Grid container spacing={gridSpacing}>
+
+                {/* Première colonne */}
+                <Grid item xs={12} md={8} sx={{ display: isSmallScreen && showSidebar ? 'none' : 'block' }}>
+                    <Grid container spacing={gridSpacing}>
+                        {events.map(event => (
+                            <Grid item lg={6} md={6} sm={6} xs={12} key={event.id}>
+                                {renderEventCard(event)}
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+
+                {/* Deuxième colonne */}
+                <Grid item xs={12} md={4} sx={{ display: isSmallScreen && !showSidebar ? 'none' : 'block' }}>
+                    <Grid container spacing={gridSpacing}>
+                        <Grid item lg={12} sx={{ width: '100%', maxWidth: '100%' }}>
+                            <TitleCard />
                         </Grid>
-                    ))}
-                </Grid>
-            </Grid>
-
-{/* Deuxième colonne */}
-
-            <Grid item xs={4}>
-                <Grid container spacing={gridSpacing}>
-                    {/* Ligne 1 */}
-                    <Grid item lg={12} sx={{ width: '100%', maxWidth: '100%' }}>
-                        <TitleCard/>
-                    </Grid>
-                    {/* Ligne 2 */}
-                    <Grid item lg={12} sx={{ width: '100%', maxWidth: '100%' }}>
-                        <UserReservedEventsCard api_url={'api/reservations/user-reservations/'}/>
+                        <Grid item lg={12} sx={{ width: '100%', maxWidth: '100%' }}>
+                            <UserReservedEventsCard api_url={'api/reservations/user-reservations/'}/>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
 
-        </Grid>
-    </>
+            </Grid>
+        </>
     );
 };
 
 export default Dashboard;
+
+

@@ -152,7 +152,7 @@ const EventBusCard = ( {event,  CardHeight }) => {
                   <Grid item sx={{ flexGrow: 1 }}>
                     <Typography
                       sx={{
-                        fontSize: "2.125rem",
+                        fontSize: "clamp(1.25rem, 5vw, 2.125rem)",
                         fontWeight: 500,
                         mr: 1,
                         mt: 1.75,
@@ -182,7 +182,7 @@ const EventBusCard = ( {event,  CardHeight }) => {
               <Grid item sx={{ mb: 1.25 }}>
                 <Typography
                   sx={{
-                    fontSize: "1rem",
+                    fontSize: "clamp(0.75rem, 3vw, 1rem)",
                     fontWeight: 500,
                     color: theme.palette.primary[200],
                     whiteSpace: "nowrap",
