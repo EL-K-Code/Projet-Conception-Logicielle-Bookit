@@ -30,30 +30,20 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG", default=False)
+DEBUG = os.getenv("DJANGO_DEBUG", default=False).lower() == "true"
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default="").split(",")
-# ALLOWED_HOSTS = [
-#     "backend-ensai.kub.sspcloud.fr",
-#     "bookit-ensai.kub.sspcloud.fr",
-#     "localhost",
-#     "127.0.0.1",
-# ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://backend-ensai.kub.sspcloud.fr",
-#     "http://backend-ensai.kub.sspcloud.fr",
-#     "http://127.0.0.1:8000",
-# ]
-# CORS_ALLOW_CREDENTIALS = True
-# CSRF_COOKIE_SECURE = True
-# CSRF_USE_SESSIONS = True
-# CSRF_TRUSTED_ORIGINS = ["https://backend-ensai.kub.sspcloud.fr"]
-# CSRF_ALLOWED_ORIGINS = ["https://backend-ensai.kub.sspcloud.fr"]
-# CORS_ORIGINS_WHITELIST = ["https://backend-ensai.kub.sspcloud.fr"]
-# CSRF_COOKIE_HTTPONLY = False
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
+CORS_ALLOWED_ORIGINS = os.getenv("FRONTEND_APP_API_URL", default="").split(",")
+
+CSRF_TRUSTED_ORIGINS = ["https://backend-ensai.kub.sspcloud.fr"]
+
+SESSION_COOKIE_DOMAIN = ".backend-ensai.kub.sspcloud.fr"  # Remplace par ton domaine
+CSRF_COOKIE_DOMAIN = ".backend-ensai.kub.sspcloud.fr"  # Si tu utilises un sous-domaine
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_SECURE = True
+
 
 # REST framework settings
 REST_FRAMEWORK = {
@@ -78,19 +68,20 @@ SIMPLE_JWT = {
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    "django.contrib.staticfiles",
+    "backend.apps.BookitAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "backend",
+    # "backend",
     "evenements",
     "reservations",
     "userspace",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -101,6 +92,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -133,6 +125,8 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Password validation
@@ -169,13 +163,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -185,19 +176,11 @@ AUTH_USER_MODEL = "userspace.User"
 
 AUTH_GROUP_MODEL = "userspace.Group"
 
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_SECURE = True
-
-CORS_ALLOWED_ORIGINS = os.getenv("FRONTEND_APP_API_URL", default="").split(",")
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-CORS_ALLOW_HEADERS = ["Authorization", "Content-Type"]
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST", default="")
 EMAIL_PORT = os.getenv("EMAIL_PORT", default="")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "False").lower() == "true"
 EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False").lower() == "true"
-EMAIL_HOST_USER = "no.reply.bookit.ensai@gmail.com"
-EMAIL_HOST_PASSWORD = "yjgw ecbp fsqx vuxc "
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

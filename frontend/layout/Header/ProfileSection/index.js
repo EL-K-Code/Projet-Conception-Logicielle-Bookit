@@ -81,8 +81,9 @@ const ProfileSection = () => {
         prevOpen.current = open;
     }, [open]);
 
-    const handleAction = (url) => {
-        router.push(url); // Rediriger vers la page voulue
+    const externRedirect = (event, url) => {
+        window.location.href = url; 
+        handleClose(event);
     };
 
     return (
@@ -209,12 +210,12 @@ const ProfileSection = () => {
                                                         borderRadius: `${customization.borderRadius}px`
                                                     }}
                                                     selected={selectedIndex === 0}
-                                                    onClick={(event) => handleListItemClick(event, 0, '#')}
+                                                    onClick={(event) => externRedirect(event,`${process.env.NEXT_PUBLIC_API_URL || "https://backend-ensai.kub.sspcloud.fr"}/admin`)}
                                                 >
                                                     <ListItemIcon>
                                                         <IconSettings stroke={1.5} size="1.3rem" />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
+                                                    <ListItemText primary={<Typography variant="body2">Login as Admin</Typography>} />
                                                 </ListItemButton>
 
                                                 {/* Login */}

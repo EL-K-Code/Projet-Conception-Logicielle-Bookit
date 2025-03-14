@@ -3,17 +3,16 @@ import axios from "axios";
 
 // Créer une instance de Axios
 // pour rediriger les requêtes vers notre serveur django REST framework.
-// process.env.NEXT_PUBLIC_API_URL
 const api = axios.create({
 
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "https://backend-ensai.kub.sspcloud.fr",
 })
 
 
 // Un interceptor pour ajouter l'authorization token à chaque requête
 api.interceptors.request.use(
   async (config) => {
-    // Définit auth_required à false par défaut si ce n'est pas spécifié
+    // Définit auth_required 
     const requiresAuth = config.auth_required ?? true;
 
     if (requiresAuth) {

@@ -33,22 +33,3 @@ spec:
             limits:
               memory: "3Gi"
               cpu: "2000m"
-          volumeMounts:
-            - name: static-files
-              mountPath: /backend/staticfiles  # Dossier des fichiers statiques
-      volumes:
-        - name: static-files
-          persistentVolumeClaim:
-            claimName: static-pvc  # PVC ou type de volume à définir selon ton cas
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: static-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi  # Ajuste la taille selon tes besoins

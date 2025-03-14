@@ -13,6 +13,10 @@ RUN npm ci --frozen-lockfile
 # Copie du reste du projet
 COPY . .
 
+# Injection de la variable d'environnement NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Build de l'application Next.js
 RUN npm run build
 
