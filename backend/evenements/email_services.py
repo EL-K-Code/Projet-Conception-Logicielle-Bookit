@@ -5,13 +5,17 @@ Ce module définit des classes pour l'envoie des notifications par email concern
 la création d'événements.
 """
 
+import os
 from abc import ABC, abstractmethod
 
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from dotenv import load_dotenv
 from userspace.models import Group
 
 from .models import Event, EventBus, EventMaterial, EventRoom
+
+load_dotenv()
 
 
 class SendEventNotification(EmailMessage, ABC):
@@ -38,6 +42,7 @@ class SendEventNotification(EmailMessage, ABC):
             ],
         )
         self.extra_headers = {"Reply-To": self.instance.organizer.email}
+        self.site_url = os.getenv("HOME_URL", default="#")
 
     @property
     @abstractmethod
@@ -77,6 +82,7 @@ class SendEventBusNotification(SendEventNotification):
             "end_time": self.instance.end_time,
             "organizer_first_name": self.instance.organizer.first_name,
             "organizer_last_name": self.instance.organizer.last_name,
+            "site_url": self.site_url,
         }
         return render_to_string("event_bus_email.html", context)
 
@@ -97,6 +103,7 @@ class SendEventRoomNotification(SendEventNotification):
             "room_name": self.instance.resource.name,
             "organizer_first_name": self.instance.organizer.first_name,
             "organizer_last_name": self.instance.organizer.last_name,
+            "site_url": self.site_url,
         }
         return render_to_string("event_room_email.html", context)
 
@@ -118,5 +125,6 @@ class SendEventMaterialNotification(SendEventNotification):
             "available_stock": self.instance.available_stock,
             "organizer_first_name": self.instance.organizer.first_name,
             "organizer_last_name": self.instance.organizer.last_name,
+            "site_url": self.site_url,
         }
         return render_to_string("event_material_email.html", context)
