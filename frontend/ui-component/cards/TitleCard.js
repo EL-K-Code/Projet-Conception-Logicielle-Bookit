@@ -10,27 +10,31 @@ import MainCard from './MainCard';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
     overflow: 'hidden',
     position: 'relative',
     '&:after': {
         content: '""',
-        position: 'absolute',
+        position: 'relative',
         width: 210,
         height: 210,
         background: `linear-gradient(210.04deg, ${theme.palette.warning.dark} -50.94%, rgba(144, 202, 249, 0) 83.49%)`,
         borderRadius: '50%',
         top: -30,
-        right: -180
+        right: '-50%'
     },
     '&:before': {
         content: '""',
-        position: 'absolute',
-        width: 210,
-        height: 210,
+        position: 'relative',
+        width: '50%',
+        height: '50%',
+        maxWidth: 210,
         background: `linear-gradient(140.9deg, ${theme.palette.warning.dark} -14.02%, rgba(144, 202, 249, 0) 70.50%)`,
         borderRadius: '50%',
         top: -160,
-        right: -130
+        right: '-50%'
     }
 }));
 

@@ -77,11 +77,11 @@ const Dashboard = () => {
             <Grid item xs={4}>
                 <Grid container spacing={gridSpacing}>
                     {/* Ligne 1 */}
-                    <Grid item lg={12}>
+                    <Grid item lg={12} sx={{ width: '100%', maxWidth: '100%' }}>
                         <TitleCard/>
                     </Grid>
                     {/* Ligne 2 */}
-                    <Grid item lg={12}>
+                    <Grid item lg={12} sx={{ width: '100%', maxWidth: '100%' }}>
                         <UserReservedEventsCard api_url={'api/reservations/user-reservations/'}/>
                     </Grid>
                 </Grid>
