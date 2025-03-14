@@ -76,128 +76,118 @@ const EventMaterialCard = ({event, CardHeight }) => {
     <>
     <CardWrapper border={false} content={false} CardHeight={CardHeight}>
         <Box
-  sx={{
-    p: 2.25,
-    display: "flex",
-    flexDirection: "column",
-    height: "100%", // Prend toute la hauteur de la CardWrapper
-  }}
->
-  <Grid
-    container
-    direction="column"
-    sx={{ flexGrow: 1, overflow: "hidden" }}
-  >
-    {/* En-tête avec les avatars */}
-    <Grid item>
-      <Grid container justifyContent="space-between">
-        <Grid item>
-          <Avatar
-            variant="rounded"
-            sx={{
-              ...theme.typography.commonAvatar,
-              ...theme.typography.largeAvatar,
-              backgroundColor: theme.palette.grey[800],
-              mt: 1,
-            }}
+          sx={{
+            p: 2.25,
+            display: "flex",
+            flexDirection: "column",
+            height: "100%", // Prend toute la hauteur de la CardWrapper
+          }}
+        >
+          <Grid
+            container
+            direction="column"
+            sx={{ flexGrow: 1, overflow: "hidden" }}
           >
-            {getIconeByType("material", theme)}
-         </Avatar>
-        </Grid>
-        <Grid item>
-          <Avatar
-            variant="rounded"
-            sx={{
-              ...theme.typography.commonAvatar,
-              ...theme.typography.mediumAvatar,
-              backgroundColor: theme.palette.grey[500],
-              color: theme.palette.secondary[200],
-              zIndex: 1,
-            }}
-            aria-controls="menu-earning-card"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            {getIconeByType("more", theme)}
-          </Avatar>
+            {/* En-tête avec les avatars */}
+            <Grid item>
+              <Grid container justifyContent="space-between">
+                <Grid item>
+                  <Avatar
+                    variant="rounded"
+                    sx={{
+                      ...theme.typography.commonAvatar,
+                      ...theme.typography.largeAvatar,
+                      backgroundColor: theme.palette.grey[800],
+                      mt: 1,
+                    }}
+                  >
+                    {getIconeByType("material", theme)}
+                </Avatar>
+                </Grid>
+                <Grid item>
+                  <Avatar
+                    variant="rounded"
+                    sx={{
+                      ...theme.typography.commonAvatar,
+                      ...theme.typography.mediumAvatar,
+                      backgroundColor: theme.palette.grey[500],
+                      color: theme.palette.secondary[200],
+                      zIndex: 1,
+                    }}
+                    aria-controls="menu-earning-card"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    {getIconeByType("more", theme)}
+                  </Avatar>
 
-          <Menu
-            id="menu-earning-card"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
-          >
-             <MenuItem onClick={() => handleAction(`/reservations/make/material/${event.id}`)}>
-              {getIconeByType("calender", theme)} Make a reservation
-            </MenuItem>
-            <AccessComponent requiredGroups={["event_admin"]}>
-              <MenuItem onClick={() => handleAction(`/events/update/material/${event.id}`)}>
-              {getIconeByType("edit", theme)} Update event
-              </MenuItem>
-            </AccessComponent>
+                  <Menu
+                    id="menu-earning-card"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
+                  >
+                    <MenuItem onClick={() => handleAction(`/reservations/make/material/${event.id}`)}>
+                      {getIconeByType("calender", theme)} Make a reservation
+                    </MenuItem>
+                    <AccessComponent requiredGroups={["event_admin"]}>
+                      <MenuItem onClick={() => handleAction(`/events/update/material/${event.id}`)}>
+                      {getIconeByType("edit", theme)} Update event
+                      </MenuItem>
+                    </AccessComponent>
 
-            <AccessComponent requiredGroups={["event_admin"]}>
-                <MenuItem onClick={() => handleAction(`/events/delete/material/${event.id}`)}>
-                   {getIconeByType("cancel", theme)} Delete event
-                </MenuItem>
-            </AccessComponent>
-          </Menu>
-        </Grid>
-      </Grid>
-    </Grid>
+                    <AccessComponent requiredGroups={["event_admin"]}>
+                        <MenuItem onClick={() => handleAction(`/events/delete/material/${event.id}`)}>
+                          {getIconeByType("cancel", theme)} Delete event
+                        </MenuItem>
+                    </AccessComponent>
+                  </Menu>
+                </Grid>
+              </Grid>
+            </Grid>
 
-    {/* Section centrale (valeur) avec flexGrow pour s'adapter */}
-    <Grid item sx={{ flexGrow: 1, minHeight: 0 }}>
-      <Grid container alignItems="center" sx={{ height: "100%" }}>
-        <Grid item sx={{ flexGrow: 1 }}>
-          <Typography
-            sx={{
-              fontSize: "clamp(1.25rem, 5vw, 2.125rem)",
-              fontWeight: 500,
-              mr: 1,
-              mt: 1.75,
-              mb: 0.75,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {event.resource_name}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Avatar
-            sx={{
-              cursor: "pointer",
-              ...theme.typography.smallAvatar,
-              backgroundColor: theme.palette.grey[500],
-              color: theme.palette.secondary.dark,
-            }}
-          />
-        </Grid>
-      </Grid>
-    </Grid>
+            {/* Section centrale (valeur) avec flexGrow pour s'adapter */}
+            <Grid item sx={{ flexGrow: 1, minHeight: 0 }}>
+              <Grid container alignItems="center" sx={{ height: "100%" }}>
+                <Grid item sx={{ flexGrow: 1 }}>
+                  <Typography
+                    sx={{
+                      fontSize: "clamp(1.25rem, 5vw, 2.125rem)",
+                      fontWeight: 500,
+                      mr: 1,
+                      mt: 1.75,
+                      mb: 0.75,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {event.resource_name.length > 20 ? `${event.resource_name.substring(0, 20)}...` : event.resource_name}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
 
-    {/* Pied de page avec le texte */}
-    <Grid item sx={{ mb: 1.25 }}>
-      <Typography
-        sx={{
-          fontSize: "clamp(0.75rem, 3vw, 1rem)",
-          fontWeight: 500,
-          color: theme.palette.secondary[200],
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        Stock : {event.available_stock}
-      </Typography>
-    </Grid>
-  </Grid>
-</Box>
+            {/* Pied de page avec le texte */}
+            <Grid item sx={{ mb: 1.25 }}>
+              <Typography
+                sx={{
+                  fontSize: "clamp(0.75rem, 3vw, 1rem)",
+                  fontWeight: 500,
+                  color: theme.palette.secondary[200],
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Stock : {event.available_stock}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
         </CardWrapper>
       {/* )} */}
